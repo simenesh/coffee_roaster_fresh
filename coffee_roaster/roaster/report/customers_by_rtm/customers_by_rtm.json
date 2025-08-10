@@ -1,0 +1,14 @@
+{
+  "doctype": "Report",
+  "name": "Customers by RTM",
+  "ref_doctype": "RTM Assignment",
+  "report_type": "Report Builder",
+  "is_standard": "Yes",
+  "filters": [],
+  "fields": [
+    ["customer", "RTM Assignment"],
+    ["rtm_channel", "RTM Assignment"],
+    ["notes", "RTM Assignment"]
+  ],
+  "sort_by": "rtm_channel"
+}

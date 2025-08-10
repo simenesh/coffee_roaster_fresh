@@ -1,0 +1,219 @@
+{
+  "doctype": "DocType",
+  "name": "Affective Assessment",
+  "module": "roaster",
+  "custom": 1,
+  "issingle": 0,
+  "is_table": 0,
+  "editable_grid": 1,
+  "track_changes": 1,
+  "track_views": 1,
+  "in_list_view": 1,
+
+  "name_field": "sample_id",
+  "autoname": "format:AF-{MM}{YY}-{#####}",
+
+  "show_in_menu": 1,
+ 
+
+  "fields": [
+{
+      "fieldname": "date",
+      "label": "Date",
+      "fieldtype": "Date",
+      "reqd": 1
+    },
+      {
+      "fieldname": "col_break_1",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "roast_batch",
+      "label": "Roast Batch",
+      "fieldtype": "Link",
+      "options": "Roast Batch",
+      "reqd": 1
+    },
+     {
+      "fieldname": "col_break_1",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "sample_id",
+      "label": "Sample ID",
+      "fieldtype": "Data",
+      "read_only": 1
+    },
+      {
+      "fieldname": "col_break_1",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "time",
+      "label": "Time",
+      "fieldtype": "Time",
+      "reqd": 1
+    },
+      
+    {
+      "fieldname": "purpose",
+      "label": "Purpose",
+      "fieldtype": "Data"
+    },
+    {
+      "fieldname": "sec_break_color",
+      "fieldtype": "Section Break",
+      "label": "Assessment"
+    },
+
+    {
+      "fieldname": "fragrance_rating",
+      "label": "Fragrance",
+      "fieldtype": "Select",
+      "options": "1\n2\n3\n4\n5\n6\n7\n8\n9\n10"
+    },
+    {
+      "fieldname": "fragrance_comments",
+      "label": "Fragrance Comments",
+      "fieldtype": "Small Text",
+       "length": 240 
+    },
+
+    {
+      "fieldname": "aroma_rating",
+      "label": "Aroma",
+      "fieldtype": "Select",
+      "options": "1\n2\n3\n4\n5\n6\n7\n8\n9\n10"
+    },
+    {
+      "fieldname": "aroma_comments",
+      "label": "Aroma Comments",
+       "fieldtype": "Small Text",
+       "length": 240 
+    },
+
+    {
+      "fieldname": "flavor_rating",
+      "label": "Flavor",
+      "fieldtype": "Select",
+      "options": "1\n2\n3\n4\n5\n6\n7\n8\n9\n10"
+    },
+    {
+      "fieldname": "flavor_comments",
+      "label": "Flavor Comments",
+      "fieldtype": "Small Text",
+       "length": 240 
+    },
+
+    {
+      "fieldname": "aftertaste_rating",
+      "label": "Aftertaste",
+      "fieldtype": "Select",
+      "options": "1\n2\n3\n4\n5\n6\n7\n8\n9\n10"
+    },
+    {
+      "fieldname": "aftertaste_comments",
+      "label": "Aftertaste Comments",
+       "fieldtype": "Small Text",
+       "length": 240 
+    },
+
+    {
+      "fieldname": "acidity_rating",
+      "label": "Acidity",
+      "fieldtype": "Select",
+      "options": "1\n2\n3\n4\n5\n6\n7\n8\n9\n10"
+    },
+    {
+      "fieldname": "acidity_comments",
+      "label": "Acidity Comments",
+       "fieldtype": "Small Text",
+       "length": 240 
+    },
+
+    {
+      "fieldname": "sweetness_rating",
+      "label": "Sweetness",
+      "fieldtype": "Select",
+      "options": "1\n2\n3\n4\n5\n6\n7\n8\n9\n10"
+    },
+    {
+      "fieldname": "sweetness_comments",
+      "label": "Sweetness Comments",
+       "fieldtype": "Small Text",
+       "length": 240 
+    },
+
+    {
+      "fieldname": "mouthfeel_rating",
+      "label": "Mouthfeel",
+      "fieldtype": "Select",
+      "options": "1\n2\n3\n4\n5\n6\n7\n8\n9\n10"
+    },
+    {
+      "fieldname": "mouthfeel_comments",
+      "label": "Mouthfeel Comments",
+       "fieldtype": "Small Text",
+       "length": 240 
+    },
+
+    {
+      "fieldname": "overall_rating",
+      "label": "Overall",
+      "fieldtype": "Select",
+      "options": "1\n2\n3\n4\n5\n6\n7\n8\n9\n10"
+    },
+    {
+      "fieldname": "overall_comments",
+      "label": "Overall Comments",
+  "fieldtype": "Small Text",
+       "length": 240 
+    },
+
+    {
+      "fieldname": "non_uniform_cups",
+      "label": "Non-uniform cups (0–5)",
+      "fieldtype": "Select",
+      "options": "0\n1\n2\n3\n4\n5"
+    },
+    {
+      "fieldname": "defect_moldy",
+      "label": "Defect: Moldy",
+      "fieldtype": "Check"
+    },
+    {
+      "fieldname": "defect_phenolic",
+      "label": "Defect: Phenolic",
+      "fieldtype": "Check"
+    },
+    {
+      "fieldname": "defect_potato",
+      "label": "Defect: Potato",
+      "fieldtype": "Check"
+    },
+     {
+      "fieldname": "total_score",
+      "label": "Total Score",
+      "fieldtype": "Int",
+      "read_only": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "grade",
+      "label": "Grade",
+      "fieldtype": "Int",
+      "read_only": 1,
+      "in_list_view": 1
+    }    
+  ],
+ "permissions": [
+    {
+      "role": "System Manager",
+      "read": 1,
+      "write": 1,
+      "create": 1,
+      "delete": 1
+    }
+  ]
+}
+

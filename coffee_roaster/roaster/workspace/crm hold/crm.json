@@ -1,0 +1,14 @@
+{
+  "type": "card",
+  "label": "RTM Tools",
+  "data": [
+    {
+      "type": "DocType",
+      "name": "RTM Assignment"
+    },
+    {
+      "type": "Report",
+      "name": "Customers by RTM"
+    }
+  ]
+}

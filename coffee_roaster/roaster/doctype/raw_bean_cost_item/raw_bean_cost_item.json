@@ -1,0 +1,14 @@
+{
+  "doctype": "DocType",
+  "name": "Raw Bean Cost Item",
+  "module": "roaster",
+  "custom": 0,
+  "istable": 1,
+  "editable_grid": 1,
+  "fields": [
+    { "fieldname": "item_code", "label": "Item Code", "fieldtype": "Link", "options": "Item", "reqd": 1, "in_list_view": 1 },
+    { "fieldname": "qty_kg",    "label": "Qty (Kg)",  "fieldtype": "Float", "reqd": 1, "in_list_view": 1 },
+    { "fieldname": "rate",      "label": "Rate",      "fieldtype": "Currency", "reqd": 1 },
+    { "fieldname": "amount",    "label": "Amount",    "fieldtype": "Currency", "read_only": 1 }
+  ]
+}

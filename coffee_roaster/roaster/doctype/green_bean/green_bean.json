@@ -1,0 +1,100 @@
+{
+  "doctype": "DocType",
+  "name": "Green Bean",
+  "module": "roaster",
+  "custom": 1,
+  "autoname": "GB-.YYYY.-.####",
+  "controller": "coffee_roaster.roaster.doctype.green_bean.green_bean",
+  "track_changes": 1,
+  "fields": [
+    {
+      "fieldname": "supplier",
+      "label": "Supplier",
+      "fieldtype": "Link",
+      "options": "Supplier",
+      "reqd": 1
+    },
+    {
+      "fieldname": "origin",
+      "label": "Origin (Country/Region)",
+      "fieldtype": "Data",
+      "reqd": 1
+    },
+    {
+      "fieldname": "farm",
+      "label": "Farm / Cooperative",
+      "fieldtype": "Data"
+    },
+    {
+      "fieldname": "variety",
+      "label": "Variety",
+      "fieldtype": "Data"
+    },
+    {
+      "fieldname": "grade",
+      "label": "Grade",
+      "fieldtype": "Select",
+      "options": "1\n2\n3\nSpecialty\nCommercial\nUGQ\nOther",
+      "reqd": 1
+    },
+    {
+      "fieldname": "qc_reference",
+      "label": "QC Reference",
+      "fieldtype": "Link",
+      "options": "Physical Assessment"
+    },
+    {
+      "fieldname": "received_date",
+      "label": "Received Date",
+      "fieldtype": "Date",
+      "reqd": 1
+    },
+    {
+      "fieldname": "quantity",
+      "label": "Quantity (kg)",
+      "fieldtype": "Float",
+      "reqd": 1
+    },
+    {
+      "fieldname": "warehouse",
+      "label": "Warehouse",
+      "fieldtype": "Link",
+      "options": "Warehouse",
+      "reqd": 1
+    },
+    {
+      "fieldname": "bag_size",
+      "label": "Bag Size (kg)",
+      "fieldtype": "Int"
+    },
+    {
+      "fieldname": "lot_number",
+      "label": "Lot Number",
+      "fieldtype": "Data"
+    },
+    {
+      "fieldname": "certifications",
+      "label": "Certifications",
+      "fieldtype": "MultiSelect",
+      "options": "Organic\nFair Trade\nRainforest Alliance\nUTZ\nOther"
+    },
+    {
+      "fieldname": "notes",
+      "label": "Notes",
+      "fieldtype": "Small Text"
+    },
+    {
+  "fieldname": "item",
+  "label": "Linked Item",
+  "fieldtype": "Link",
+  "options": "Item",
+  "read_only": 1,
+  "description": "Auto-generated Item Code for inventory tracking"
+}
+  ],
+  "permissions": [
+    {"role":"System Manager","read":1,"write":1,"create":1,"delete":1},
+    {"role":"Roaster","read":1,"write":1,"create":1},
+    {"role":"Store User","read":1}
+  ]
+}

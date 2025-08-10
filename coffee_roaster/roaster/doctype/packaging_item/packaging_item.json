@@ -1,0 +1,30 @@
+{
+  "doctype": "DocType",
+  "name": "Packaging Item",
+  "module": "roaster",
+  "custom": 1,
+  "autoname": "format:PKG-.#####",
+  "fields": [
+    {"fieldname":"item_code","label":"Item Code","fieldtype":"Data","reqd":1,"unique":1},
+    {"fieldname":"pack_size_g","label":"Pack Size (g)","fieldtype":"Int"},
+    {"fieldname":"is_container","label":"Container?","fieldtype":"Check"},
+    {"fieldname":"units_per_container","label":"Units per Container","fieldtype":"Int",
+     "depends_on":"eval:doc.is_container==1"},
+    {"fieldname":"capacity_kg","label":"Capacity (kg)","fieldtype":"Float","read_only":1,
+     "depends_on":"eval:doc.is_container==1"},
+    {"fieldname":"uom","label":"UOM","fieldtype":"Link","options":"UOM","reqd":1},
+    {"fieldname":"default_warehouse","label":"Default Warehouse","fieldtype":"Link","options":"Warehouse"},
+    {"fieldname":"reorder_level","label":"Reorder Level","fieldtype":"Float","default":0},
+    {"fieldname":"reorder_qty","label":"Reorder Qty","fieldtype":"Float"},
+    {"fieldname":"total_stock_qty","label":"Current Qty","fieldtype":"Float","read_only":1},
+    {"fieldname":"description","label":"Description","fieldtype":"Small Text"},
+    {"fieldname":"disabled","label":"Disabled","fieldtype":"Check"}
+  ],
+  "permissions":[{"role":"System Manager","read":1,"write":1,"create":1,"delete":1}],
+  "show_in_global_search":1,
+  "show_in_list_view":1,
+  "fields_in_list_view":[
+    "item_code","pack_size_g","is_container",
+    "units_per_container","capacity_kg","reorder_level","total_stock_qty"
+  ]
+}

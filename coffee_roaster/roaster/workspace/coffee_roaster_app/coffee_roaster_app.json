@@ -1,0 +1,86 @@
+{
+ "charts": [],
+ "content": "[{\"id\":\"Tap5dsZ_tJ\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h1\\\">Quality Management</span>\",\"col\":12}},{\"id\":\"9hJ8QqV5Y8\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Physical Assessment\",\"col\":3}},{\"id\":\"Tyv-EwnOfd\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Descriptive Assessment\",\"col\":3}},{\"id\":\"8-82QSuEMo\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Extrinsic Assessment\",\"col\":3}},{\"id\":\"zs1Qf9z5JZ\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Affective Assessment\",\"col\":3}},{\"id\":\"louPnoe_1Y\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Reports</b></span>\",\"col\":12}},{\"id\":\"Bgx_P0V9TF\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Roast Batch Profitability\",\"col\":3}},{\"id\":\"niVAwrnZZq\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Batch Cost\",\"col\":3}},{\"id\":\"mqkUORfbhx\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Combined Assessment Report\",\"col\":3}}]",
+ "creation": "2025-07-05 17:09:47.824005",
+ "custom_blocks": [],
+ "docstatus": 0,
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "icon": "folder-open",
+ "idx": 0,
+ "indicator_color": "",
+ "is_hidden": 0,
+ "label": "Coffee Roaster App",
+ "links": [],
+ "modified": "2025-08-03 00:48:04.824238",
+ "modified_by": "Administrator",
+ "module": "roaster",
+ "name": "Coffee Roaster App",
+ "number_cards": [],
+ "owner": "Administrator",
+ "parent_page": "",
+ "public": 1,
+ "quick_lists": [],
+ "roles": [],
+ "sequence_id": 1.0,
+ "shortcuts": [
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Roast Batch Profitability",
+   "link_to": "Roast Batch Profitability",
+   "report_ref_doctype": "Roast Batch",
+   "type": "Report"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Physical Assessment",
+   "link_to": "Physical Assessment",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Batch Cost",
+   "link_to": "Batch Cost",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Affective Assessment",
+   "link_to": "Affective Assessment",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Combined Assessment Report",
+   "link_to": "Combined Assessment Report",
+   "report_ref_doctype": "Descriptive Assessment",
+   "type": "Report"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Descriptive Assessment",
+   "link_to": "Descriptive Assessment",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Extrinsic Assessment",
+   "link_to": "Extrinsic Assessment",
+   "stats_filter": "[]",
+   "type": "DocType"
+  }
+ ],
+ "title": "Coffee Roaster App"
+}

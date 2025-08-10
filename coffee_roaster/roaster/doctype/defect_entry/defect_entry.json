@@ -1,0 +1,28 @@
+{
+    "doctype": "DocType",
+    "name": "Defect Entry",
+    "module": "roaster",
+    "custom": 1,
+    "istable": 1,
+    "fields": [
+        {
+            "fieldname": "defect_type",
+            "label": "Defect Type",
+            "fieldtype": "Data",
+            "in_list_view": 1
+        },
+        {
+            "fieldname": "count",
+            "label": "Count",
+            "fieldtype": "Int",
+            "in_list_view": 1
+        },
+        {
+            "fieldname": "defects",
+            "label": "Defects",
+            "fieldtype": "Float",
+            "in_list_view": 1,
+            "read_only": 1
+        }
+    ]
+}

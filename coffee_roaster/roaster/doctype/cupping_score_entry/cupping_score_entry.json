@@ -1,0 +1,18 @@
+{
+  "doctype": "DocType",
+  "name": "Cupping Score Entry",
+  "module": "roaster",
+  "custom": 1,
+  "autoname": "CSE-.YYYY.-.####",
+  "fields": [
+    {"fieldname":"roasting_batch","label":"Roasting Batch","fieldtype":"Link","options":"Roasting Batch","reqd":1},
+    {"fieldname":"total_score","label":"Total Score","fieldtype":"Float","reqd":1},
+    {"fieldname":"final_notes","label":"Final Notes","fieldtype":"Text"},
+{"fieldname": "parameter","label": "Parameter","fieldtype": "Select","options": "Aroma\nFlavor\nAftertaste\nAcidity\nBody\nBalance"
+}
+  ],
+  "permissions": [
+    {"role":"System Manager","read":1,"write":1,"create":1,"delete":1},
+    {"role":"Roaster","read":1,"write":1,"create":1}
+  ]
+}

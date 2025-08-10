@@ -1,0 +1,10 @@
+{
+  "doctype": "Print Format",
+  "name": "Roasted Coffee Summary",
+  "doc_type": "Roasted Coffee",
+  "module": "Roaster",
+  "custom_format": 1,
+  "html": "\n<div style=\"padding: 20px; font-family: sans-serif;\">\n  <h2>Roasted Coffee Summary</h2>\n  <hr>\n  <table style=\"width: 100%; border-collapse: collapse;\">\n    <tr>\n      <td><strong>Roast Batch:</strong></td>\n      <td>{{ doc.roast_batch }}</td>\n    </tr>\n    <tr>\n      <td><strong>Roast Date:</strong></td>\n      <td>{{ doc.roast_date }}</td>\n    </tr>\n    <tr>\n      <td><strong>Bean Origin:</strong></td>\n      <td>{{ doc.bean_origin }}</td>\n    </tr>\n    <tr>\n      <td><strong>Roast Level:</strong></td>\n      <td>{{ doc.roast_level }}</td>\n    </tr>\n    <tr>\n      <td><strong>Net Roasted Weight (g):</strong></td>\n      <td>{{ doc.net_weight }}</td>\n    </tr>\n    <tr>\n      <td><strong>Packaged Weight (g):</strong></td>\n      <td>{{ doc.packaged_weight or \"N/A\" }}</td>\n    </tr>\n    <tr>\n      <td><strong>Quantity in Stock:</strong></td>\n      <td>{{ doc.quantity }}</td>\n    </tr>\n    <tr>\n      <td><strong>Warehouse:</strong></td>\n      <td>{{ doc.warehouse }}</td>\n    </tr>\n    <tr>\n      <td><strong>Status:</strong></td>\n      <td>{{ doc.status }}</td>\n    </tr>\n    <tr>\n      <td><strong>Notes:</strong></td>\n      <td>{{ doc.notes or \"\u2014\" }}</td>\n    </tr>\n  </table>\n</div>\n",
+  "print_format_type": "Server",
+  "disabled": 0
+}

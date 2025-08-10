@@ -1,0 +1,76 @@
+{
+  "doctype": "DocType",
+  "name": "Loyalty Profile",
+  "module": "Roaster",
+  "custom": 0,
+  "autoname": "format:LOY-{YY}{MM}-{#####}",
+  "search_fields": "customer tier status",
+  "title_field": "customer",
+  "track_changes": 1,
+  "track_views": 1,
+  "has_js": 1,
+  "fields": [
+    {
+      "fieldname": "customer",
+      "label": "Customer",
+      "fieldtype": "Link",
+      "options": "Customer",
+      "reqd": 1,
+      "in_list_view": 1
+    },
+    {
+  "fieldname": "program_name",
+  "label": "Program Name",
+  "fieldtype": "Data"
+  },
+    {
+      "fieldname": "enrolled_date",
+      "label": "Enrolled Date",
+      "fieldtype": "Date",
+      "in_list_view": 1
+    },
+    {
+  "fieldname": "interaction_date",
+  "fieldtype": "Date",
+  "label": "Interaction Date"
+},
+    {
+      "fieldname": "tier",
+      "label": "Loyalty Tier",
+      "fieldtype": "Select",
+      "options": "Bronze\nSilver\nGold\nPlatinum",
+      "in_list_view": 1
+    },
+    {
+  "fieldtype": "Section Break",
+  "label": "Loyalty Details"
+},
+    {
+      "fieldname": "points",
+      "label": "Points",
+      "fieldtype": "Int",
+       "in_list_view": 1
+    },
+    {
+      "fieldname": "status",
+      "label": "Status",
+      "fieldtype": "Select",
+      "options": "Active\nSuspended\nTerminated",
+      "in_list_view": 1
+    },
+    {
+  "fieldname": "loyalty_score",
+  "label": "Loyalty Score",
+  "fieldtype": "Float"
+}
+  ],
+  "permissions": [
+    {
+      "role": "System Manager",
+      "read": 1,
+      "write": 1,
+      "create": 1,
+      "delete": 1
+    }
+  ]
+}

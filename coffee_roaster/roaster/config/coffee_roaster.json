@@ -1,0 +1,8 @@
+[
+    {
+        "label": "Coffee Roaster",
+        "type": "module",
+        "name": "coffee_roaster",
+        "description": "Module for the Coffee Roaster app."
+    }
+]

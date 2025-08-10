@@ -1,0 +1,14 @@
+{
+  "doctype": "DocType",
+  "name": "Roasting Overhead Template Item",
+  "module": "roaster",
+  "custom": 0,
+  "istable": 1,
+  "editable_grid": 1,
+  "fields": [
+    { "fieldname": "overhead_type", "label": "Overhead Type", "fieldtype": "Select", "options": "Labour\nPower\nDepreciation\nQA", "reqd": 1 },
+    { "fieldname": "basis",         "label": "Basis", "fieldtype": "Select", "options": "Flat\nPer kg\nPercent", "reqd": 1 },
+    { "fieldname": "qty",           "label": "Qty",  "fieldtype": "Float" },
+    { "fieldname": "rate",          "label": "Rate", "fieldtype": "Currency" }
+  ]
+}

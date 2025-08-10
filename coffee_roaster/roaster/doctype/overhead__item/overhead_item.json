@@ -1,0 +1,24 @@
+{
+  "doctype": "DocType",
+  "name": "Overhead Item",
+  "module": "roaster",
+  "custom": 0,
+  "istable": 1,
+  "editable_grid": 1,
+  "fields": [
+    { "fieldname": "description", "fieldtype": "Data",   "label": "Description", "reqd": 1 },
+    { "fieldname": "rate",        "fieldtype": "Currency", "label": "Rate",       "reqd": 1 },
+    { "fieldname": "uom",         "fieldtype": "Link",   "options": "UOM",       "label": "UOM", "reqd": 1 },
+    { "fieldname": "qty",         "fieldtype": "Float",  "label": "Qty",         "default": 1 }
+  ],
+ "permissions": [
+    {
+      "role": "System Manager",
+      "read": 1,
+      "write": 1,
+      "create": 1,
+      "delete": 1
+    }
+  ]
+}
+

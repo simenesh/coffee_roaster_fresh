@@ -1,0 +1,30 @@
+{
+  "doctype": "Dashboard Chart",
+  "chart_name": "Leads by RTM Channel Chart",
+  "name": "leads_by_rtm_channel_chart",
+  "chart_type": "Bar",
+  "document_type": "Lead",
+  "use_report_chart": 1,
+  "report_name": "Leads by RTM Channel",
+  "based_on": "interaction_date",
+  "timespan": "Last Year",
+  "time_interval": "Monthly",
+  "timeseries": 0,
+  "filters_json": "[]",
+  "is_custom": 1,
+  "module": "Roaster",
+  "chart_users": [
+    {
+      "doctype": "Dashboard Chart User",
+      "role": "System Manager",
+      "parenttype": "Dashboard Chart",
+      "parentfield": "chart_users"
+    },
+    {
+      "doctype": "Dashboard Chart User",
+      "role": "CRM Manager",
+      "parenttype": "Dashboard Chart",
+      "parentfield": "chart_users"
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+# Root hooks for Coffee Roaster app
+# coffee_roaster/coffee_roaster/hooks/inventory_hooks/__init__.py
+
+import frappe
+from frappe.utils import nowdate
+
+def create_stock_entry(doc, method):
+    # DEBUG: record that the hook ran
+    frappe.log_error(message=f"DEBUG create_stock_entry fired for {doc.name}",
+                     title="DEBUG create_stock_entry")
+    # … rest of your code …
+
+doc_events = {
+    "Roast Batch": {
+        "on_submit": [
+            # Inventory hook
+            "coffee_roaster.hooks.inventory_hooks.create_stock_entry",
+            # Accounting hook
+            "coffee_roaster.hooks.accounting_hooks.create_sales_invoice"
+        ]
+    }
+}

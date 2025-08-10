@@ -1,0 +1,18 @@
+{
+  "doctype": "Report",
+  "report_name": "SKU P&L Profit",
+  "ref_doctype": "Batch Cost",
+  "report_type": "Script Report",
+  "is_standard": "Yes",
+  "module": "Roaster",
+  "name": "SKU P&L Profit",
+  "roles": [
+    {
+      "role": "System Manager"
+    },
+    {
+      "role": "Finance Manager"
+    }
+  ]
+}
+

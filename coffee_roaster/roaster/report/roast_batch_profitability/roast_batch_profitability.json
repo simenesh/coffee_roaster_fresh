@@ -1,0 +1,9 @@
+{
+ "doctype": "Report",
+ "name": "Roast Batch Profitability",
+ "report_name": "Roast Batch Profitability",
+ "ref_doctype": "Roast Batch",
+ "is_standard": "Yes",
+ "report_type": "Script Report",
+ "module": "roaster"
+}

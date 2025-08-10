@@ -1,0 +1,10 @@
+{
+  "doctype": "Report",
+  "name": "SKU P&L Profit",
+  "ref_doctype": "Batch Cost",
+  "report_type": "Script Report",
+  "is_standard": "Yes",
+  "module": "roaster",
+  "add_total_row": 1,
+  "filters": []
+}

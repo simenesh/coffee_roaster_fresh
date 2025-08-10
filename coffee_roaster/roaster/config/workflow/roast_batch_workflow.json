@@ -1,0 +1,29 @@
+{
+  "doctype": "Workflow",
+  "name": "Roast Batch Workflow",
+  "module": "roaster",
+
+  "workflow_name": "Roast Batch Workflow",
+  "document_type": "Roast Batch",
+  "is_active": 1,
+  "workflow_state_field": "workflow_state",
+
+  "states": [
+    { "state": "Scheduled",           "doc_status": 0, "allow_edit": 1 },
+    { "state": "Roasting Started",    "doc_status": 0, "allow_edit": 1 },
+    { "state": "Roasting Completed",  "doc_status": 1, "allow_edit": 1 },
+    { "state": "QC Passed",           "doc_status": 1, "allow_edit": 1 },
+    { "state": "QC Failed",           "doc_status": 1, "allow_edit": 1 },
+    { "state": "Packaged",            "doc_status": 1, "allow_edit": 1 },
+    { "state": "Inventory Updated",   "doc_status": 1, "allow_edit": 0 }
+  ],
+
+  "transitions": [
+    { "state": "Scheduled",          "action": "Start Roasting",  "next_state": "Roasting Started",   "allowed": "Roasting Operator" },
+    { "state": "Roasting Started",   "action": "Complete Roasting","next_state": "Roasting Completed", "allowed": "Roasting Operator" },
+    { "state": "Roasting Completed", "action": "Pass QC",         "next_state": "QC Passed",          "allowed": "QC Inspector" },
+    { "state": "Roasting Completed", "action": "Fail QC",         "next_state": "QC Failed",          "allowed": "QC Inspector" },
+    { "state": "QC Passed",          "action": "Package Roasted", "next_state": "Packaged",           "allowed": "Packaging Team" },
+    { "state": "Packaged",           "action": "Update Inventory","next_state": "Inventory Updated",  "allowed": "Storekeeper" }
+  ]
+}

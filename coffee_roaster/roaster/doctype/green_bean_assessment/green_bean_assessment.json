@@ -1,0 +1,19 @@
+{
+  "doctype": "DocType",
+  "name": "Green Bean Assessment",
+  "module": "roaster",
+  "custom": 1,
+  "autoname": "GBA-.YYYY.-.####",
+  "fields": [
+    {"fieldname":"green_bean","label":"Green Bean","fieldtype":"Link","options":"Green Bean","reqd":1},
+    {"fieldname":"assessment_date","label":"Assessment Date","fieldtype":"Date","reqd":1},
+    {"fieldname":"moisture_content","label":"Moisture Content (%)","fieldtype":"Float"},
+    {"fieldname":"defect_count","label":"Defect Count","fieldtype":"Int"},
+    {"fieldname":"inspector","label":"Inspector","fieldtype":"Link","options":"User"},
+    {"fieldname":"notes","label":"Notes","fieldtype":"Text"}
+  ],
+  "permissions": [
+    {"role":"System Manager","read":1,"write":1,"create":1,"delete":1},
+    {"role":"Roaster","read":1,"write":1,"create":1}
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "doctype": "Dashboard Chart",
+  "chart_name": "Customer Interaction Timeline",
+  "name": "Customer Interaction Timeline",
+  "chart_type": "Line",
+  "document_type": "Communication",
+  "is_standard": 0,
+  "is_public": 1,
+  "timeseries": 1,
+  "based_on": "communication_date",
+  "time_interval": "Monthly",
+  "timespan": "Last Year",
+  "value_based_on": "name",
+  "aggregate_function": "count",
+  "filters_json": "[]",
+  "color": "#EC6A48",
+  "custom_options": "",
+  "chart_users": [
+    {
+      "doctype": "Dashboard Chart User",
+      "role": "System Manager",
+      "parenttype": "Dashboard Chart",
+      "parentfield": "chart_users"
+    },
+    {
+  "module": "CRM",
+  "use_report_chart": 1,
+  "report_name": "Customer Interaction Timeline",
+  "is_custom": 1
+}
+  ]
+}

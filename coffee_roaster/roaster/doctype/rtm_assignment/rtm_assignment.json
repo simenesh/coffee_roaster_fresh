@@ -1,0 +1,44 @@
+{
+  "doctype": "DocType",
+  "name": "RTM Assignment",
+  "module": "Roaster",
+  "custom": 1,
+  "autoname": "format:RTM-{YY}{MM}-{#####}",
+  "search_fields": "customer rtm_channel",
+  "title_field": "customer",
+  "track_changes": 1,
+  "has_js": 1,
+  "track_views": 1,
+  "fields": [
+    {
+      "fieldname": "customer",
+      "label": "Customer",
+      "fieldtype": "Link",
+      "options": "Customer",
+      "reqd": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "rtm_channel",
+      "label": "RTM Channel",
+      "fieldtype": "Select",
+      "options": "Direct Sales\nDistribution\nE-commerce\nRetail & HoReCa",
+      "reqd": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "notes",
+      "label": "Description / Notes",
+      "fieldtype": "Small Text"
+    }
+  ],
+  "permissions": [
+    {
+      "role": "System Manager",
+      "read": 1,
+      "write": 1,
+      "create": 1,
+      "delete": 1
+    }
+  ]
+}

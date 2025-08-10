@@ -1,0 +1,216 @@
+{
+  "doctype": "DocType",
+  "name": "Extrinsic Assessment",
+  "module": "roaster",
+  "custom": 1,
+  "issingle": 0,
+  "is_table": 0,
+  "autoname": "format:EB-{MM}{YY}-{#####}",
+  "show_in_menu": 1,
+  "fields": [
+    {
+      "fieldname": "assessor_name",
+      "label": "Assessor Name",
+      "fieldtype": "Data",
+      "reqd": 1
+    },
+    {
+      "fieldname": "assessment_date",
+      "label": "Assessment Date",
+      "fieldtype": "Date",
+      "reqd": 1,
+      "default": "Today"
+    },
+    {
+      "fieldname": "purpose",
+      "label": "Purpose",
+      "fieldtype": "Small Text",
+      "reqd": 1
+    },
+    {
+      "fieldname": "sec_sample_information",
+      "label": "Sample Information",
+      "fieldtype": "Section Break"
+    },
+    {
+      "fieldname": "sample_no",
+      "label": "Sample No.",
+      "fieldtype": "Data",
+      "reqd": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "sec_farming",
+      "label": "Farming",
+      "fieldtype": "Section Break"
+    },
+    {
+      "fieldname": "country",
+      "label": "Country",
+      "fieldtype": "Select",
+      "options": "Brazil\nBurundi\nColombia\nCosta Rica\nEl Salvador\nEthiopia\nGuatemala\nHonduras\nIndia\nIndonesia\nKenya\nMexico\nNicaragua\nPeru\nRwanda\nTanzania\nUganda\nVietnam\nOther",
+      "reqd": 1
+    },
+    {
+      "fieldname": "region",
+      "label": "Region",
+      "fieldtype": "Select",
+      "options": "Addis Ababa\nAfar\nAmhara\nBenishangul-Gumuz\nDire Dawa\nGambela\nHarari\nOromia\nSidama\nSomali\nSouthern Nations, Nationalities, and Peoples' Region\nSouth West Ethiopia Peoples' Region",
+      "reqd": 1
+    },
+    {
+      "fieldname": "farm_or_coop_name",
+      "label": "Name of Farm or Co-op",
+      "fieldtype": "Data",
+      "reqd": 1
+    },
+    {
+      "fieldname": "producer_name",
+      "label": "Name of Producer(s)",
+      "fieldtype": "Data",
+      "reqd": 1
+    },
+    {
+      "fieldname": "col_break_1",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "species",
+      "label": "Species",
+      "fieldtype": "Data",
+      "reqd": 1
+    },
+    {
+      "fieldname": "variety",
+      "label": "Variety or Varieties",
+      "fieldtype": "Data",
+      "reqd": 1
+    },
+    {
+      "fieldname": "harvest_date_year",
+      "label": "Harvest Date/Year",
+      "fieldtype": "Data",
+      "reqd": 1
+    },
+    {
+      "fieldname": "other_farming_attribute",
+      "label": "Other Farming Attribute",
+      "fieldtype": "Data",
+      "reqd": 1
+    },
+    {
+      "fieldname": "farming_notes",
+      "label": "Farming Notes",
+      "fieldtype": "Small Text",
+      "reqd": 1
+    },
+    {
+      "fieldname": "sec_processing",
+      "label": "Processing",
+      "fieldtype": "Section Break"
+    },
+    {
+        "fieldname": "processor_name",
+        "label": "Name of Processor(s)",
+        "fieldtype": "Data",
+        "reqd": 1
+    },
+    {
+        "fieldname": "process_type",
+        "label": "Process Type",
+        "fieldtype": "Select",
+        "options": "Washed\nNatural\nHoney\nOther",
+        "reqd": 1
+    },
+    {
+      "fieldname": "processing_notes",
+      "label": "Processing Notes",
+      "fieldtype": "Small Text",
+      "reqd": 1
+    },
+    {
+      "fieldname": "sec_trading",
+      "label": "Trading",
+      "fieldtype": "Section Break"
+    },
+    {
+      "fieldname": "trading_size_grade",
+      "label": "Size Grade",
+      "fieldtype": "Data",
+      "reqd": 1
+    },
+    {
+      "fieldname": "trading_ico_number",
+      "label": "ICO Number",
+      "fieldtype": "Data",
+      "reqd": 1
+    },
+    {
+        "fieldname": "col_break_2",
+        "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "trading_other_grade",
+      "label": "Other Grade",
+      "fieldtype": "Data",
+      "reqd": 1
+    },
+    {
+      "fieldname": "trading_other_attribute",
+      "label": "Other Trading Attribute",
+      "fieldtype": "Data",
+      "reqd": 1
+    },
+    {
+      "fieldname": "trading_notes",
+      "label": "Trading Notes",
+      "fieldtype": "Small Text",
+      "reqd": 1
+    },
+    {
+      "fieldname": "sec_certification",
+      "label": "Certifications",
+      "fieldtype": "Section Break"
+    },
+    {
+      "fieldname": "certifications",
+      "label": "Certifications",
+      "fieldtype": "Table MultiSelect",
+      "options": "Certification",
+      "reqd": 1
+    },
+    {
+      "fieldname": "certification_notes",
+      "label": "Certification Notes",
+      "fieldtype": "Small Text",
+      "reqd": 1
+    },
+    {
+      "fieldname": "sec_overall_notes",
+      "label": "Overall Notes",
+      "fieldtype": "Section Break"
+    },
+    {
+      "fieldname": "general_notes",
+      "label": "Notes",
+      "fieldtype": "Text",
+      "reqd": 1
+    }
+  ],
+  "permissions": [
+    {
+      "role": "System Manager",
+      "read": 1,
+      "write": 1,
+      "create": 1,
+      "delete": 1
+    },
+    {
+      "role": "QC Officer",
+      "read": 1,
+      "write": 1,
+      "create": 1,
+      "delete": 1
+    }
+  ]
+}

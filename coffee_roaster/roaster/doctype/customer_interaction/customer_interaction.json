@@ -1,0 +1,74 @@
+{
+  "doctype": "DocType",
+  "name": "Customer Interaction",
+  "module": "Roaster",
+  "custom": 0,
+  "autoname": "format:INT-{YY}{MM}-{#####}",
+  "search_fields": "customer contact_person contact_info",
+  "title_field": "customer",
+  "track_changes": 1,
+"track_views": 1,
+"fields_in_list_view": [
+  "interaction_date",
+  "interaction_type",
+  "customer",
+  "status"
+],  
+"fields": [
+    {
+      "fieldname": "customer",
+      "label": "Customer",
+      "fieldtype": "Link",
+      "options": "Customer",
+      "reqd": 1
+    },
+    {
+      "fieldname": "interaction_date",
+      "label": "Date",
+      "fieldtype": "Date",
+      "reqd": 1
+    },
+    {
+      "fieldname": "interaction_type",
+      "label": "Type",
+      "fieldtype": "Select",
+      "options": "Call\nEmail\nMeeting\nChat\nOther",
+      "reqd": 1
+    },
+    {
+    "fieldname": "contact_person",
+   "label": "Contact Person",
+    "fieldtype": "Data"
+    },
+    {
+    "fieldname": "contact_info",
+    "label": "Contact Info",
+    "fieldtype": "Data"
+    },
+    {
+      "fieldname": "follow_up_date",
+      "label": "Follow-Up Date",
+      "fieldtype": "Date"
+    },
+    {
+      "fieldname": "status",
+      "label": "Status",
+      "fieldtype": "Select",
+      "options": "Pending\nInterested\nIn Negotiation\nConverted\nInactive"
+    },
+    {
+      "fieldname": "notes",
+      "label": "Notes",
+      "fieldtype": "Small Text"
+    }
+  ],
+  "permissions": [
+    {
+      "role": "System Manager",
+      "read": 1,
+      "write": 1,
+      "create": 1,
+      "delete": 1
+    }
+  ]
+}

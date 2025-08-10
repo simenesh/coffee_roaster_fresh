@@ -1,0 +1,52 @@
+{
+  "doctype": "DocType",
+  "name": "Overhead Item",
+  "module": "roaster",
+  "custom": 0,
+  "istable": 1,
+  "editable_grid": 1,
+  "fields": [
+    {
+      "fieldname": "overhead_type",
+      "label": "Overhead Type",
+      "fieldtype": "Select",
+      "options": "Labour\nPower\nDepreciation\nQA",
+      "reqd": 1
+    },
+    {
+      "fieldname": "basis",
+      "label": "Basis",
+      "fieldtype": "Select",
+      "options": "Flat\nPer kg\nPercent",
+      "reqd": 1
+    },
+    {
+      "fieldname": "qty",
+      "label": "Qty / Hrs",
+      "fieldtype": "Float",
+      "depends_on": "eval:doc.basis == 'Per kg' || doc.basis == 'Percent' || doc.basis == 'Flat'"
+    },
+    {
+      "fieldname": "rate",
+      "label": "Rate",
+      "fieldtype": "Currency",
+      "reqd": 1
+    },
+    {
+      "fieldname": "amount",
+      "label": "Amount",
+      "fieldtype": "Currency",
+      "read_only": 1,
+      "depends_on": "eval:doc.qty && doc.rate"
+    }
+  ],
+  "permissions": [
+    {
+      "role": "System Manager",
+      "read": 1,
+      "write": 1,
+      "create": 1,
+      "delete": 1
+    }
+  ]
+}

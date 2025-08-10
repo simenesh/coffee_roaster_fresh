@@ -1,0 +1,20 @@
+{
+  "doctype": "DocType",
+  "name": "Route Plan",
+  "module": "Roaster",
+  "custom": 1,
+  "fields": [
+    {"fieldname": "customer", "label": "Customer", "fieldtype": "Link", "options": "Customer", "reqd": 1},
+    {"fieldname": "outlet_type", "label": "Outlet Type", "fieldtype": "Select", "options": "\nGOV\nNGO\nEMB\nCORP\nEDU\nSMKT\nEXPO\nRETAIL\nDIST\nCAF\nHOTEL\nREST", "reqd": 1},
+    {"fieldname": "sub_city", "label": "Sub-City", "fieldtype": "Data"},
+    {"fieldname": "address", "label": "Address", "fieldtype": "Data"},
+    {"fieldname": "marketer", "label": "Marketer", "fieldtype": "Link", "options": "User"}
+  ],
+  "permissions": [{"role": "System Manager", "read": 1, "write": 1, "create": 1, "delete": 1}],
+  "is_submittable": 0,
+  "istable": 0,
+  "editable_grid": 1,
+  "track_changes": 1,
+  "track_seen": 1,
+  "engine": "InnoDB"
+}

@@ -1,0 +1,412 @@
+{
+ "doctype": "DocType",
+ "name": "Descriptive Assessment",
+ "module": "roaster",
+ "custom": 1,
+ "autoname": "format:DA-{MM}{YY}-{#####}",
+ "fields": [
+  {
+   "fieldname": "sample_no",
+   "label": "Sample No.",
+   "fieldtype": "Data",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "col_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "roast_batch",
+   "label": "Roast Batch",
+   "fieldtype": "Link",
+   "options": "Roast Batch",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "roast_date",
+   "label": "Roast Date",
+   "fieldtype": "Date",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "roast_time",
+   "label": "Roast Time",
+   "fieldtype": "Time",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "roast_level",
+   "label": "Roast Level",
+   "fieldtype": "Select",
+   "options": "\nLight\nMedium\nDark",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "sec_break_fragrance",
+   "fieldtype": "Section Break",
+   "label": "Fragrance"
+  },
+  {
+   "fieldname": "fragrance_intensity",
+   "label": "Intensity",
+   "fieldtype": "Int",
+   "default": 0
+  },
+  {
+   "fieldname": "sb_fragrance_attributes",
+   "fieldtype": "Section Break",
+   "label": "Fragrance Attributes"
+  },
+  {
+   "fieldname": "fragrance_floral",
+   "label": "Floral",
+   "fieldtype": "Check"
+  },
+  {
+   "fieldname": "fragrance_fruity",
+   "label": "Fruity",
+   "fieldtype": "Check"
+  },
+  {
+   "fieldname": "fragrance_berry",
+   "label": "Berry",
+   "fieldtype": "Check"
+  },
+  {
+   "fieldname": "fragrance_dried_fruit",
+   "label": "Dried Fruit",
+   "fieldtype": "Check"
+  },
+  {
+   "fieldname": "fragrance_citrus_fruit",
+   "label": "Citrus Fruit",
+   "fieldtype": "Check"
+  },
+  {
+   "fieldname": "fragrance_sweet",
+   "label": "Sweet",
+   "fieldtype": "Check"
+  },
+  {
+   "fieldname": "fragrance_brown_sugar",
+   "label": "Brown Sugar",
+   "fieldtype": "Check"
+  },
+  {
+   "fieldname": "fragrance_vanilla",
+   "label": "Vanilla/Vanillin",
+   "fieldtype": "Check"
+  },
+  {
+   "fieldname": "cb_fragrance_col2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "fragrance_roasted",
+   "label": "Roasted",
+   "fieldtype": "Check"
+  },
+  {
+   "fieldname": "fragrance_cereal",
+   "label": "Cereal",
+   "fieldtype": "Check"
+  },
+  {
+   "fieldname": "fragrance_nutty_cocoa",
+   "label": "Nutty/Cocoa",
+   "fieldtype": "Check"
+  },
+  {
+   "fieldname": "fragrance_cocoa",
+   "label": "Cocoa",
+   "fieldtype": "Check"
+  },
+  {
+   "fieldname": "fragrance_burnt",
+   "label": "Burnt",
+   "fieldtype": "Check"
+  },
+  {
+   "fieldname": "fragrance_tobacco",
+   "label": "Tobacco",
+   "fieldtype": "Check"
+  },
+  {
+   "fieldname": "fragrance_spice",
+   "label": "Spice",
+   "fieldtype": "Check"
+  },
+  {
+   "fieldname": "cb_fragrance_col3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "fragrance_sour",
+   "label": "Sour",
+   "fieldtype": "Check"
+  },
+  {
+   "fieldname": "fragrance_fermented",
+   "label": "Fermented",
+   "fieldtype": "Check"
+  },
+  {
+   "fieldname": "fragrance_green_veg",
+   "label": "Green/Vegetative",
+   "fieldtype": "Check"
+  },
+  {
+   "fieldname": "fragrance_musty_earthy",
+   "label": "Musty/Earthy",
+   "fieldtype": "Check"
+  },
+  {
+   "fieldname": "fragrance_woody",
+   "label": "Woody",
+   "fieldtype": "Check"
+  },
+  {
+   "fieldname": "fragrance_chemical",
+   "label": "Chemical",
+   "fieldtype": "Check"
+  },
+  {
+   "fieldname": "fragrance_other",
+   "label": "Other",
+   "fieldtype": "Check"
+  },
+  {
+   "fieldname": "sec_break_aroma",
+   "fieldtype": "Section Break",
+   "label": "Aroma"
+  },
+  {
+   "fieldname": "aroma_intensity",
+   "label": "Intensity",
+   "fieldtype": "Int",
+   "default": 0
+  },
+  {
+   "fieldname": "sb_aroma_attributes",
+   "fieldtype": "Section Break",
+   "label": "Aroma Attributes"
+  },
+  {
+   "fieldname": "aroma_floral",
+   "label": "Floral",
+   "fieldtype": "Check"
+  },
+  {
+   "fieldname": "aroma_fruity",
+   "label": "Fruity",
+   "fieldtype": "Check"
+  },
+  {
+   "fieldname": "aroma_berry",
+   "label": "Berry",
+   "fieldtype": "Check"
+  },
+  {
+   "fieldname": "aroma_dried_fruit",
+   "label": "Dried Fruit",
+   "fieldtype": "Check"
+  },
+  {
+   "fieldname": "aroma_citrus_fruit",
+   "label": "Citrus Fruit",
+   "fieldtype": "Check"
+  },
+  {
+   "fieldname": "aroma_sweet",
+   "label": "Sweet",
+   "fieldtype": "Check"
+  },
+  {
+   "fieldname": "aroma_brown_sugar",
+   "label": "Brown Sugar",
+   "fieldtype": "Check"
+  },
+  {
+   "fieldname": "aroma_vanilla",
+   "label": "Vanilla/Vanillin",
+   "fieldtype": "Check"
+  },
+  {
+   "fieldname": "cb_aroma_col2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "aroma_roasted",
+   "label": "Roasted",
+   "fieldtype": "Check"
+  },
+  {
+   "fieldname": "aroma_cereal",
+   "label": "Cereal",
+   "fieldtype": "Check"
+  },
+  {
+   "fieldname": "aroma_nutty_cocoa",
+   "label": "Nutty/Cocoa",
+   "fieldtype": "Check"
+  },
+  {
+   "fieldname": "aroma_cocoa",
+   "label": "Cocoa",
+   "fieldtype": "Check"
+  },
+  {
+   "fieldname": "aroma_burnt",
+   "label": "Burnt",
+   "fieldtype": "Check"
+  },
+  {
+   "fieldname": "aroma_tobacco",
+   "label": "Tobacco",
+   "fieldtype": "Check"
+  },
+  {
+   "fieldname": "aroma_spice",
+   "label": "Spice",
+   "fieldtype": "Check"
+  },
+  {
+   "fieldname": "cb_aroma_col3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "aroma_sour",
+   "label": "Sour",
+   "fieldtype": "Check"
+  },
+  {
+   "fieldname": "aroma_fermented",
+   "label": "Fermented",
+   "fieldtype": "Check"
+  },
+  {
+   "fieldname": "aroma_green_veg",
+   "label": "Green/Vegetative",
+   "fieldtype": "Check"
+  },
+  {
+   "fieldname": "aroma_musty_earthy",
+   "label": "Musty/Earthy",
+   "fieldtype": "Check"
+  },
+  {
+   "fieldname": "aroma_woody",
+   "label": "Woody",
+   "fieldtype": "Check"
+  },
+  {
+   "fieldname": "aroma_chemical",
+   "label": "Chemical",
+   "fieldtype": "Check"
+  },
+  {
+   "fieldname": "aroma_other",
+   "label": "Other",
+   "fieldtype": "Check"
+  },
+  {
+   "fieldname": "sec_break_acidity",
+   "fieldtype": "Section Break",
+   "label": "Acidity"
+  },
+  {
+   "fieldname": "acidity_intensity",
+   "label": "Intensity",
+   "fieldtype": "Int",
+   "default": 0
+  },
+  {
+   "fieldname": "col_break_acidity_notes",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "acidity_notes",
+   "label": "Notes",
+   "fieldtype": "Small Text"
+  },
+  {
+   "fieldname": "sec_break_sweetness",
+   "fieldtype": "Section Break",
+   "label": "Sweetness"
+  },
+  {
+   "fieldname": "sweetness_intensity",
+   "label": "Intensity",
+   "fieldtype": "Int",
+   "default": 0
+  },
+  {
+   "fieldname": "col_break_sweetness_notes",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "sweetness_notes",
+   "label": "Notes",
+   "fieldtype": "Small Text"
+  },
+  {
+   "fieldname": "sec_break_mouthfeel",
+   "fieldtype": "Section Break",
+   "label": "Mouthfeel"
+  },
+  {
+   "fieldname": "mouthfeel_intensity",
+   "label": "Intensity",
+   "fieldtype": "Int",
+   "default": 0
+  },
+  {
+   "fieldname": "sb_mouthfeel_attributes",
+   "fieldtype": "Section Break",
+   "label": "Mouthfeel Attributes"
+  },
+  {
+   "fieldname": "mouthfeel_rough",
+   "label": "Rough (Gritty, Chalky, Sandy)",
+   "fieldtype": "Check"
+  },
+  {
+   "fieldname": "mouthfeel_oily",
+   "label": "Oily",
+   "fieldtype": "Check"
+  },
+  {
+   "fieldname": "mouthfeel_smooth",
+   "label": "Smooth (Velvety, Silky, Syrupy)",
+   "fieldtype": "Check"
+  },
+  {
+   "fieldname": "cb_mouthfeel_col2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "mouthfeel_drying",
+   "label": "Mouth-Drying",
+   "fieldtype": "Check"
+  },
+  {
+   "fieldname": "mouthfeel_metallic",
+   "label": "Metallic",
+   "fieldtype": "Check"
+  }
+ ],
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1
+  }
+ ]
+}

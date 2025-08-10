@@ -1,0 +1,18 @@
+{
+  "doctype":"DocType",
+  "name":"Packed Container Serial",
+  "module":"roaster",
+  "custom":1,
+  "autoname":"field:serial_no",
+  "fields":[
+    {"fieldname":"serial_no","label":"Serial No","fieldtype":"Data","reqd":1,"unique":1},
+    {"fieldname":"roast_batch","label":"Roast Batch","fieldtype":"Link","options":"Roast Batch","reqd":1},
+    {"fieldname":"item","label":"Container Item","fieldtype":"Link","options":"Item","reqd":1},
+    {"fieldname":"pack_size_g","label":"Pack Size (g)","fieldtype":"Int","read_only":1},
+    {"fieldname":"units_per_container","label":"Units per Container","fieldtype":"Int","read_only":1},
+    {"fieldname":"capacity_kg","label":"Capacity (kg)","fieldtype":"Float","read_only":1},
+    {"fieldname":"warehouse","label":"Warehouse","fieldtype":"Link","options":"Warehouse","reqd":1},
+    {"fieldname":"packed_on","label":"Packed On","fieldtype":"Datetime","default":"Now","read_only":1}
+  ],
+  "permissions":[{"role":"System Manager","read":1,"write":1,"create":1}]
+}

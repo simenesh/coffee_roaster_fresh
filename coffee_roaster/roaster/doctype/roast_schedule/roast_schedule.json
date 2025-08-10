@@ -1,0 +1,16 @@
+{
+  "doctype": "DocType",
+  "name": "Roasting Schedule",
+  "module": "roaster",
+  "custom": 1,
+  "fields": [
+    {"fieldname":"profile","label":"Roast Profile","fieldtype":"Link","options":"Roast Profile","reqd":1},
+    {"fieldname":"scheduled_date","label":"Scheduled Date","fieldtype":"Date","reqd":1},
+    {"fieldname":"machine","label":"Machine","fieldtype":"Link","options":"Machine"},
+    {"fieldname":"notes","label":"Notes","fieldtype":"Text"}
+  ],
+  "permissions": [
+    {"role":"System Manager","read":1,"write":1,"create":1,"delete":1},
+    {"role":"Roaster","read":1,"write":1,"create":1}
+  ]
+}

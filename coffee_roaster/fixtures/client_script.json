@@ -1,0 +1,101 @@
+[
+ {
+  "docstatus": 0,
+  "doctype": "Client Script",
+  "dt": "Green Bean Assessment",
+  "enabled": 1,
+  "modified": "2025-06-22 09:59:46.519872",
+  "module": null,
+  "name": "Sample ID script",
+  "script": "frappe.ui.form.on('Green Bean Assessment', {\n    validate: function(frm) {\n        if (!frm.doc.sample_id) {\n            const now = frappe.datetime.now_date();  // YYYY-MM-DD\n            const mm = now.split(\"-\")[1];\n            const yy = now.split(\"-\")[0].slice(-2);\n            const prefix = mm + yy;\n\n            frappe.call({\n                method: \"frappe.client.get_list\",\n                args: {\n                    doctype: \"Green Bean Assessment\",\n                    filters: [[\"sample_id\", \"like\", prefix + \"%\"]],\n                    fields: [\"name\", \"sample_id\"],\n                    limit: 1000\n                },\n                async: false, // this forces sync (important!)\n                callback: function(r) {\n                    let max = 0;\n                    (r.message || []).forEach(doc => {\n                        const num = parseInt(doc.sample_id?.slice(4)) || 0;\n                        if (num > max) max = num;\n                    });\n                    const next = (max + 1).toString().padStart(5, \"0\");\n                    frm.set_value(\"sample_id\", prefix + next);\n                }\n            });\n        }\n    }\n});\n",
+  "view": "Form"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Client Script",
+  "dt": "Green Bean Assessment",
+  "enabled": 0,
+  "modified": "2025-07-11 04:16:34.947293",
+  "module": null,
+  "name": "Green Bean Assessment",
+  "script": "function calculate_all_totals(frm) {\n    let total1 = 0;\n    if (frm.doc.cat1_defects) {\n        frm.doc.cat1_defects.forEach(d => {\n            total1 += d.defect_count || 0;\n        });\n    }\n    frm.set_value(\"total_cat1_defects\", total1);\n\n    let total2 = 0;\n    if (frm.doc.cat2_defects) {\n        frm.doc.cat2_defects.forEach(d => {\n            total2 += d.defect_count || 0;\n        });\n    }\n    frm.set_value(\"total_cat2_defects\", total2);\n\n    frm.set_value(\"total_defects\", total1 + total2);\n}\n\nfrappe.ui.form.on(\"Green Bean Assessment\", {\n    refresh(frm) {\n        calculate_all_totals(frm);\n    },\n    cat1_defects_add(frm) {\n        calculate_all_totals(frm);\n    },\n    cat1_defects_remove(frm) {\n        calculate_all_totals(frm);\n    },\n    cat2_defects_add(frm) {\n        calculate_all_totals(frm);\n    },\n    cat2_defects_remove(frm) {\n        calculate_all_totals(frm);\n    }\n});\n\nfrappe.ui.form.on(\"Category 1 Defect Entry\", {\n    defect_count(frm) {\n        calculate_all_totals(frm);\n    }\n});\n\nfrappe.ui.form.on(\"Category 2 Defect Entry\", {\n    defect_count(frm) {\n        calculate_all_totals(frm);\n    }\n});\n",
+  "view": "Form"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Client Script",
+  "dt": "Affective Cupping",
+  "enabled": 0,
+  "modified": "2025-07-14 22:43:19.656539",
+  "module": null,
+  "name": "ffective Cupping",
+  "script": "frappe.ui.form.on('Affective Cupping', {\n  cup_scores_add: function(frm) {\n    calculate_final_score(frm);\n  },\n  cup_scores_remove: function(frm) {\n    calculate_final_score(frm);\n  },\n  // This triggers when the 'score' field of a row changes:\n  cup_scores_score: function(frm, cdt, cdn) {\n    calculate_final_score(frm);\n  }\n});\n\nfunction calculate_final_score(frm) {\n  let total = 0;\n  let count = 0;\n\n  (frm.doc.cup_scores || []).forEach(row => {\n    if (row.score !== undefined && row.score !== null) {\n      total += row.score;\n      count += 1;\n    }\n  });\n\n  let avg = count > 0 ? (total / count) : 0;\n\n  frm.set_value('final_score', avg);\n  frm.refresh_field('final_score');\n}\n",
+  "view": "Form"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Client Script",
+  "dt": "Physical Assessment",
+  "enabled": 1,
+  "modified": "2025-07-31 22:58:55.047170",
+  "module": null,
+  "name": "Physical Assessment script",
+  "script": "frappe.ui.form.on('Physical Assessment', {\n  // Recalculate anytime the form is loaded or any count field changes\n  refresh(frm) {\n    calculate(frm);\n  },\n  // You could also hook into each count field individually, but this blanket\n  // listener is simpler and still performant on ~30 fields.\n  validate(frm) {\n    calculate(frm);\n  }\n});\n\nfunction calculate(frm) {\n  let total = 0.0;\n\n  // Helper to parse ratio like \"5 : 1\" → 5\n  const parseRatio = (s) => {\n    let parts = s.split(':');\n    return parseFloat(parts[0]) || 1;\n  };\n\n  // List all count/defect pairs defined in your DocType JSON\n  const pairs = [\n    ['full_black_count','full_black_defects',          '1 : 1'],\n    ['full_sour_count','full_sour_defects',            '1 : 1'],\n    ['dried_cherry_count','dried_cherry_defects',      '1 : 1'],\n    ['fungus_damage_count','fungus_damage_defects',    '1 : 1'],\n    ['foreign_matter_count','foreign_matter_defects',  '1 : 1'],\n    ['severe_insect_damage_count','severe_insect_damage_defects', '5 : 1'],\n\n    ['partial_black_count','partial_black_defects',    '3 : 1'],\n    ['partial_sour_count','partial_sour_defects',      '3 : 1'],\n    ['parchment_count','parchment_defects',            '5 : 1'],\n    ['floater_count','floater_defects',                '5 : 1'],\n    ['immature_count','immature_defects',              '5 : 1'],\n    ['withered_count','withered_defects',              '5 : 1'],\n    ['shell_count','shell_defects',                    '5 : 1'],\n    ['broken_chipped_count','broken_chipped_defects',  '5 : 1'],\n    ['hull_husk_count','hull_husk_defects',            '5 : 1'],\n    ['slight_insect_damage_count','slight_insect_damage_defects','10 : 1']\n  ];\n\n  // Compute per‐pair and accumulate\n  pairs.forEach(([cnt, fld, ratio]) => {\n    let count = cint(frm.doc[cnt] || 0);\n    let r = parseRatio(ratio);\n    let full = (count / r) || 0;\n    full = Math.round(full * 100) / 100;          // two decimals\n    frm.set_value(fld, full);\n    total += full;\n  });\n\n  // Set total\n  frm.set_value('total_full_defects', total);\n\n // Determine grade\n  let grade;\n  if (total <= 3)        grade = '1';\n else if (total <= 12)  grade = '2';\nelse if (total <= 25)  grade = '3';\nelse if (total <= 45)  grade = '4';\n else if (total <= 100) grade = '5';\n else                   grade = '6-9';\n\n frm.set_value('grade', grade);\n}\nfrappe.ui.form.on('Physical Assessment', {\n    // this runs on both a brand-new form and after every save\n    refresh(frm) {\n        const show = true;   // always visible\n\n        // call once per field you want to show / hide\n        frm.toggle_display('sec_break_summary', show);   // the section label\n        frm.toggle_display('max_screen_size',   show);   // the field inside\n         // ✅ Total Score = 100 - total_full_defects\n  const base_score = 100;\n  const total_score = Math.max(base_score - total, 0);\n  frm.set_value('total_score', total_score);\n        // add more lines if you need other fields\n    }\n    });\n",
+  "view": "Form"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Client Script",
+  "dt": "Physical Assessment",
+  "enabled": 1,
+  "modified": "2025-07-31 22:54:46.454746",
+  "module": null,
+  "name": "Physical Assessment bean size",
+  "script": "/**  Physical Assessment – screen-size metrics\n *   • % = bean_count / 300 * 100   (fixed denominator)\n *   • max_screen_size = screen # with the largest count\n *   Works with individual fields: screen10_count … screen23_count\n */\n\nfrappe.ui.form.on('Physical Assessment', (() => {\n    // ------------------------------------------------------------------\n    // config\n    // ------------------------------------------------------------------\n    const SAMPLE_SIZE = 350;               // fixed denominator\n    const SCREENS     = Array.from({length: 14}, (_, i) => 10 + i);  // 10 … 23\n\n    // ------------------------------------------------------------------\n    // helper – recalc everything\n    // ------------------------------------------------------------------\n    function update_screen_metrics(frm) {\n        let maxCount = 0;\n        let maxSize  = 0;\n\n        SCREENS.forEach(size => {\n            // read the *_count field (defaults to 0)\n            let count = cint(frm.doc[`screen${size}_count`]) || 0;\n\n            // restrict to 350g max\n            if (count > 350) {\n                frappe.msgprint(`Screen #${size} count cannot exceed 350g`);\n                count = 350;\n                frm.set_value(`screen${size}_count`, 350);\n            }\n\n            // set its % field\n            const pct = (count * 100) / SAMPLE_SIZE;\n            frm.set_value(`screen${size}_percent`, flt(pct, 2));\n\n            // track max\n            if (count > maxCount) {\n                maxCount = count;\n                maxSize  = size;\n            }\n        });\n\n        // summary line: “90 beans • 30.0 % • #17” (or “–” if nothing entered)\n        const summaryPct   = (maxCount * 100) / SAMPLE_SIZE;\n        const summaryText  = maxCount\n            ? `${maxCount} beans • ${flt(summaryPct, 1)} % • #${maxSize}`\n            : '–';\n\n        frm.set_value('max_screen_size', maxSize || null);\n    }\n\n    // ------------------------------------------------------------------\n    // event map\n    // ------------------------------------------------------------------\n    const events = {\n        onload:  frm => {\n            frm.set_df_property('sec_break_summary', 'hidden', 0);  // 👈 new\n            update_screen_metrics(frm);\n        },\n        refresh: update_screen_metrics,\n        validate: update_screen_metrics\n    };\n\n    // attach a change handler for every *_count field\n    SCREENS.forEach(size => {\n        events[`screen${size}_count`] = update_screen_metrics;\n    });\n\n    return events;\n})());\n",
+  "view": "Form"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Client Script",
+  "dt": "Affective Assessment",
+  "enabled": 0,
+  "modified": "2025-07-18 16:02:56.613014",
+  "module": null,
+  "name": "Affective Assessment",
+  "script": "frappe.ui.form.on('Affective Assessment', {\n  // any time one of these rating fields changes…\n  fragrance_rating: compute_total,\n  aroma_rating:      compute_total,\n  flavor_rating:     compute_total,\n  aftertaste_rating: compute_total,\n  acidity_rating:    compute_total,\n  sweetness_rating:  compute_total,\n  mouthfeel_rating:  compute_total,\n  overall_rating:    compute_total,\n});\n\nfunction compute_total(frm) {\n  // list your rating fields\n  const fields = [\n    'fragrance_rating',\n    'aroma_rating',\n    'flavor_rating',\n    'aftertaste_rating',\n    'acidity_rating',\n    'sweetness_rating',\n    'mouthfeel_rating',\n    'overall_rating'\n  ];\n\n  // sum up the integer values\n  let sum = fields.reduce((acc, f) => {\n    return acc + (parseInt(frm.doc[f]) || 0);\n  }, 0);\n\n  // set the total_score field\n  frm.set_value('total_score', sum);\n}\n",
+  "view": "Form"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Client Script",
+  "dt": "Roasted Coffee",
+  "enabled": 1,
+  "modified": "2025-07-10 12:29:42.507899",
+  "module": null,
+  "name": "script for roasted coffe stock button",
+  "script": "frappe.ui.form.on('Roasted Coffee', {\n  refresh: function(frm) {\n    if (!frm.is_new() && !frm.doc.stock_entry) {\n      frm.add_custom_button(__('Create Stock Entry'), function() {\n        frappe.call({\n          method: 'coffee_roaster.api.create_stock_entry_from_roasted',\n          args: { roasted_name: frm.doc.name },\n          callback: function(r) {\n            if (!r.exc) {\n              frm.reload_doc();\n            }\n          }\n        });\n      }, __(\"Actions\"));\n    }\n  }\n});\n",
+  "view": "Form"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Client Script",
+  "dt": "Affective Assessment",
+  "enabled": 1,
+  "modified": "2025-07-20 23:13:15.057249",
+  "module": null,
+  "name": "Affective Assessment script",
+  "script": "function update_total_and_grade(frm) {\n    const ATTR = [\n        'fragrance_rating', 'aroma_rating', 'flavor_rating', 'aftertaste_rating',\n        'acidity_rating', 'sweetness_rating', 'mouthfeel_rating', 'overall_rating'\n    ];\n\n    let sum = 0;\n    let valid_scores = 0;\n\n    ATTR.forEach(field => {\n        const val = parseFloat(frm.doc[field]);\n        if (!isNaN(val)) {\n            sum += val;\n            valid_scores++;\n        }\n    });\n\n    // Correct total: max 80 (not multiplied)\n    const cup = frappe.utils.flt(sum, 1);\n\n    frm.set_value('total_score', cup);\n    frm.refresh_field('total_score');\n\n    let grade;\n    if (cup >= 85)        grade = 1;\n    else if (cup >= 80)   grade = 2;\n    else if (cup >= 75)   grade = 3;\n    else if (cup >= 70)   grade = 4;\n    else if (cup >= 65)   grade = 5;\n    else                  grade = 6;\n\n    frm.set_value('grade', grade);\n    frm.refresh_field('grade');\n}\n\nfrappe.ui.form.on('Affective Assessment', {\n    onload(frm) {\n        update_total_and_grade(frm);\n    },\n    refresh(frm) {\n        update_total_and_grade(frm);\n    },\n    fragrance_rating(frm)     { update_total_and_grade(frm); },\n    aroma_rating(frm)         { update_total_and_grade(frm); },\n    flavor_rating(frm)        { update_total_and_grade(frm); },\n    aftertaste_rating(frm)    { update_total_and_grade(frm); },\n    acidity_rating(frm)       { update_total_and_grade(frm); },\n    sweetness_rating(frm)     { update_total_and_grade(frm); },\n    mouthfeel_rating(frm)     { update_total_and_grade(frm); },\n    overall_rating(frm)       { update_total_and_grade(frm); },\n});\n",
+  "view": "Form"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Client Script",
+  "dt": "Sales Order",
+  "enabled": 0,
+  "modified": "2025-07-14 00:50:16.419832",
+  "module": "roaster",
+  "name": "Auto Price List on Sales Order",
+  "script": "frappe.ui.form.on(\"Sales Order\",{\n    onload(frm){set_price_list(frm);},\n    customer(frm){set_price_list(frm);}  \n});\nfunction set_price_list(frm){\n    if(!frm.doc.customer)return;\n    frappe.db.get_value(\"Customer\",frm.doc.customer,\"customer_channel\")\n        .then(r=>{\n            const ch=r.message.customer_channel;\n            const pl=ch===\"Wholesale\"?\"Coffee Wholesale - ETB\":\"Coffee Retail - ETB\";\n            if(frm.doc.selling_price_list!==pl){frm.set_value(\"selling_price_list\",pl);}\n        });\n}",
+  "view": null
+ }
+]

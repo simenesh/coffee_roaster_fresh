@@ -1,0 +1,1 @@
+from .category_2_defect_entry import Category2DefectEntry

@@ -1,0 +1,229 @@
+   {
+     "doctype": "DocType",
+      "actions": [],
+     "allow_rename": 1,
+     "autoname": "format:RB-{roast_date}--{#####}",
+     "creation": "2025-07-13 10:00:00.000000",
+     "engine": "InnoDB",
+     "custom": 0,
+     "field_order": [
+      "roast_date",
+      "company",
+      "roast_profile",
+      "operator",
+      "roasting_machine",
+      "source_details_section",
+      "green_bean_item",
+      "source_warehouse",
+      "qty_to_roast",
+      "target_details_section",
+      "roasted_item",
+      "target_warehouse",
+      "output_qty",
+      "batch_no",
+      "column_break_1",
+      "roast_phases_section",
+      "charge_start",
+      "charge_end",
+      "charge_temp",
+      "drying_end",
+      "maillard_end",
+      "development_end",
+      "results_section",
+      "weight_loss_percentage",
+      "qc_score",
+      "notes"
+     ],
+     "fields": [
+      {
+       "fieldname": "roast_date",
+       "fieldtype": "Date",
+       "label": "Roast Date",
+       "reqd": 1,
+       "default": "Today"
+      },
+      {
+       "fieldname": "company",
+       "fieldtype": "Link",
+       "label": "Company",
+       "options": "Company",
+       "reqd": 1,
+       "default": "frappe.defaults.get_user_default('Company')"
+      },
+      {
+       "fieldname": "roast_profile",
+       "fieldtype": "Link",
+       "label": "Roast Profile",
+       "options": "Roast Profile"
+      },
+      {
+       "fieldname": "operator",
+       "fieldtype": "Link",
+       "label": "Roasting Operator",
+       "options": "User"
+      },
+      {
+       "fieldname": "roasting_machine",
+       "fieldtype": "Link",
+       "label": "Roasting Machine",
+       "options": "Roasting Machine"
+      },
+      {
+       "fieldname": "source_details_section",
+       "fieldtype": "Section Break",
+       "label": "Source Green Beans"
+      },
+      {
+       "fieldname": "green_bean_item",
+       "fieldtype": "Link",
+       "label": "Green Bean Item",
+       "options": "Item",
+       "reqd": 1
+      },
+      {
+       "fieldname": "source_warehouse",
+       "fieldtype": "Link",
+       "label": "Source Warehouse",
+       "options": "Warehouse",
+       "reqd": 1
+      },
+      {
+       "fieldname": "qty_to_roast",
+       "fieldtype": "Float",
+       "label": "Input Weight (kg)",
+       "reqd": 1
+      },
+      {
+       "fieldname": "target_details_section",
+       "fieldtype": "Section Break",
+       "label": "Roasted Coffee Output"
+      },
+      {
+       "fieldname": "roasted_item",
+       "fieldtype": "Link",
+       "label": "Roasted Item (Finished Good)",
+       "options": "Item",
+       "reqd": 1
+      },
+      {
+       "fieldname": "target_warehouse",
+       "fieldtype": "Link",
+       "label": "Target Warehouse",
+       "options": "Warehouse",
+       "reqd": 1
+      },
+      {
+       "fieldname": "output_qty",
+       "fieldtype": "Float",
+       "label": "Output Weight (kg)"
+      },
+      {
+       "fieldname": "batch_no",
+       "fieldtype": "Link",
+       "label": "Roasted Coffee Batch No",
+       "options": "Batch",
+       "read_only": 1
+      },
+      {
+       "fieldname": "column_break_1",
+       "fieldtype": "Column Break"
+      },
+      {
+       "fieldname": "roast_phases_section",
+       "fieldtype": "Section Break",
+       "label": "Roast Phases"
+      },
+      {
+       "fieldname": "charge_start",
+       "fieldtype": "Datetime",
+       "label": "Charge Start Time"
+      },
+      {
+       "fieldname": "charge_end",
+       "fieldtype": "Datetime",
+       "label": "Charge End Time"
+      },
+      {
+       "fieldname": "charge_temp",
+       "fieldtype": "Float",
+       "label": "Charge Temp (°C)"
+      },
+      {
+       "fieldname": "drying_end",
+       "fieldtype": "Datetime",
+       "label": "Drying End Time ('Yellowing')"
+      },
+      {
+       "fieldname": "maillard_end",
+       "fieldtype": "Datetime",
+       "label": "Maillard End Time ('First Crack')"
+      },
+      
+      {
+       "fieldname": "development_end",
+       "fieldtype": "Datetime",
+       "label": "Development End Time ('Drop')"
+      },
+      {
+       "fieldname": "results_section",
+       "fieldtype": "Section Break",
+       "label": "Results & Quality Control"
+      },
+      {
+       "fieldname": "weight_loss_percentage",
+       "fieldtype": "Percent",
+       "label": "Weight Loss (%)",
+       "read_only": 1
+      },
+      {
+       "fieldname": "qc_score",
+       "fieldtype": "Int",
+       "label": "QC Score (Cupping)"
+      },
+      {
+       "fieldname": "notes",
+       "fieldtype": "Small Text",
+       "label": "Notes"
+      }
+     ],
+     "links": [],
+     "module": "roaster",
+     "name": "Roast Batch",
+     "permissions": [
+      {
+       "create": 1,
+       "delete": 1,
+       "email": 1,
+       "export": 1,
+       "print": 1,
+       "read": 1,
+       "report": 1,
+       "role": "System Manager",
+       "share": 1,
+       "submit": 1,
+       "write": 1,
+       "cancel": 1
+      },
+      {
+       "create": 1,
+       "read": 1,
+       "role": "Roasting Operator",
+       "write": 1
+      },
+      {
+       "create": 1,
+       "read": 1,
+       "role": "Roasting Manager",
+       "submit": 1,
+       "write": 1
+      },
+      {
+       "read": 1,
+       "role": "QC Officer",
+       "write": 1
+      }
+     ],
+     "sort_field": "modified",
+     "sort_order": "DESC",
+     "track_changes": 1
+    }

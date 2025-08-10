@@ -1,0 +1,163 @@
+{
+  "doctype": "DocType",
+  "name": "Roaster Settings",
+  "module": "Roaster",
+  "custom": 1,
+  "istable": 0,
+  "editable_grid": 0,
+  "track_changes": 1,
+  "track_views": 1,
+  "is_single": 1,
+  "autoname": "field:default_company",
+  "sort_field": "modified",
+  "sort_order": "desc",
+  "show_in_global_search": 1,
+  "show_in_list_view": 1,
+  "global search": 1,
+  "fields_in_list_view": [
+    "default_roasting_machine",
+    "default_batch_size",
+    "default_qc_score_threshold",
+    "default_packaging_item"
+  ],
+  "permissions": [
+    {
+      "role": "System Manager",
+      "read": 1,
+      "write": 1,
+      "create": 1,
+      "delete": 1,
+      "Submit": 1,
+      "Cancel": 1,
+      "Amend": 1
+    }
+  ],
+  "fields": [
+    {
+      "fieldname": "default_roast_machine",
+      "label": "Default Roast Machine",
+      "fieldtype": "Link",
+      "options": "Roasting Machine"
+    },
+    {
+      "fieldname": "default_batch_size",
+      "label": "Default Batch Size (Kg)",
+      "fieldtype": "Float",
+      "default": 5
+    },
+    {
+      "fieldname": "default_qc_score_threshold",
+      "label": "Minimum QC Score Threshold",
+      "fieldtype": "Float",
+      "default": 80
+    },
+    {
+      "fieldname": "default_packaging_material",
+      "label": "Default Packaging Material",
+      "fieldtype": "Link",
+      "options": "Packaging Item"
+    },
+    {
+      "fieldname": "default_income_account",
+      "label": "Default Income Account",
+      "fieldtype": "Link",
+      "options": "Account"
+    },
+    {
+      "fieldname": "default_expense_account",
+      "label": "Default Expense Account",
+      "fieldtype": "Link",
+      "options": "Account"
+    },
+  {
+  "fieldname": "vat_rate",
+  "label": "Default VAT Rate (%)",
+  "fieldtype": "Float",
+  "default": 15
+},
+{
+  "fieldname": "vat_account",
+  "label": "Default VAT Account",
+  "fieldtype": "Link",
+  "options": "Account",
+  "reqd": 1
+},
+    {
+  "fieldname": "withholding_rate",
+  "label": "Withholding Rate (%)",
+  "fieldtype": "Float"
+},
+{
+  "fieldname": "withholding_account",
+  "label": "Withholding Account",
+  "fieldtype": "Link",
+  "options": "Account"
+},
+    {
+      "fieldname": "enable_auto_qc_blocking",
+      "label": "Enable QC Auto Blocking",
+      "fieldtype": "Check",
+      "default": 0
+    },
+    {
+      "fieldname": "auto_assign_machine",
+      "label": "Auto-Assign Default Machine to Batches",
+      "fieldtype": "Check",
+      "default": 1
+    },
+    {
+      "fieldname": "batch_naming_series",
+      "label": "Batch Naming Series",
+      "fieldtype": "Data",
+      "default": "RB-{YYYY}-{MM}-{#####}"
+    },
+    {
+      "fieldname": "default_company",
+      "label": "Default Company",
+      "fieldtype": "Link",
+      "options": "Company"
+    },
+    {
+      "fieldname": "invoice_footer_note",
+      "label": "Custom Invoice Footer Note",
+      "fieldtype": "Small Text"
+    },
+    {
+      "fieldname": "default_currency",
+      "label": "Default Currency",
+      "fieldtype": "Link",
+      "options": "Currency",
+      "default": "ETB"
+    },
+    {
+      "fieldname": "default_warehouse",
+      "label": "Default Warehouse",
+      "fieldtype": "Link",
+      "options": "Warehouse"
+    },
+    {
+      "fieldname": "enable_batch_costing",
+      "label": "Enable Batch Costing",
+      "fieldtype": "Check",
+      "default": 1
+    },
+    {
+      "fieldname": "enable_packaging_tracking",
+      "label": "Enable Packaging Tracking",
+      "fieldtype": "Check",
+      "default": 1
+  }
+],
+  "validators": [
+    {
+      "fieldname": "default_batch_size",
+      "condition": "value > 0",
+      "message": "Default Batch Size must be greater than 0"
+    },
+    {
+      "fieldname": "default_qc_score_threshold",
+      "condition": "value >= 0 && value <= 100",
+      "message": "QC Score Threshold must be between 0 and 100"
+    }
+  ]
+} 

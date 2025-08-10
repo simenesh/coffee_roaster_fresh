@@ -1,0 +1,19 @@
+{
+  "doctype": "DocType",
+  "name": "Category 1 Defect Entry",
+  "module": "roaster",
+  "custom": 1,
+  "autoname": "C1DEF-.YYYY.-.####",
+  "fields": [
+    {"fieldname":"roast_batch","label":"Roast Batch","fieldtype":"Link","options":"Roast Batch","reqd":1},
+    {"fieldname":"defect_type","label":"Defect Type","fieldtype":"Select","options":"Cracked Beans\nBlack Beans\nMold","reqd":1},
+    {"fieldname":"count","label":"Count","fieldtype":"Int","reqd":1},
+    {"fieldname":"inspector","label":"Inspector","fieldtype":"Link","options":"User"},
+    {"fieldname":"assessment_date","label":"Assessment Date","fieldtype":"Date"},
+    {"fieldname":"notes","label":"Notes","fieldtype":"Text"}
+  ],
+  "permissions": [
+    {"role":"System Manager","read":1,"write":1,"create":1,"delete":1},
+    {"role":"Roaster","read":1,"write":1,"create":1}
+  ]
+}

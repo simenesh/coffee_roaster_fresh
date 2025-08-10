@@ -1,0 +1,563 @@
+{
+  "doctype": "DocType",
+  "name": "Physical Assessment",
+  "module": "roaster",
+  "custom": 1,
+   "autoname": "format:{MM}{YY}{#####}",
+  "fields": [
+ {
+      "fieldname": "roast_batch",
+      "label": "Roast Batch",
+      "fieldtype": "Link",
+      "options": "Roast Batch",
+      "reqd": 1
+    },
+    {
+      "fieldname": "col_break_0",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "sample_id",
+      "label": "Sample ID",
+      "fieldtype": "Data",
+      "hidden": 0,
+      "read_only": 1
+    },
+    {
+      "fieldname": "col_break_1",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "sample_weight",
+      "label": "Sample Weight (g)",
+      "fieldtype": "Float",
+      "default": 350,
+      "read_only": 1
+    },
+    {
+      "fieldname": "sec_break_color",
+      "fieldtype": "Section Break",
+      "label": "Color Assessment"
+    },
+    {
+      "fieldname": "blue_green",
+      "label": "Blue-Green",
+      "fieldtype": "Check"
+    },
+    {
+      "fieldname": "bluish_green",
+      "label": "Bluish-Green",
+      "fieldtype": "Check"
+    },
+    {
+      "fieldname": "col_break_2",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "green",
+      "label": "Green",
+      "fieldtype": "Check"
+    },
+    {
+      "fieldname": "greenish",
+      "label": "Greenish",
+      "fieldtype": "Check"
+    },
+    {
+      "fieldname": "col_break_3",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "yellow_green",
+      "label": "Yellow-Green",
+      "fieldtype": "Check"
+    },
+    {
+      "fieldname": "pale_yellow",
+      "label": "Pale Yellow",
+      "fieldtype": "Check"
+    },
+    {
+      "fieldname": "col_break_4",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "yellowish",
+      "label": "Yellowish",
+      "fieldtype": "Check"
+    },
+    {
+      "fieldname": "brownish",
+      "label": "Brownish",
+      "fieldtype": "Check"
+    },
+    {
+      "fieldname": "sec_break_cat1",
+      "fieldtype": "Section Break",
+      "label": "Defects Category 1"
+    },
+    {
+      "fieldname": "full_black_count",
+      "label": "Full Black Count",
+      "fieldtype": "Int",
+      "default": 0
+    },
+    {
+      "fieldname": "full_black_defects",
+      "label": "Full Black (Defects)",
+      "fieldtype": "Float",
+      "read_only": 1
+    },
+    {
+      "fieldname": "full_sour_count",
+      "label": "Full Sour Count",
+      "fieldtype": "Int",
+      "default": 0
+    },
+    {
+      "fieldname": "full_sour_defects",
+      "label": "Full Sour (Defects)",
+      "fieldtype": "Float",
+      "read_only": 1
+    },
+    {
+      "fieldname": "col_break_5",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "dried_cherry_count",
+      "label": "Dried Cherry Count",
+      "fieldtype": "Int",
+      "default": 0
+    },
+    {
+      "fieldname": "dried_cherry_defects",
+      "label": "Dried Cherry (Defects)",
+      "fieldtype": "Float",
+      "read_only": 1
+    },
+    {
+      "fieldname": "fungus_damage_count",
+      "label": "Fungus Damage Count",
+      "fieldtype": "Int",
+      "default": 0
+    },
+    {
+      "fieldname": "fungus_damage_defects",
+      "label": "Fungus Damage (Defects)",
+      "fieldtype": "Float",
+      "read_only": 1
+    },
+    {
+      "fieldname": "col_break_6",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "foreign_matter_count",
+      "label": "Foreign Matter Count",
+      "fieldtype": "Int",
+      "default": 0
+    },
+    {
+      "fieldname": "foreign_matter_defects",
+      "label": "Foreign Matter (Defects)",
+      "fieldtype": "Float",
+      "read_only": 1
+    },
+    {
+      "fieldname": "severe_insect_damage_count",
+      "label": "Severe Insect Damage Count",
+      "fieldtype": "Int",
+      "default": 0
+    },
+    {
+      "fieldname": "severe_insect_damage_defects",
+      "label": "Severe Insect Damage (Defects)",
+      "fieldtype": "Float",
+      "read_only": 1
+    },
+    {
+      "fieldname": "sec_break_cat2",
+      "fieldtype": "Section Break",
+      "label": "Defects Category 2"
+    },
+    {
+      "fieldname": "partial_black_count",
+      "label": "Partial Black Count",
+      "fieldtype": "Int",
+      "default": 0
+    },
+    {
+      "fieldname": "partial_black_defects",
+      "label": "Partial Black (Defects)",
+      "fieldtype": "Float",
+      "read_only": 1
+    },
+    {
+      "fieldname": "partial_sour_count",
+      "label": "Partial Sour Count",
+      "fieldtype": "Int",
+      "default": 0
+    },
+    {
+      "fieldname": "partial_sour_defects",
+      "label": "Partial Sour (Defects)",
+      "fieldtype": "Float",
+      "read_only": 1
+    },
+    {
+      "fieldname": "parchment_count",
+      "label": "Parchment Count",
+      "fieldtype": "Int",
+      "default": 0
+    },
+    {
+      "fieldname": "parchment_defects",
+      "label": "Parchment (Defects)",
+      "fieldtype": "Float",
+      "read_only": 1
+    },
+    {
+      "fieldname": "floater_count",
+      "label": "Floater Count",
+      "fieldtype": "Int",
+      "default": 0
+    },
+    {
+      "fieldname": "floater_defects",
+      "label": "Floater (Defects)",
+      "fieldtype": "Float",
+      "read_only": 1
+    },
+    {
+      "fieldname": "col_break_7",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "immature_count",
+      "label": "Immature/Unripe Count",
+      "fieldtype": "Int",
+      "default": 0
+    },
+    {
+      "fieldname": "immature_defects",
+      "label": "Immature/Unripe (Defects)",
+      "fieldtype": "Float",
+      "read_only": 1
+    },
+    {
+      "fieldname": "withered_count",
+      "label": "Withered Count",
+      "fieldtype": "Int",
+      "default": 0
+    },
+    {
+      "fieldname": "withered_defects",
+      "label": "Withered (Defects)",
+      "fieldtype": "Float",
+      "read_only": 1
+    },
+    {
+      "fieldname": "shell_count",
+      "label": "Shell Count",
+      "fieldtype": "Int",
+      "default": 0
+    },
+    {
+      "fieldname": "shell_defects",
+      "label": "Shell (Defects)",
+      "fieldtype": "Float",
+      "read_only": 1
+    },
+    {
+      "fieldname": "col_break_8",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "broken_chipped_count",
+      "label": "Broken/Chipped/Cut Count",
+      "fieldtype": "Int",
+      "default": 0
+    },
+    {
+      "fieldname": "broken_chipped_defects",
+      "label": "Broken/Chipped/Cut (Defects)",
+      "fieldtype": "Float",
+      "read_only": 1
+    },
+    {
+      "fieldname": "hull_husk_count",
+      "label": "Hull/Husk Count",
+      "fieldtype": "Int",
+      "default": 0
+    },
+    {
+      "fieldname": "hull_husk_defects",
+      "label": "Hull/Husk (Defects)",
+      "fieldtype": "Int",
+      "read_only": 1
+    },
+    {
+      "fieldname": "slight_insect_damage_count",
+      "label": "Slight Insect Damage Count",
+      "fieldtype": "Int",
+      "default": 0
+    },
+    {
+      "fieldname": "slight_insect_damage_defects",
+      "label": "Slight Insect Damage (Defects)",
+      "fieldtype": "Int",
+      "read_only": 1
+    },
+    {
+      "fieldname": "sec_break_total_defects",
+      "fieldtype": "Section Break"
+    },
+    {
+      "fieldname": "total_full_defects",
+      "label": "Total Full Defects",
+      "fieldtype": "Int",
+      "read_only": 1
+    },
+    {
+      "fieldname": "sec_break_moisture",
+      "fieldtype": "Section Break"
+    },
+    {
+      "fieldname": "moisture",
+      "label": "Moisture (%)",
+      "fieldtype": "Float",
+      "description": "Meter calibrated to ISO 6673"
+    },
+       
+  {
+    "fieldname": "sec_break_screens",
+    "fieldtype": "Section Break",
+    "label": "Screen Sizes"
+  },
+  {
+    "fieldname": "screen10_count",
+    "label": "#10 Count (g)",
+    "fieldtype": "Int",
+    "default": 0
+  },
+  {
+    "fieldname": "screen10_percent",
+    "label": "#10 %",
+    "fieldtype": "Float",
+    "read_only": 1
+  },
+  {
+    "fieldname": "screen11_count",
+    "label": "#11 Count (g)",
+    "fieldtype": "Int",
+    "default": 0
+  },
+  {
+    "fieldname": "screen11_percent",
+    "label": "#11 %",
+    "fieldtype": "Float",
+    "read_only": 1
+  },
+  {
+    "fieldname": "screen12_count",
+    "label": "#12 Count (g)",
+    "fieldtype": "Int",
+    "default": 0
+  },
+  {
+    "fieldname": "screen12_percent",
+    "label": "#12 %",
+    "fieldtype": "Int",
+    "read_only": 1
+  },
+  {
+    "fieldname": "screen13_count",
+    "label": "#13 Count (g)",
+    "fieldtype": "Int",
+    "default": 0
+  },
+  {
+    "fieldname": "screen13_percent",
+    "label": "#13 %",
+    "fieldtype": "Int",
+    "read_only": 1
+  },
+  {
+    "fieldname": "col_break_9",
+    "fieldtype": "Column Break"
+  },
+  {
+    "fieldname": "screen14_count",
+    "label": "#14 Count (g)",
+    "fieldtype": "Int",
+    "default": 0
+  },
+  {
+    "fieldname": "screen14_percent",
+    "label": "#14 %",
+    "fieldtype": "Int",
+    "read_only": 1
+  },
+  {
+    "fieldname": "screen15_count",
+    "label": "#15 Count (g)",
+    "fieldtype": "Int",
+    "default": 0
+  },
+  {
+    "fieldname": "screen15_percent",
+    "label": "#15 %",
+    "fieldtype": "Int",
+    "read_only": 1
+  },
+  {
+    "fieldname": "screen16_count",
+    "label": "#16 Count (g)",
+    "fieldtype": "Int",
+    "default": 0
+  },
+  {
+    "fieldname": "screen16_percent",
+    "label": "#16 %",
+    "fieldtype": "Int",
+    "read_only": 1
+  },
+  {
+    "fieldname": "screen17_count",
+    "label": "#17 Count (g)",
+    "fieldtype": "Int",
+    "default": 0
+  },
+  {
+    "fieldname": "screen17_percent",
+    "label": "#17 %",
+    "fieldtype": "Int",
+    "read_only": 1
+  },
+  {
+    "fieldname": "col_break_10",
+    "fieldtype": "Column Break"
+  },
+  {
+    "fieldname": "screen18_count",
+    "label": "#18 Count (g)",
+    "fieldtype": "Int",
+    "default": 0
+  },
+  {
+    "fieldname": "screen18_percent",
+    "label": "#18 %",
+    "fieldtype": "Int",
+    "read_only": 1
+  },
+  {
+    "fieldname": "screen19_count",
+    "label": "#19 Count (g)",
+    "fieldtype": "Int",
+    "default": 0
+  },
+  {
+    "fieldname": "screen19_percent",
+    "label": "#19 %",
+    "fieldtype": "Int",
+    "read_only": 1
+  },
+  {
+    "fieldname": "screen20_count",
+    "label": "#20 Count (g)",
+    "fieldtype": "Int",
+    "default": 0
+  },
+  {
+    "fieldname": "screen20_percent",
+    "label": "#20 %",
+    "fieldtype": "Int",
+    "read_only": 1
+  },
+  {
+    "fieldname": "screen21_count",
+    "label": "#21 Count (g)",
+    "fieldtype": "Int",
+    "default": 0
+  },
+  {
+    "fieldname": "screen21_percent",
+    "label": "#21 %",
+    "fieldtype": "Int",
+    "read_only": 1
+  },
+  {
+    "fieldname": "col_break_11",
+    "fieldtype": "Column Break"
+  },
+  {
+    "fieldname": "screen22_count",
+    "label": "#22 Count (g)",
+    "fieldtype": "Int",
+    "default": 0
+  },
+  {
+    "fieldname": "screen22_percent",
+    "label": "#22 %",
+    "fieldtype": "Int",
+    "read_only": 1
+  },
+  {
+    "fieldname": "screen23_count",
+    "label": "#23 Count (g)",
+    "fieldtype": "Int",
+    "default": 0
+  },
+  {
+    "fieldname": "screen23_percent",
+    "label": "#23 %",
+    "fieldtype": "Int",
+    "read_only": 1
+  },
+{
+  "fieldname": "total_score",
+  "label": "Total Score",
+  "fieldtype": "Float",
+  "read_only": 1,
+  "in_list_view": 1,
+  "description": "Computed score based on defect counts and other factors"
+},
+    {
+      "fieldname": "sec_break_summary",
+      "fieldtype": "Section Break",
+      "label": "Summary & Grade",
+       "read_only": 1
+    },
+     {
+      "fieldname": "max_screen_size",
+      "label": "Max Screen Size",
+      "fieldtype": "Int",
+      "read_only": 1,
+      "description": "Screen size corresponding to the highest bean count"
+    },
+    {
+  "fieldname": "screen_summary",
+  "label": "Screen Size Summary",
+  "fieldtype": "Data",
+  "read_only": 1,
+  "in_list_view": 0,
+  "translatable": 0
+},
+{
+      "fieldname": "grade",
+      "label": "Grade",
+      "fieldtype": "Int",
+      "read_only": 1
+    }
+  ],
+  "permissions": [
+    {
+      "role": "System Manager",
+      "read": 1,
+      "write": 1,
+      "create": 1,
+      "delete": 1
+    }
+  ]
+}

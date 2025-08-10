@@ -1,0 +1,55 @@
+{
+  "doctype": "DocType",
+  "name": "Roast Profile",
+  "module": "roaster",
+  "custom": 1,
+  "autoname": "format:RB-{roast_month_year}-{#####}",
+  "fields": [
+    {
+      "fieldname": "profile_name",
+      "label": "Profile Name",
+      "fieldtype": "Data",
+      "reqd": 1
+    },
+    {
+      "fieldname": "roast_level",
+      "label": "Roast Level",
+      "fieldtype": "Select",
+      "options": "Light\nMedium\nMedium-Dark\nDark\nEspresso\nCustom",
+      "reqd": 1
+    },
+    {
+      "fieldname": "charge_temp",
+      "label": "Charge Temperature",
+      "fieldtype": "Int",
+      "reqd": 1
+    },
+    {
+      "fieldname": "development_time",
+      "label": "Development Time (min)",
+      "fieldtype": "Float",
+      "reqd": 1
+    },
+    {
+      "fieldname": "target_agtron",
+      "label": "Target Agtron",
+      "fieldtype": "Int",
+      "reqd": 1
+    }
+  ],
+  "permissions": [
+    {
+      "role": "System Manager",
+      "read": 1,
+      "write": 1,
+      "create": 1,
+      "delete": 1
+    },
+    {
+      "role": "Roaster",
+      "read": 1,
+      "write": 1,
+      "create": 1
+    }
+  ]
+}

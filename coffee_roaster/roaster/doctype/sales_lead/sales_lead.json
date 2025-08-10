@@ -1,0 +1,40 @@
+{
+  "doctype": "DocType",
+  "name": "Sales Lead",
+  "module": "Roaster",
+  "custom": 1,
+  "autoname": "format:LEAD-{YY}{MM}-{#####}",
+  "fields": [
+    {
+      "fieldname": "lead_name",
+      "label": "Lead Name",
+      "fieldtype": "Data",
+      "reqd": 1
+    },
+    {
+      "fieldname": "company_name",
+      "label": "Company Name",
+      "fieldtype": "Data"
+    },
+    {
+      "fieldname": "email",
+      "label": "Email",
+      "fieldtype": "Data"
+    },
+    {
+      "fieldname": "status",
+      "label": "Status",
+      "fieldtype": "Select",
+      "options": "Open\nContacted\nQualified\nConverted\nLost"
+    }
+  ],
+  "permissions": [
+    {
+      "role": "System Manager",
+      "read": 1,
+      "write": 1,
+      "create": 1,
+      "delete": 1
+    }
+  ]
+}

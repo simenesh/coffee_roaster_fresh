@@ -1,0 +1,28 @@
+{
+    "doctype": "DocType",
+    "name": "Screen Size Entry",
+    "module": "roaster",
+    "custom": 1,
+    "istable": 1,
+    "fields": [
+        {
+            "fieldname": "screen_size",
+            "label": "Screen Size",
+            "fieldtype": "Data",
+            "in_list_view": 1
+        },
+        {
+            "fieldname": "count",
+            "label": "Count (g)",
+            "fieldtype": "Float",
+            "in_list_view": 1
+        },
+        {
+            "fieldname": "percent",
+            "label": "%",
+            "fieldtype": "Float",
+            "in_list_view": 1,
+            "read_only": 1
+        }
+    ]
+}

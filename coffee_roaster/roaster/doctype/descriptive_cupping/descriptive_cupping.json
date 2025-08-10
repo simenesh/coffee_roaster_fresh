@@ -1,0 +1,17 @@
+{
+  "doctype": "DocType",
+  "name": "Descriptive Cupping",
+  "module": "roaster",
+  "custom": 1,
+  "autoname": "DCUP-.YYYY.-.####",
+  "fields": [
+    {"fieldname":"roasting_batch","label":"Roasting Batch","fieldtype":"Link","options":"Roasting Batch","reqd":1},
+    {"fieldname":"attribute","label":"Attribute","fieldtype":"Select","options":"Aroma\nFlavor\nAcidity\nBody\nAftertaste","reqd":1},
+    {"fieldname":"score","label":"Score","fieldtype":"Float","reqd":1},
+    {"fieldname":"notes","label":"Notes","fieldtype":"Text"}
+  ],
+  "permissions": [
+    {"role":"System Manager","read":1,"write":1,"create":1,"delete":1},
+    {"role":"Roaster","read":1,"write":1,"create":1}
+  ]
+}

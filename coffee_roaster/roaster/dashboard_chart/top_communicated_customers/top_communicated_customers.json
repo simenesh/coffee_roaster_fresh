@@ -1,0 +1,51 @@
+{
+  "doctype": "Dashboard Chart",
+  "chart_name": "Top Communicated Customers",
+  "name": "Top Communicated Customers",
+  "chart_type": "Bar",
+  "document_type": "Communication",
+  "is_standard": 0,
+  "is_public": 1,
+"time_interval": "Monthly",
+  "timespan": "Last Year",
+  "timeseries": 1,
+   "timeseries_field": "communication_date",
+  "group_by_based_on": "reference_name",
+  "aggregate_function": "count",
+  "value_based_on": "name",
+  "filters_json": "[ ]",
+  "based_on": "communication_date",
+  "report_name": "Top Communicated Customers",
+
+  "color": "#36A2EB",
+  "custom_options": "",
+  "roles": [
+    {
+      "role": "System Manager"
+    },
+    {
+      "role": "CRM Manager"
+    }
+  ],
+  "chart_users": [
+    {
+      "doctype": "Dashboard Chart User",
+      "role": "System Manager",
+      "parenttype": "Dashboard Chart",
+      "parentfield": "chart_users"
+    },
+    {
+      "doctype": "Dashboard Chart User",
+      "role": "CRM Manager",
+      "parenttype": "Dashboard Chart",
+      "parentfield": "chart_users"
+    }
+  ],
+  "module": "CRM",
+  "use_report_chart": 0,
+  "is_custom": 1,
+  "data": {
+    "labels": [],
+    "datasets": []
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "doctype": "DocType",
+  "name": "Roasting Overhead Template",
+  "module": "roaster",
+  "custom": 0,
+  "istable": 0,
+  "fields": [
+    { "fieldname": "template_name", "label": "Template Name", "fieldtype": "Data", "reqd": 1 },
+    { "fieldname": "items", "label": "Overhead Items", "fieldtype": "Table", "options": "Roasting Overhead Template Item" }
+  ]
+}

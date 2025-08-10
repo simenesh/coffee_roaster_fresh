@@ -1,0 +1,15 @@
+{
+  "doctype": "DocType",
+  "name": "Packaging Cost Item",
+  "module": "roaster",
+  "custom": 0,
+  "istable": 1,
+  "editable_grid": 1,
+  "fields": [
+    { "fieldname": "packaging_item", "label": "Packaging Item", "fieldtype": "Link", "options": "Item", "reqd": 1, "in_list_view": 1 },
+    { "fieldname": "uom",            "label": "UOM",            "fieldtype": "Link", "options": "UOM", "default": "Nos" },
+    { "fieldname": "qty",            "label": "Qty",            "fieldtype": "Float", "reqd": 1 },
+    { "fieldname": "rate",           "label": "Rate",           "fieldtype": "Currency", "reqd": 1 },
+    { "fieldname": "amount",         "label": "Amount",         "fieldtype": "Currency", "read_only": 1 }
+  ]
+}

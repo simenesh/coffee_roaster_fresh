@@ -1,0 +1,31 @@
+{
+  "doctype": "Dashboard Chart",
+  "name": "lead_interest_level_chart",
+  "chart_name": "Lead Interest Level Chart",
+  "chart_type": "Bar",
+  "document_type": "Lead",
+  "based_on": "interaction_date",
+  "use_report_chart": 1,
+  "report_name": "Lead Interest Level",
+  "filters_json": "[]",
+  "timespan": "",
+  "time_interval": "",
+  "timeseries": 1,
+  "is_custom": 1,
+  "module": "Roaster",
+  "chart_users": [
+  {
+    "doctype": "Dashboard Chart User",
+    "role": "System Manager",
+    "parenttype": "Dashboard Chart",
+    "parentfield": "chart_users"
+  },
+  {
+    "doctype": "Dashboard Chart User",
+    "role": "CRM Manager",
+    "parenttype": "Dashboard Chart",
+    "parentfield": "chart_users"
+  }
+]
+
+}

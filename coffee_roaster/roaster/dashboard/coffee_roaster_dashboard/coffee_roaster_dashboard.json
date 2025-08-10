@@ -1,0 +1,17 @@
+{
+  "doctype": "Dashboard",
+  "name": "Coffee Roaster Dashboard",
+  "charts": [
+    {
+      "chart": "Top Communicated Customers",
+      "label": "Top Communicated Customers",
+      "width": 6
+    },
+    {
+      "chart": "Customer Interaction Timeline",
+      "label": "Customer Interaction Timeline",
+      "width": 6
+    }
+  ],
+  "created_by": "Administrator"
+}

@@ -1,0 +1,64 @@
+ {
+     "doctype": "Workflow",
+     "document_type": "Roast Batch",
+     "is_active": 1,
+     "name": "Roast Batch Workflow",
+     "send_email_alert": 0,
+     "states": [
+      {
+       "allow_edit": "Roasting Operator",
+       "doc_status": 0,
+       "state": "Scheduled"
+      },
+      {
+       "allow_edit": "Roasting Operator",
+       "doc_status": 0,
+       "state": "In Progress"
+      },
+      {
+       "allow_edit": "QC Officer",
+       "doc_status": 0,
+       "state": "Quality Control"
+      },
+      {
+       "allow_edit": "System Manager",
+       "doc_status": 1,
+       "state": "Completed"
+      },
+      {
+       "allow_edit": "System Manager",
+       "doc_status": 2,
+       "state": "Cancelled"
+      }
+     ],
+     "transitions": [
+      {
+       "action": "Start Roasting",
+       "allowed": "Roasting Operator",
+       "next_state": "In Progress",
+       "state": "Scheduled"
+      },
+      {
+       "action": "Finish Roasting",
+       "allowed": "Roasting Operator",
+       "next_state": "Quality Control",
+       "state": "In Progress"
+      },
+      {
+       "action": "Approve and Complete",
+       "allowed": "QC Officer",
+       "condition": "doc.qc_score >= 80 and doc.output_qty > 0",
+       "next_state": "Completed",
+       "state": "Quality Control"
+      },
+      {
+       "action": "Fail and Cancel",
+       "allowed": "QC Officer",
+       "next_state": "Cancelled",
+       "state": "Quality Control",
+        "doc_status": 1,
+  "allow_edit": "System Manager"
+      }
+     ],
+     "workflow_state_field": "status"
+    }

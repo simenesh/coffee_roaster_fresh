@@ -1,0 +1,17 @@
+{
+  "doctype": "DocType",
+  "name": "Affective Cupping",
+  "module": "roaster",
+  "custom": 1,
+  "autoname": "ACUP-.YYYY.-.####",
+  "fields": [
+    {"fieldname":"roast_batch","label":"Roast Batch","fieldtype":"Link","options":"Roast Batch","reqd":1},
+    {"fieldname":"participant","label":"Participant","fieldtype":"Data","reqd":1},
+    {"fieldname":"liking_score","label":"Liking Score","fieldtype":"Float","reqd":1},
+    {"fieldname":"comments","label":"Comments","fieldtype":"Text"}
+  ],
+  "permissions": [
+    {"role":"System Manager","read":1,"write":1,"create":1,"delete":1},
+    {"role":"Roaster","read":1,"write":1,"create":1}
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "doctype": "DocType",
+  "name": "Master Route Plan",
+  "module": "Roaster",
+  "custom": 1,
+  "fields": [
+    {
+      "fieldname": "customer",
+      "fieldtype": "Link",
+      "options": "Customer",
+      "label": "Customer",
+      "reqd": 1
+    },
+    {
+      "fieldname": "sub_city",
+      "fieldtype": "Data",
+      "label": "Sub-City"
+    },
+    {
+      "fieldname": "address",
+      "fieldtype": "Data",
+      "label": "Address"
+    },
+    {
+      "fieldname": "outlet_type",
+      "fieldtype": "Select",
+      "label": "Outlet Type",
+      "options": "GOV\nNGO\nEMB\nCORP\nEDU\nSMKT\nEXPO\nRETAIL\nDIST\nCAF\nHOTEL\nREST"
+    },
+    {
+      "fieldname": "route_order",
+      "fieldtype": "Int",
+      "label": "Route Order"
+    },
+    {
+      "fieldname": "marketer",
+      "fieldtype": "Link",
+      "options": "User",
+      "label": "Assigned Marketer"
+    }
+  ],
+  "permissions": [
+    {
+      "role": "System Manager",
+      "read": 1,
+      "write": 1,
+      "create": 1
+    }
+  ],
+  "is_submittable": 0,
+  "istable": 0
+}

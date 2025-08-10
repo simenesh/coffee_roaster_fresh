@@ -1,0 +1,18 @@
+{
+  "doctype": "Report",
+  "name": "Roast Curve",
+  "ref_doctype": "Roast Machine Telemetry",
+  "module": "roaster",
+  "report_type": "Script Report",
+  "is_standard": "No",
+  "add_total_row": 0,
+  "filters": [
+    {
+      "fieldname": "roast_batch",
+      "label": "Roast Batch",
+      "fieldtype": "Link",
+      "options": "Roast Batch",
+      "reqd": 1
+    }
+  ]
+}

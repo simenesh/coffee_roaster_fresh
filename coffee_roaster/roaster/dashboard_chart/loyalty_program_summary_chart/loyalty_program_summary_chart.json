@@ -1,0 +1,31 @@
+{
+  "doctype": "Dashboard Chart",
+  "chart_name": "Loyalty Program Summary Chart",
+  "name": "loyalty_program_summary_chart",
+  "chart_type": "Bar",
+  "document_type": "Loyalty Profile",
+  "use_report_chart": 1,
+  "report_name": "Loyalty Profile Summary",
+  "based_on": "interaction_date",
+    "timespan": "",
+    "time_interval": "",
+    "timeseries": 1,
+    "filters_json": "[]",
+  "is_custom": 1,
+  "module": "Roaster",
+"chart_users": [
+  {
+    "doctype": "Dashboard Chart User",
+    "role": "System Manager",
+    "parenttype": "Dashboard Chart",
+    "parentfield": "chart_users"
+  },
+  {
+    "doctype": "Dashboard Chart User",
+    "role": "CRM Manager",
+    "parenttype": "Dashboard Chart",
+    "parentfield": "chart_users"
+  }
+]
+
+}

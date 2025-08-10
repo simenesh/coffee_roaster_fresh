@@ -1,0 +1,66 @@
+{
+  "doctype": "DocType",
+  "name": "Certification",
+  "module": "Roaster",
+  "custom": 1,
+  "autoname": "field:certificate_name",
+  "fields": [
+    {
+      "fieldname": "certificate_name",
+      "label": "Certificate Name",
+      "fieldtype": "Data",
+      "reqd": 1
+    },
+    {
+      "fieldname": "certificate_type",
+      "label": "Certificate Type",
+      "fieldtype": "Select",
+      "options": "4C\nFair Ttrade\nOrganic\nIRainforest Alliance\nOther",
+      "reqd": 1
+    },
+    {
+      "fieldname": "issued_to",
+      "label": "Issued To",
+      "fieldtype": "Link",
+      "options": "Customer",
+      "reqd": 1
+    },
+    {
+      "fieldname": "issue_date",
+      "label": "Issue Date",
+      "fieldtype": "Date"
+    },
+    {
+      "fieldname": "expiry_date",
+      "label": "Expiry Date",
+      "fieldtype": "Date"
+    },
+    {
+      "fieldname": "attachment",
+      "label": "Certificate File",
+      "fieldtype": "Attach"
+    },
+    {
+      "fieldname": "notes",
+      "label": "Remarks",
+      "fieldtype": "Small Text"
+    }
+  ],
+  "permissions": [
+    {
+      "role": "System Manager",
+      "read": 1,
+      "write": 1,
+      "create": 1,
+      "delete": 1
+    },
+    {
+      "role": "CRM Manager",
+      "read": 1,
+      "create": 1
+    }
+  ],
+  "is_submittable": 0,
+  "track_changes": 1,
+  "track_views": 1
+}

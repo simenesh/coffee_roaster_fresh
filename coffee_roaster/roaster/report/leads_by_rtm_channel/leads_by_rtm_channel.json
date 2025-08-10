@@ -1,0 +1,8 @@
+{
+  "doctype": "Report",
+  "name": "Leads by RTM Channel",
+  "ref_doctype": "Lead",
+  "report_type": "Script Report",
+  "is_standard": "Yes",
+  "module": "Roaster"
+}

@@ -1,0 +1,7 @@
+{
+  "doctype": "Print Format",
+  "name": "Roasting Batch",
+ "module": "roaster",
+  "doc_type": "Roast Batch",
+  "html": "<div>Roast Batch Report</div>"
+}

@@ -1,0 +1,14 @@
+{
+  "doctype": "DocType",
+  "name": "Combined Assessment",
+  "module": "roaster",
+  "custom": 1,
+
+  "fields": [
+    { "fieldname": "name",        "label": "Name",        "fieldtype": "Data" },
+    { "fieldname": "purpose",     "label": "Purpose",     "fieldtype": "Data" },
+    { "fieldname": "date",        "label": "Date",        "fieldtype": "Date" },
+    { "fieldname": "sample_no",   "label": "Sample No.",  "fieldtype": "Data" },
+    { "fieldname": "final_score", "label": "Final Score", "fieldtype": "Float" }
+  ]
+}

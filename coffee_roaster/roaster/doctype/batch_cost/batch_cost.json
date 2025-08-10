@@ -1,0 +1,32 @@
+{
+  "doctype": "DocType",
+  "name": "Batch Cost",
+  "module": "Roaster",
+  "custom": 0,
+  "istable": 0,
+  "editable_grid": 1,
+  "track_seen": 0,
+  "track_changes": 1,
+  "autoname": "field:batch_no",
+  "sort_field": "modified",
+  "sort_order": "desc",
+  "fields": [
+    { "fieldname": "batch_no",           "label": "Batch No",            "fieldtype": "Link",      "options": "Roast Batch", "reqd": 1, "in_list_view": 1 },
+    { "fieldname": "currency",           "label": "Currency",            "fieldtype": "Link",      "options": "Currency",    "default": "ETB" },
+    { "fieldname": "raw_bean_costs",     "label": "Raw Bean Costs",      "fieldtype": "Table",     "options": "Raw Bean Cost Item" },
+    { "fieldname": "overheads",          "label": "Overheads",           "fieldtype": "Table",     "options": "Overhead Item" },
+    { "fieldname": "packaging_costs",    "label": "Packaging Costs",     "fieldtype": "Table",     "options": "Packaging Cost Item" },
+    { "fieldname": "total_raw_beans_cost","label":"Total Raw Beans Cost","fieldtype": "Currency",  "read_only": 1 },
+    { "fieldname": "total_roasting_overhead","label":"Total Roasting Overhead","fieldtype": "Currency","read_only": 1 },
+    { "fieldname": "total_packaging_cost","label":"Total Packaging Cost","fieldtype": "Currency",  "read_only": 1 },
+    { "fieldname": "total_batch_cost",   "label": "Total Batch Cost",    "fieldtype": "Currency",  "read_only": 1 },
+    { "fieldname": "output_weight",      "label": "Output Weight (Kg)",  "fieldtype": "Float",     "read_only": 1, "description": "Pulled from Roast Batch" },
+    { "fieldname": "cost_per_kg",        "label": "Cost per Kg",         "fieldtype": "Currency",  "read_only": 1, "in_list_view": 1 },
+    { "fieldname": "status",             "label": "Status",              "fieldtype": "Select",    "options": "Draft\nSubmitted", "default": "Draft" }
+  ],
+  "permissions": [
+    { "role": "System Manager", "read": 1, "write": 1, "create": 1, "delete": 1 },
+    { "role": "Accounts Manager", "read": 1, "write": 1, "create": 1 },
+    { "role": "Roast Operator", "read": 1, "create": 1 }
+  ]
+}

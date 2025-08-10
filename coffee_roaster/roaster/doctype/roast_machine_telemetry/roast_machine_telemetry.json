@@ -1,0 +1,18 @@
+{
+  "doctype": "DocType",
+  "name": "Roast Machine Telemetry",
+  "module": "roaster",
+  "custom": 1,
+  "is_table": 0,
+  "editable_grid": 1,
+  "track_changes": 1,
+  "track_views": 0,
+  "fields": [
+    {"fieldname": "roast_batch", "label": "Roast Batch", "fieldtype": "Link", "options": "Roast Batch", "reqd": 1},
+    {"fieldname": "reading_time", "label": "Timestamp", "fieldtype": "Datetime", "reqd": 1, "in_list_view": 1},
+    {"fieldname": "bean_temp", "label": "Bean Temp (°C)", "fieldtype": "Float", "precision": 2},
+    {"fieldname": "environment_temp", "label": "Environment Temp (°C)", "fieldtype": "Float", "precision": 2},
+    {"fieldname": "ror", "label": "Rate of Rise (°C/min)", "fieldtype": "Float", "precision": 2}
+  ],
+  "indexes": [["roast_batch", "reading_time"]]
+}

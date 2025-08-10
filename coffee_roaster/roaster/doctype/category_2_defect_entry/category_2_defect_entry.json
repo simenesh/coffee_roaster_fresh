@@ -1,0 +1,19 @@
+{
+  "doctype": "DocType",
+  "name": "Category 2 Defect Entry",
+  "module": "roaster",
+  "custom": 1,
+  "autoname": "C2DEF-.YYYY.-.####",
+  "fields": [
+    {"fieldname":"roasting_batch","label":"Roasting Batch","fieldtype":"Link","options":"Roasting Batch","reqd":1},
+    {"fieldname":"defect_type","label":"Defect Type","fieldtype":"Select","options":"Quakers\nDull Beans\nOver-roast","reqd":1},
+    {"fieldname":"count","label":"Count","fieldtype":"Int"},
+    {"fieldname":"inspector","label":"Inspector","fieldtype":"Link","options":"User"},
+    {"fieldname":"assessment_date","label":"Assessment Date","fieldtype":"Date"},
+    {"fieldname":"notes","label":"Notes","fieldtype":"Text"}
+  ],
+  "permissions": [
+    {"role":"System Manager","read":1,"write":1,"create":1,"delete":1},
+    {"role":"Roaster","read":1,"write":1,"create":1}
+  ]
+}

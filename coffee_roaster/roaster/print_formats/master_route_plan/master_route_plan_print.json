@@ -1,0 +1,8 @@
+{
+  "doctype": "Print Format",
+  "name": "Master Route Plan Print",
+  "doc_type": "Master Route Plan",
+  "print_format_type": "Custom",
+  "html": "<table class=\"table table-bordered\">\n    <thead>\n        <tr>\n            <th>Customer</th>\n            <th>Sub-City</th>\n            <th>Address</th>\n            <th>Outlet Type</th>\n            <th>Route Order</th>\n            <th>Marketer</th>\n        </tr>\n    </thead>\n    <tbody>\n        {% for row in doc_list %}\n        <tr>\n            <td>{{ row.customer }}</td>\n            <td>{{ row.sub_city }}</td>\n            <td>{{ row.address }}</td>\n            <td>{{ row.outlet_type }}</td>\n            <td>{{ row.route_order }}</td>\n            <td>{{ row.marketer }}</td>\n        </tr>\n        {% endfor %}\n    </tbody>\n</table>",
+  "module": "Roaster"
+}
