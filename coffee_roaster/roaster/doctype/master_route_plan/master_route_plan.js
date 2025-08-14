@@ -8,3 +8,15 @@ frappe.ui.form.on("Master Route Plan", {
         }
     }
 });
+frappe.ui.form.on("Master Route Plan", {
+  route_no(frm) {
+    const map = {
+      1: "Monday", 2: "Tuesday", 3: "Wednesday",
+      4: "Thursday", 5: "Friday", 6: "Saturday", 7: "Sunday"
+    };
+    if (frm.doc.route_no && !frm.doc.day) {
+      frm.set_value("day", map[frm.doc.route_no] || "");
+    }
+  }
+});
+

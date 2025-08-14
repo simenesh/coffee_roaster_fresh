@@ -1,0 +1,95 @@
+{
+  "doctype": "DocType",
+  "name": "Roast Cylinder",
+  "module": "roaster",
+  "custom": 0,
+  "is_submittable": 0,
+  "editable_grid": 0,
+  "track_changes": 1,
+  "allow_copy": 0,
+  "allow_rename": 1,
+  "autoname": "format:CYL-{#####}",
+  "field_order": [
+    "cylinder_id",
+    "serial_no",
+    "capacity_kg",
+    "material",
+    "rpm",
+    "status",
+    "acquired_date",
+    "last_service_date",
+    "notes"
+  ],
+  "fields": [
+    {
+      "fieldname": "cylinder_id",
+      "fieldtype": "Data",
+      "label": "Cylinder ID",
+      "reqd": 1,
+      "unique": 1,
+      "in_list_view": 1,
+      "in_standard_filter": 1
+    },
+    {
+      "fieldname": "serial_no",
+      "fieldtype": "Data",
+      "label": "Serial No."
+    },
+    {
+      "fieldname": "capacity_kg",
+      "fieldtype": "Float",
+      "label": "Capacity (kg)",
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "material",
+      "fieldtype": "Select",
+      "label": "Material",
+      "options": "Steel\nCast Iron\nStainless Steel\nOther",
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "rpm",
+      "fieldtype": "Float",
+      "label": "Nominal RPM"
+    },
+    {
+      "fieldname": "status",
+      "fieldtype": "Select",
+      "label": "Status",
+      "options": "Active\nIn Maintenance\nRetired",
+      "default": "Active",
+      "in_list_view": 1,
+      "in_standard_filter": 1
+    },
+    {
+      "fieldname": "acquired_date",
+      "fieldtype": "Date",
+      "label": "Acquired Date"
+    },
+    {
+      "fieldname": "last_service_date",
+      "fieldtype": "Date",
+      "label": "Last Service Date"
+    },
+    {
+      "fieldname": "notes",
+      "fieldtype": "Small Text",
+      "label": "Notes"
+    }
+  ],
+  "permissions": [
+    {
+      "role": "System Manager",
+      "read": 1, "write": 1, "create": 1, "delete": 1, "print": 1, "email": 1, "export": 1
+    },
+    {
+      "role": "Roasting Manager",
+      "read": 1, "write": 1, "create": 1
+    },
+    {
+      "role": "Roasting Operator",
+      "read": 1
+    }
+  ]
+}

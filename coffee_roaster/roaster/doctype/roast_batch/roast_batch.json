@@ -51,10 +51,26 @@
        "default": "frappe.defaults.get_user_default('Company')"
       },
       {
+  "fieldname": "roast_cylinder",
+  "fieldtype": "Link",
+  "label": "Roast Cylinder",
+  "options": "Roast Cylinder",
+  "reqd": 1
+}, 
+{
+  "fieldname":"cylinder_capacity_kg",
+  "fieldtype":"Float",
+  "label":"Cylinder Capacity (kg)",
+  "read_only":1,
+  "fetch_from":"roast_cylinder.capacity_kg",
+  "fetch_if_empty":1
+},
+   {
        "fieldname": "roast_profile",
        "fieldtype": "Link",
        "label": "Roast Profile",
-       "options": "Roast Profile"
+       "options": "Roast Profile",
+        "reqd": 1
       },
       {
        "fieldname": "operator",
@@ -79,6 +95,14 @@
        "label": "Green Bean Item",
        "options": "Item",
        "reqd": 1
+      },
+      {
+        "fieldname": "Roast Batch Round",
+        "fieldtype": "Table",
+        "label": "Roast Batch Rounds",
+        "options": "Roast Batch Round",
+        "in_place_edit": 1,
+        "reqd": 1
       },
       {
        "fieldname": "source_warehouse",
@@ -117,6 +141,47 @@
        "fieldtype": "Float",
        "label": "Output Weight (kg)"
       },
+      {"fieldname":"rounds_section",
+      "fieldtype":"Section Break",
+      "label":"Rounds"},
+        {"fieldname":"cylinder_capacity_kg",
+        "fieldtype":"Float",
+        "label":"Cylinder Capacity (kg)",
+        "read_only":1},
+        {"fieldname":"generate_rounds",
+        "fieldtype":"Button",
+        "label":"Generate Rounds"},
+        {"fieldname":"rounds",
+        "fieldtype":"Table",
+        "label":"Rounds",
+        "options":"Roast Batch Round"},
+        {"fieldname":"column_break_tot",
+        "fieldtype":"Column Break"},
+        {"fieldname":"total_input_qty",
+        "fieldtype":"Float",
+        "label":"Total Input (kg)",
+        "read_only":1,
+        "precision":"2"},
+        {"fieldname":"total_output_qty",
+        "fieldtype":"Float",
+        "label":"Total Output (kg)",
+        "read_only":1,
+        "precision":"2"},
+        {"fieldname":"total_loss_qty",
+        "fieldtype":"Float",
+        "label":"Total Loss (kg)",
+        "read_only":1,
+        "precision":"2"},
+        {"fieldname":"total_quacker",
+        "fieldtype":"Float",
+        "label":"Total Quacker (kg)",
+        "read_only":1,
+        "precision":"2"},
+        {"fieldname":"rounds_count",
+        "fieldtype":"Int",
+        "label":"Rounds Count",
+        "read_only":1},
+
       {
        "fieldname": "batch_no",
        "fieldtype": "Link",
@@ -179,6 +244,11 @@
        "fieldname": "qc_score",
        "fieldtype": "Int",
        "label": "QC Score (Cupping)"
+      },
+      {
+       "fieldname": "quacker",
+       "fieldtype": "Float",
+       "label": "Quacker"
       },
       {
        "fieldname": "notes",

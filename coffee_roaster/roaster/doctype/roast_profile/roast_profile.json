@@ -3,7 +3,7 @@
   "name": "Roast Profile",
   "module": "roaster",
   "custom": 1,
-  "autoname": "format:RB-{roast_month_year}-{#####}",
+  "autoname": "format:RB-{roast_date}--{#####}",
   "fields": [
     {
       "fieldname": "profile_name",
