@@ -31,6 +31,13 @@
       "in_standard_filter": 1
     },
     {
+      "fieldname": "cylinder_type",
+      "fieldtype": "Select",
+      "label": "Cylinder type",
+      "options": "12\n50\nTank\nOther",
+      "in_standard_filter": 1
+    },
+    {
       "fieldname": "serial_no",
       "fieldtype": "Data",
       "label": "Serial No."
