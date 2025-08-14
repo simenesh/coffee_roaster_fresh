@@ -11,7 +11,7 @@
  "is_standard": "Yes",
  "json": "{}",
  "letterhead": null,
- "modified": "2025-08-14 10:46:54.874268",
+ "modified": "2025-08-14 11:07:14.647241",
  "modified_by": "Administrator",
  "module": "roaster",
  "name": "Cylinder Tracking",
@@ -21,7 +21,7 @@
  "ref_doctype": "Roast Batch",
  "report_name": "Cylinder Tracking",
  "report_script": "",
- "report_type": "Query Report",
+ "report_type": "Report Builder",
  "roles": [
   {
    "role": "System Manager"

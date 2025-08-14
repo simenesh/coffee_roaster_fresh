@@ -4,34 +4,48 @@
   "module": "roaster",
   "istable": 1,
   "editable_grid": 1,
-  "track_changes": 1,
-  "custom": 0,
+  "engine": "InnoDB",
   "field_order": [
     "round_no",
-    "roast_start",
-    "roast_end",
+    "bean_group",
+    "roast_cylinder",
     "input_qty",
     "output_qty",
     "loss_qty",
     "quacker",
-    "net_qty",
-    "roasting_machine",
-    "operator",
-    "roast_profile",
     "notes"
   ],
   "fields": [
-    {"fieldname":"round_no","label":"Round #","fieldtype":"Int","reqd":1},
-    {"fieldname":"roast_start","label":"Roast Start","fieldtype":"Datetime"},
-    {"fieldname":"roast_end","label":"Roast End","fieldtype":"Datetime"},
-    {"fieldname":"input_qty","label":"Input (kg)","fieldtype":"Float","reqd":1,"precision":"2"},
-    {"fieldname":"output_qty","label":"Output (kg)","fieldtype":"Float","precision":"2"},
-    {"fieldname":"loss_qty","label":"Loss (kg)","fieldtype":"Float","read_only":1,"precision":"2"},
-    {"fieldname":"quacker","label":"Quacker (kg)","fieldtype":"Float","precision":"2"},
-    {"fieldname":"net_qty","label":"Net Coffee (kg)","fieldtype":"Float","read_only":1,"precision":"2"},
-    {"fieldname":"roasting_machine","label":"Machine","fieldtype":"Link","options":"Roasting Machine"},
-    {"fieldname":"operator","label":"Operator","fieldtype":"Link","options":"User"},
-    {"fieldname":"roast_profile","label":"Roast Profile","fieldtype":"Link","options":"Roast Profile"},
-    {"fieldname":"notes","label":"Notes","fieldtype":"Small Text"}
-  ]
+    {"fieldname":"round_no","fieldtype":"Int","label":"Round #","reqd":1,"in_list_view":1,"read_only":1},
+    {"fieldname":"bean_group","fieldtype":"Select","label":"Group","options":"G1\nG2\nG3","reqd":1,"in_list_view":1},
+    {"fieldname":"roast_cylinder","fieldtype":"Link","label":"Roast Cylinder","options":"Roast Cylinder","in_list_view":1},
+    {"fieldname":"input_qty","fieldtype":"Float","label":"Input (kg)","in_list_view":1},
+    {"fieldname":"output_qty","fieldtype":"Float","label":"Output (kg)","in_list_view":1},
+    {"fieldname":"loss_qty","fieldtype":"Float","label":"Loss (kg)","read_only":1},
+    {"fieldname":"quacker","fieldtype":"Float","label":"Quacker (kg)"},
+    {"fieldname":"notes","fieldtype":"Small Text","label":"Notes"}
+  ],
+
+  "permissions": [
+    {
+      "role": "System Manager",
+      "read": 1,
+      "write": 1,
+      "create": 1,
+      "delete": 1
+    },
+    {
+      "role": "Roasting Operator",
+      "read": 1,
+      "write": 1,
+      "create": 1
+    },
+    {
+      "role": "Roasting Manager",
+      "read": 1,
+      "write": 1,
+      "create": 1
+    }
+  ],
+  "track_changes": 1
 }
