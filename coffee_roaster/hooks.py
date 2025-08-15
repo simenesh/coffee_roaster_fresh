@@ -46,7 +46,8 @@ fixtures = [
     {"dt": "Custom DocPerm"},
        # Custom reports and dashboard charts
     {"dt": "Report", "filters": [["name", "in", [
-        "Coffee Quality Report",
+        "Combined Assessment Report",
+        "Cylinder Tracking",
         "Lead Interest Level",
         "Leads by RTM Channel",
         "Loyalty Profile Summary"
