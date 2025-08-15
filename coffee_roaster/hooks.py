@@ -52,6 +52,11 @@ fixtures = [
         "Leads by RTM Channel",
         "Loyalty Profile Summary"
     ]]]},
+    {"doctype": "Report", "filters": [["name", "=", "Cylinder Tracking"]]},
+    {"doctype": "Report", "filters": [["name", "=", "Lead Interest Level"]]},
+    {"doctype": "Report", "filters": [["name", "=", "Leads by RTM Channel"]]},
+    {"doctype": "Report", "filters": [["name", "=", "Loyalty Profile Summary"]]},
+     {"doctype": "Server Script", "filters": [["reference_doctype", "=", "Roast Batch"]]},
     {"dt": "Dashboard Chart"},
 
     # Workflows
