@@ -5,8 +5,8 @@
    "label": "Weekly Roast Output (Kg)"
   }
  ],
- "content": "[{\"id\":\"Jk3uS9THHI\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Roasting Dashboard</span>\",\"col\":12}},{\"id\":\"QJ7QaJS94y\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Roast Batch\",\"col\":3}},{\"id\":\"5RDZlF3UkV\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"BOM\",\"col\":3}},{\"id\":\"3WSHB5rnY5\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Item\",\"col\":3}},{\"id\":\"1y2tSuEa4l\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Stock Balance\",\"col\":3}},{\"id\":\"NIveT9HBAO\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Cards</b></span>\",\"col\":12}},{\"id\":\"oJuS7lmJYR\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Total Green Bean Stock\",\"col\":4}},{\"id\":\"1Np2-s7mSs\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Batches in QC\",\"col\":4}},{\"id\":\"1qMzMFwF2r\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Scheduled Roasts for Today\",\"col\":4}},{\"id\":\"fWy-DscAyZ\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Report</b></span>\",\"col\":12}},{\"id\":\"_UfeBTNMJD\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Roast Batch\",\"col\":3}},{\"id\":\"j4WZWU7WLb\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Roast Batch Profitability\",\"col\":3}},{\"id\":\"aA8X7upMy8\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Cylinder Tracking\",\"col\":3}},{\"id\":\"a1WGza2r6E\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Weekly Roast Output (Kg)\",\"col\":12}}]",
- "creation": "2025-08-13 16:33:40.190717",
+ "content": "[{\"id\":\"Jk3uS9THHI\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Roasting Dashboard</span>\",\"col\":12}},{\"id\":\"QJ7QaJS94y\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Roast Batch\",\"col\":3}},{\"id\":\"5RDZlF3UkV\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"BOM\",\"col\":3}},{\"id\":\"3WSHB5rnY5\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Item\",\"col\":3}},{\"id\":\"1y2tSuEa4l\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Stock Balance\",\"col\":3}},{\"id\":\"NIveT9HBAO\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Cards</b></span>\",\"col\":12}},{\"id\":\"oJuS7lmJYR\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Total Green Bean Stock\",\"col\":4}},{\"id\":\"1Np2-s7mSs\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Batches in QC\",\"col\":4}},{\"id\":\"1qMzMFwF2r\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Scheduled Roasts for Today\",\"col\":4}},{\"id\":\"fWy-DscAyZ\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Report</b></span>\",\"col\":12}},{\"id\":\"_UfeBTNMJD\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Roast Batch\",\"col\":3}},{\"id\":\"j4WZWU7WLb\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Roast Batch Profitability\",\"col\":3}},{\"id\":\"rdpXos-D-N\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Cylinder Tracking\",\"col\":3}},{\"id\":\"a1WGza2r6E\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Weekly Roast Output (Kg)\",\"col\":12}}]",
+ "creation": "2025-08-14 21:03:08.320710",
  "custom_blocks": [],
  "docstatus": 0,
  "doctype": "Workspace",
@@ -18,7 +18,7 @@
  "is_hidden": 0,
  "label": "Roasting Dashboard",
  "links": [],
- "modified": "2025-08-14 05:10:57.561298",
+ "modified": "2025-08-15 08:12:30.073373",
  "modified_by": "Administrator",
  "module": "roaster",
  "name": "Roasting Dashboard",
