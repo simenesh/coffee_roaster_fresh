@@ -3,7 +3,7 @@
    "name": "Combined Assessment Report", 
   "doctype": "Descriptive Assessment",
   "is_standard": "No",
-  "report_type": "Script Report",
+  "report_type": "Query Report",
   "module": "roaster",
   "ref_doctype": "Descriptive Assessment",
   "prepared_report": 0,
@@ -16,6 +16,21 @@
       "options": "Roast Batch",
       "default": "",
       "reqd": 0
+    }
+  ],
+  "permissions": [
+    {
+      "role": "System Manager",
+      "read": 1,
+      "write": 1,
+      "create": 1,
+      "delete": 1
+    },
+    {
+      "role": "Roaster",
+      "read": 1,
+      "write": 1,
+      "create": 1
     }
   ]
 }

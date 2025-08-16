@@ -1,15 +1,70 @@
+# Combined Assessment Report — Script Report
+# Matches your current SELECT columns and makes filters work.
 import frappe
 
 def execute(filters=None):
-    filter_clause = ""
-    filter_vals = {}
+    f = frappe._dict(filters or {})
+    # defaults so empty filters show ALL rows
+    f.setdefault("roast_batch", "")
+    f.setdefault("from_date", "")
+    f.setdefault("to_date", "")
 
-    # Apply roast_batch filter INSIDE the Descriptive Assessment subquery
-    if filters and filters.get("roast_batch"):
-        filter_clause = "AND roast_batch = %(roast_batch)s"
-        filter_vals["roast_batch"] = filters["roast_batch"]
+    vals = {}
+    where_da = ["da1.docstatus < 2"]
+    if f.roast_batch:
+        where_da.append("da1.roast_batch = %(roast_batch)s")
+        vals["roast_batch"] = f.roast_batch
+    if f.from_date:
+        where_da.append("da1.roast_date >= %(from_date)s")
+        vals["from_date"] = f.from_date
+    if f.to_date:
+        where_da.append("da1.roast_date <= %(to_date)s")
+        vals["to_date"] = f.to_date
 
-    query = f"""
+    # Use "latest per roast_batch" for each assessment (stable vs GROUP BY *)
+    da_sub = f"""
+        SELECT da1.*
+        FROM `tabDescriptive Assessment` da1
+        JOIN (
+            SELECT roast_batch, MAX(modified) AS m
+            FROM `tabDescriptive Assessment`
+            WHERE docstatus < 2
+            GROUP BY roast_batch
+        ) x ON x.roast_batch = da1.roast_batch AND x.m = da1.modified
+        WHERE {" AND ".join(where_da)}
+    """
+    ea_sub = """
+        SELECT ea1.*
+        FROM `tabExtrinsic Assessment` ea1
+        JOIN (
+            SELECT roast_batch, MAX(modified) AS m
+            FROM `tabExtrinsic Assessment`
+            WHERE docstatus < 2
+            GROUP BY roast_batch
+        ) x ON x.roast_batch = ea1.roast_batch AND x.m = ea1.modified
+    """
+    pa_sub = """
+        SELECT pa1.*
+        FROM `tabPhysical Assessment` pa1
+        JOIN (
+            SELECT roast_batch, MAX(modified) AS m
+            FROM `tabPhysical Assessment`
+            WHERE docstatus < 2
+            GROUP BY roast_batch
+        ) x ON x.roast_batch = pa1.roast_batch AND x.m = pa1.modified
+    """
+    aa_sub = """
+        SELECT aa1.*
+        FROM `tabAffective Assessment` aa1
+        JOIN (
+            SELECT roast_batch, MAX(modified) AS m
+            FROM `tabAffective Assessment`
+            WHERE docstatus < 2
+            GROUP BY roast_batch
+        ) x ON x.roast_batch = aa1.roast_batch AND x.m = aa1.modified
+    """
+
+    sql = f"""
         SELECT
             da.roast_batch,
             da.sample_no,
@@ -17,6 +72,7 @@ def execute(filters=None):
             da.roast_time,
             da.roast_level,
 
+            -- Extrinsic Assessment fields
             ea.assessor_name,
             ea.assessment_date,
             ea.purpose,
@@ -41,14 +97,7 @@ def execute(filters=None):
             ea.certification_notes,
             ea.general_notes,
 
-            pa.moisture,
-            pa.total_full_defects,
-            pa.max_screen_size,
-            pa.grade AS physical_grade,
-
-            aa.total_score AS affective_total_score,
-            aa.grade AS affective_grade,
-
+            -- Physical Assessment (COLOR FIELDS)
             pa.blue_green,
             pa.bluish_green,
             pa.green,
@@ -56,97 +105,73 @@ def execute(filters=None):
             pa.yellow_green,
             pa.pale_yellow,
             pa.yellowish,
-            pa.brownish
+            pa.brownish,
 
-        FROM
-            (SELECT * FROM `tabDescriptive Assessment` WHERE docstatus < 2 {filter_clause} GROUP BY roast_batch) da
-        LEFT JOIN
-            (SELECT * FROM `tabExtrinsic Assessment` WHERE docstatus < 2 GROUP BY roast_batch) ea ON da.roast_batch = ea.roast_batch
-        LEFT JOIN
-            (SELECT * FROM `tabPhysical Assessment` WHERE docstatus < 2 GROUP BY roast_batch) pa ON da.roast_batch = pa.roast_batch
-        LEFT JOIN
-            (SELECT * FROM `tabAffective Assessment` WHERE docstatus < 2 GROUP BY roast_batch) aa ON da.roast_batch = aa.roast_batch
+            -- Physical Assessment (MOISTURE & SUMMARY)
+            pa.moisture,
+            pa.total_full_defects,
+            pa.max_screen_size,
+            pa.grade AS physical_grade,
+
+            -- Affective Assessment
+            aa.total_score AS affective_total_score,
+            aa.grade       AS affective_grade
+
+        FROM ({da_sub}) da
+        LEFT JOIN ({ea_sub}) ea ON ea.roast_batch = da.roast_batch
+        LEFT JOIN ({pa_sub}) pa ON pa.roast_batch = da.roast_batch
+        LEFT JOIN ({aa_sub}) aa ON aa.roast_batch = da.roast_batch
         ORDER BY da.roast_batch DESC
         LIMIT 100
     """
-
-    data = frappe.db.sql(query, filter_vals, as_dict=True)
-
-    # --- Only show checked color fields ---
-    color_fields = [
-        ("blue_green", "Blue-Green"),
-        ("bluish_green", "Bluish-Green"),
-        ("green", "Green"),
-        ("greenish", "Greenish"),
-        ("yellow_green", "Yellow-Green"),
-        ("pale_yellow", "Pale Yellow"),
-        ("yellowish", "Yellowish"),
-        ("brownish", "Brownish"),
-    ]
-    for row in data:
-        checked = [label for field, label in color_fields if row.get(field)]
-        row["color_assessment"] = ", ".join(checked)
-        # Remove the individual color fields so only 'color_assessment' is in report
-        for field, _ in color_fields:
-            row.pop(field, None)
+    data = frappe.db.sql(sql, vals, as_dict=True)
 
     columns = [
-        {"label": "Roast Batch", "fieldname": "roast_batch", "fieldtype": "Data"},
-        {"label": "Sample No.", "fieldname": "sample_no", "fieldtype": "Data"},
-        {"label": "Roast Date", "fieldname": "roast_date", "fieldtype": "Date"},
-        {"label": "Roast Time", "fieldname": "roast_time", "fieldtype": "Time"},
-        {"label": "Roast Level", "fieldname": "roast_level", "fieldtype": "Data"},
+        {"label":"Roast Batch","fieldname":"roast_batch","fieldtype":"Link","options":"Roast Batch","width":160},
+        {"label":"Sample No","fieldname":"sample_no","fieldtype":"Data","width":110},
+        {"label":"Roast Date","fieldname":"roast_date","fieldtype":"Date","width":105},
+        {"label":"Roast Time","fieldname":"roast_time","fieldtype":"Time","width":95},
+        {"label":"Roast Level","fieldname":"roast_level","fieldtype":"Data","width":100},
 
-        # Extrinsic
-        {"label": "Assessor Name", "fieldname": "assessor_name", "fieldtype": "Data"},
-        {"label": "Assessment Date", "fieldname": "assessment_date", "fieldtype": "Date"},
-        {"label": "Purpose", "fieldname": "purpose", "fieldtype": "Data"},
-        {"label": "Country", "fieldname": "country", "fieldtype": "Data"},
-        {"label": "Region", "fieldname": "region", "fieldtype": "Data"},
-        {"label": "Farm/Coop Name", "fieldname": "farm_or_coop_name", "fieldtype": "Data"},
-        {"label": "Producer Name", "fieldname": "producer_name", "fieldtype": "Data"},
-        {"label": "Species", "fieldname": "species", "fieldtype": "Data"},
-        {"label": "Variety", "fieldname": "variety", "fieldtype": "Data"},
-        {"label": "Harvest Date/Year", "fieldname": "harvest_date_year", "fieldtype": "Data"},
-        {"label": "Other Farming Attribute", "fieldname": "other_farming_attribute", "fieldtype": "Data"},
-        {"label": "Farming Notes", "fieldname": "farming_notes", "fieldtype": "Data"},
-        {"label": "Processor Name", "fieldname": "processor_name", "fieldtype": "Data"},
-        {"label": "Process Type", "fieldname": "process_type", "fieldtype": "Data"},
-        {"label": "Processing Notes", "fieldname": "processing_notes", "fieldtype": "Data"},
-        {"label": "Trading Size Grade", "fieldname": "trading_size_grade", "fieldtype": "Data"},
-        {"label": "Trading ICO Number", "fieldname": "trading_ico_number", "fieldtype": "Data"},
-        {"label": "Trading Other Grade", "fieldname": "trading_other_grade", "fieldtype": "Data"},
-        {"label": "Trading Other Attribute", "fieldname": "trading_other_attribute", "fieldtype": "Data"},
-        {"label": "Trading Notes", "fieldname": "trading_notes", "fieldtype": "Data"},
-        {"label": "Certifications", "fieldname": "certifications", "fieldtype": "Data"},
-        {"label": "Certification Notes", "fieldname": "certification_notes", "fieldtype": "Data"},
-        {"label": "General Notes", "fieldname": "general_notes", "fieldtype": "Data"},
+        {"label":"Assessor Name","fieldname":"assessor_name","fieldtype":"Data","width":140},
+        {"label":"Assessment Date","fieldname":"assessment_date","fieldtype":"Date","width":110},
+        {"label":"Purpose","fieldname":"purpose","fieldtype":"Data","width":120},
+        {"label":"Country","fieldname":"country","fieldtype":"Data","width":100},
+        {"label":"Region","fieldname":"region","fieldtype":"Data","width":110},
+        {"label":"Farm/Coop","fieldname":"farm_or_coop_name","fieldtype":"Data","width":140},
+        {"label":"Producer Name","fieldname":"producer_name","fieldtype":"Data","width":140},
+        {"label":"Species","fieldname":"species","fieldtype":"Data","width":90},
+        {"label":"Variety","fieldname":"variety","fieldtype":"Data","width":120},
+        {"label":"Harvest Date/Year","fieldname":"harvest_date_year","fieldtype":"Data","width":140},
+        {"label":"Other Farming Attribute","fieldname":"other_farming_attribute","fieldtype":"Data","width":160},
+        {"label":"Farming Notes","fieldname":"farming_notes","fieldtype":"Data","width":180},
+        {"label":"Processor Name","fieldname":"processor_name","fieldtype":"Data","width":140},
+        {"label":"Process Type","fieldname":"process_type","fieldtype":"Data","width":120},
+        {"label":"Processing Notes","fieldname":"processing_notes","fieldtype":"Data","width":180},
+        {"label":"Trading Size Grade","fieldname":"trading_size_grade","fieldtype":"Data","width":130},
+        {"label":"Trading ICO Number","fieldname":"trading_ico_number","fieldtype":"Data","width":130},
+        {"label":"Trading Other Grade","fieldname":"trading_other_grade","fieldtype":"Data","width":140},
+        {"label":"Trading Other Attribute","fieldname":"trading_other_attribute","fieldtype":"Data","width":170},
+        {"label":"Trading Notes","fieldname":"trading_notes","fieldtype":"Data","width":160},
+        {"label":"Certifications","fieldname":"certifications","fieldtype":"Data","width":130},
+        {"label":"Certification Notes","fieldname":"certification_notes","fieldtype":"Data","width":160},
+        {"label":"General Notes","fieldname":"general_notes","fieldtype":"Data","width":180},
 
-        # Physical Assessment - Color (as one column)
-        {"label": "Color Assessment", "fieldname": "color_assessment", "fieldtype": "Data"},
+        {"label":"Blue-Green","fieldname":"blue_green","fieldtype":"Check","width":95},
+        {"label":"Bluish-Green","fieldname":"bluish_green","fieldtype":"Check","width":110},
+        {"label":"Green","fieldname":"green","fieldtype":"Check","width":80},
+        {"label":"Greenish","fieldname":"greenish","fieldtype":"Check","width":90},
+        {"label":"Yellow-Green","fieldname":"yellow_green","fieldtype":"Check","width":110},
+        {"label":"Pale Yellow","fieldname":"pale_yellow","fieldtype":"Check","width":100},
+        {"label":"Yellowish","fieldname":"yellowish","fieldtype":"Check","width":90},
+        {"label":"Brownish","fieldname":"brownish","fieldtype":"Check","width":90},
 
-        # Physical Assessment - Moisture & Summary
-        {"label": "Moisture (%)", "fieldname": "moisture", "fieldtype": "Float"},
-        {"label": "Total Full Defects", "fieldname": "total_full_defects", "fieldtype": "Int"},
-        {"label": "Max Screen Size", "fieldname": "max_screen_size", "fieldtype": "Int"},
-        {"label": "Physical Grade", "fieldname": "physical_grade", "fieldtype": "Int"},
+        {"label":"Moisture (%)","fieldname":"moisture","fieldtype":"Float","width":110},
+        {"label":"Total Full Defects","fieldname":"total_full_defects","fieldtype":"Int","width":130},
+        {"label":"Max Screen Size","fieldname":"max_screen_size","fieldtype":"Int","width":120},
+        {"label":"Physical Grade","fieldname":"physical_grade","fieldtype":"Int","width":110},
 
-        # Affective
-        {"label": "Affective Total Score", "fieldname": "affective_total_score", "fieldtype": "Int"},
-        {"label": "Affective Grade", "fieldname": "affective_grade", "fieldtype": "Int"}
+        {"label":"Affective Total Score","fieldname":"affective_total_score","fieldtype":"Int","width":140},
+        {"label":"Affective Grade","fieldname":"affective_grade","fieldtype":"Int","width":120},
     ]
-  
-    # Clean up numeric fields so no None or NaN is present
-    numeric_fields = [
-        "moisture", "total_full_defects", "max_screen_size",
-        "physical_grade", "affective_total_score", "affective_grade"
-    ]
-    for row in data:
-        for field in numeric_fields:
-            val = row.get(field)
-            if val is None or val == "" or (isinstance(val, float) and str(val).lower() == 'nan'):
-                row[field] = 0
-
     return columns, data
-
-  
