@@ -60,5 +60,16 @@ fixtures = [
         "Affective Assessment",
         "Combined Assessment",
     ]]]},
-    {"doctype": "Workflow", "filters": [["module", "=", "Roaster"]]},
+    {"doctype": "Workflow", "filters": [["name", "in", [
+    "Roast Batch Workflow",
+    "Roasting Overhead Template Workflow",
+    "Roasting Overhead Template Item Workflow",
+    "Roasting Overhead Item Workflow",
+    "Raw Bean Cost Item Workflow",
+    "Batch Cost Workflow",
+    "Packaging Cost Item Workflow",
+    "Lead Workflow",
+    "Customer Interaction Workflow",
+    "Loyalty Profile Workflow"
+]]]},
 ]

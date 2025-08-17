@@ -1,0 +1,57 @@
+{
+  "doctype": "Workflow",
+  "workflow_name": "Loyalty Profile Workflow",
+  "document_type": "Loyalty Profile",
+  "is_active": 1,
+  "workflow_state_field": "workflow_state",
+  "send_email_alert": 0,
+  "override_status": 0,
+  "states": [
+    {
+      "state": "Draft",
+      "doc_status": 0,
+      "allow_edit": "System Manager"
+    },
+    {
+      "state": "Active",
+      "doc_status": 1,
+      "allow_edit": "System Manager"
+    },
+    {
+      "state": "Suspended",
+      "doc_status": 0,
+      "allow_edit": "System Manager"
+    },
+    {
+      "state": "Closed",
+      "doc_status": 2,
+      "allow_edit": "System Manager"
+    }
+  ],
+  "transitions": [
+    {
+      "state": "Draft",
+      "action": "Activate",
+      "next_state": "Active",
+      "allowed": "System Manager"
+    },
+    {
+      "state": "Active",
+      "action": "Suspend",
+      "next_state": "Suspended",
+      "allowed": "System Manager"
+    },
+    {
+      "state": "Suspended",
+      "action": "Re-Activate",
+      "next_state": "Active",
+      "allowed": "System Manager"
+    },
+    {
+      "state": "Active",
+      "action": "Close",
+      "next_state": "Closed",
+      "allowed": "System Manager"
+    }
+  ]
+}

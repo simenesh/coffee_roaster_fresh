@@ -1,0 +1,51 @@
+{
+  "doctype": "Workflow",
+  "workflow_name": "Lead Workflow",
+  "document_type": "Lead",
+  "is_active": 1,
+  "workflow_state_field": "workflow_state",
+  "send_email_alert": 0,
+  "override_status": 0,
+  "states": [
+    {
+      "state": "Open",
+      "doc_status": 0,
+      "allow_edit": "System Manager"
+    },
+    {
+      "state": "Qualified",
+      "doc_status": 0,
+      "allow_edit": "System Manager"
+    },
+    {
+      "state": "Converted",
+      "doc_status": 1,
+      "allow_edit": "System Manager"
+    },
+    {
+      "state": "Lost",
+      "doc_status": 0,
+      "allow_edit": "System Manager"
+    }
+  ],
+  "transitions": [
+    {
+      "state": "Open",
+      "action": "Qualify",
+      "next_state": "Qualified",
+      "allowed": "System Manager"
+    },
+    {
+      "state": "Qualified",
+      "action": "Convert",
+      "next_state": "Converted",
+      "allowed": "System Manager"
+    },
+    {
+      "state": "Qualified",
+      "action": "Mark Lost",
+      "next_state": "Lost",
+      "allowed": "System Manager"
+    }
+  ]
+}

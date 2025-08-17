@@ -1,0 +1,40 @@
+{
+  "doctype": "Workflow",
+  "workflow_name": "Customer Interaction Workflow",
+  "document_type": "Customer Interaction",
+  "is_active": 1,
+  "workflow_state_field": "workflow_state",
+  "send_email_alert": 0,
+  "override_status": 0,
+  "states": [
+    {
+      "state": "Planned",
+      "doc_status": 0,
+      "allow_edit": "System Manager"
+    },
+    {
+      "state": "In Progress",
+      "doc_status": 0,
+      "allow_edit": "System Manager"
+    },
+    {
+      "state": "Completed",
+      "doc_status": 1,
+      "allow_edit": "System Manager"
+    }
+  ],
+  "transitions": [
+    {
+      "state": "Planned",
+      "action": "Start",
+      "next_state": "In Progress",
+      "allowed": "System Manager"
+    },
+    {
+      "state": "In Progress",
+      "action": "Complete",
+      "next_state": "Completed",
+      "allowed": "System Manager"
+    }
+  ]
+}
