@@ -37,26 +37,14 @@ fixtures = [
     "Property Setter",
     "Client Script",
     "Server Script",
-    "Report",
 
     # All custom fields
     {"dt": "Custom Field"},
 
-    # Custom permissions and notifications
+    # Custom permissions
     {"dt": "Custom DocPerm"},
 
-    # Reports and dashboard charts
-    {"dt": "Report", "filters": [["name", "in", [
-        "Combined Assessment Report",
-        "Cylinder Tracking",
-        "Lead Interest Level",
-        "Leads by RTM Channel",
-        "Loyalty Profile Summary"
-    ]]]},
-    {"doctype": "Server Script", "filters": [["reference_doctype", "=", "Roast Batch"]]},
-    {"dt": "Dashboard Chart"},
-
-    # Workflows
+    # Only your custom Workflows
     {"dt": "Workflow", "filters": [["name", "in", [
         "Roast Batch Workflow",
         "Roasting Overhead Template Workflow",
