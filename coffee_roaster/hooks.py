@@ -44,7 +44,8 @@ fixtures = [
 
     # Custom permissions and notifications
     {"dt": "Custom DocPerm"},
-       # Custom reports and dashboard charts
+
+    # Reports and dashboard charts
     {"dt": "Report", "filters": [["name", "in", [
         "Combined Assessment Report",
         "Cylinder Tracking",
@@ -52,11 +53,7 @@ fixtures = [
         "Leads by RTM Channel",
         "Loyalty Profile Summary"
     ]]]},
-    {"doctype": "Report", "filters": [["name", "=", "Cylinder Tracking"]]},
-    {"doctype": "Report", "filters": [["name", "=", "Lead Interest Level"]]},
-    {"doctype": "Report", "filters": [["name", "=", "Leads by RTM Channel"]]},
-    {"doctype": "Report", "filters": [["name", "=", "Loyalty Profile Summary"]]},
-     {"doctype": "Server Script", "filters": [["reference_doctype", "=", "Roast Batch"]]},
+    {"doctype": "Server Script", "filters": [["reference_doctype", "=", "Roast Batch"]]},
     {"dt": "Dashboard Chart"},
 
     # Workflows
@@ -71,24 +68,5 @@ fixtures = [
         "Lead Workflow",
         "Customer Interaction Workflow",
         "Loyalty Profile Workflow"
-    ]]]},
-      {"dt": "Workflow", "filters": [["name", "=", "Lead Workflow"]]},
-
-    # Roaster DocTypes
-    {"dt": "DocType", "filters": [["name", "in", [
-        "Batch Cost",
-        "Raw Bean Cost Item",
-        "Overhead Item",
-        "Packaging Cost Item",
-        "Roasting Overhead Template",
-        "Roasting Overhead Template Item",
-        "Roaster Settings"
-    ]]]},
-
-    # CRM-specific DocTypes
-    {"dt": "DocType", "filters": [["name", "in", [
-        "Loyalty Profile",
-        "Customer Interaction",
-        "RTM Assignment"
     ]]]}
 ]
