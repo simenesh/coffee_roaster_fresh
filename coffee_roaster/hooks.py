@@ -33,28 +33,32 @@ doctype_js = {
 #Data to be exported with the app
 # Data to be exported with the app
 fixtures = [
-    # Generic core customizations
-    "Property Setter",
-    "Client Script",
-    "Server Script",
-
-    # All custom fields
-    {"dt": "Custom Field"},
-
-    # Custom permissions
-    {"dt": "Custom DocPerm"},
-
-    # Only your custom Workflows
-    {"dt": "Workflow", "filters": [["name", "in", [
-        "Roast Batch Workflow",
-        "Roasting Overhead Template Workflow",
-        "Roasting Overhead Template Item Workflow",
-        "Roasting Overhead Item Workflow",
-        "Raw Bean Cost Item Workflow",
-        "Batch Cost Workflow",
-        "Packaging Cost Item Workflow",
-        "Lead Workflow",
-        "Customer Interaction Workflow",
-        "Loyalty Profile Workflow"
-    ]]]}
+    {"doctype": "Custom Field", "filters": [["module", "=", "Roaster"]]},
+    {"doctype": "Property Setter", "filters": [["module", "=", "Roaster"]]},
+    {"doctype": "Client Script", "filters": [["module", "=", "Roaster"]]},
+    {"doctype": "Server Script", "filters": [["module", "=", "Roaster"]]},
+    {"doctype": "Workspace", "filters": [["module", "=", "Roaster"]]},
+    {"doctype": "Custom DocPerm", "filters": [["parent", "in", [
+        "Roast Batch",
+        "Batch Cost",
+        "Raw Bean Cost Item",
+        "Overhead Item",
+        "Packaging Cost Item",
+        "Roasting Overhead Template",
+        "Roasting Overhead Template Item",
+        "Roasting Overhead Item",
+        "Loyalty Profile",
+        "Customer Interaction",
+        "RTM Assignment",
+        "Roaster Settings",
+        "Roasting Machine",
+        "Roast Machine Telemetry",
+        "Green Bean",
+        "Physical Assessment",
+        "Descriptive Assessment",
+        "Extrinsic Assessment",
+        "Affective Assessment",
+        "Combined Assessment",
+    ]]]},
+    {"doctype": "Workflow", "filters": [["module", "=", "Roaster"]]},
 ]
