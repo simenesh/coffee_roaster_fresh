@@ -1,5 +1,6 @@
 {
   "doctype": "Workflow",
+  "name": "Loyalty Profile Workflow",
   "workflow_name": "Loyalty Profile Workflow",
   "document_type": "Loyalty Profile",
   "is_active": 1,

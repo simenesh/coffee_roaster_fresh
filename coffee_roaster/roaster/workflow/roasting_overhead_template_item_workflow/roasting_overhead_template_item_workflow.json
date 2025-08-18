@@ -1,5 +1,6 @@
 {
   "doctype": "Workflow",
+  "name": "Roasting Overhead Template Item Workflow",
   "workflow_name": "Roasting Overhead Template Item Workflow",
   "document_type": "Roasting Overhead Template Item",
   "is_active": 1,

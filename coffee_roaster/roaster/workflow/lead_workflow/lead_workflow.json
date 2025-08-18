@@ -1,5 +1,6 @@
 {
   "doctype": "Workflow",
+  "name": "Lead Workflow",
   "workflow_name": "Lead Workflow",
   "document_type": "Lead",
   "is_active": 1,

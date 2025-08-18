@@ -16,6 +16,9 @@ doc_events = {
     },
      "Sales Invoice": {
         "validate": "coffee_roaster.finance_integration.apply_vat_on_invoice"
+    },
+      "Physical Assessment": {
+        "on_submit": "coffee_roaster.roaster.doctype.physical_assessment.physical_assessment.PhysicalAssessment.on_submit"
     }
 }
 

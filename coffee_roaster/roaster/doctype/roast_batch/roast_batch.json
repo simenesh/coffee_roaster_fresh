@@ -64,8 +64,8 @@
     { "fieldname": "qty_to_roast", "fieldtype": "Float", "label": "Input Weight (kg)", "reqd": 1 },
 
     { "fieldname": "target_details_section", "fieldtype": "Section Break", "label": "Roasted Coffee Output" },
-    { "fieldname": "roasted_item", "fieldtype": "Link", "label": "Roasted Item (Finished Good)", "options": "Item", "reqd": 1 },
-    { "fieldname": "target_warehouse", "fieldtype": "Link", "label": "Target Warehouse", "options": "Warehouse", "reqd": 1 },
+    { "fieldname": "roasted_item", "fieldtype": "Link", "label": "Roasted Item (Finished Good)", "options": "Item", "reqd": 0 },
+    { "fieldname": "target_warehouse", "fieldtype": "Link", "label": "Target Warehouse", "options": "Warehouse", "reqd": 0 },
     { "fieldname": "output_qty", "fieldtype": "Float", "label": "Output Weight (kg)" },
     { "fieldname": "batch_no", "fieldtype": "Link", "label": "Roasted Coffee Batch No", "options": "Batch", "read_only": 1 },
     { "fieldname": "column_break_1", "fieldtype": "Column Break" },

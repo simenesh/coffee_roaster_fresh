@@ -1,5 +1,6 @@
 {
   "doctype": "Workflow",
+  "name": "Packaging Cost Item Workflow",
   "workflow_name": "Packaging Cost Item Workflow",
   "document_type": "Packaging Cost Item",
   "is_active": 1,

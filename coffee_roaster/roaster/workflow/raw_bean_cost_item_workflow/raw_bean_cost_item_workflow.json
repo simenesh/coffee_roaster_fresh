@@ -1,5 +1,6 @@
 {
   "doctype": "Workflow",
+  "name": "Raw Bean Cost Item Workflow",
   "workflow_name": "Raw Bean Cost Item Workflow",
   "document_type": "Raw Bean Cost Item",
   "is_active": 1,

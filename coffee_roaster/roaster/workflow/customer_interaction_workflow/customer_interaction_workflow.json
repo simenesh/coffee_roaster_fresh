@@ -1,5 +1,6 @@
 {
   "doctype": "Workflow",
+  "name": "Customer Interaction Workflow",
   "workflow_name": "Customer Interaction Workflow",
   "document_type": "Customer Interaction",
   "is_active": 1,

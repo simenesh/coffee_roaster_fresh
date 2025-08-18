@@ -1,5 +1,6 @@
 {
   "doctype": "Workflow",
+  "name": "Batch Cost Workflow",
   "workflow_name": "Batch Cost Workflow",
   "document_type": "Batch Cost",
   "is_active": 1,

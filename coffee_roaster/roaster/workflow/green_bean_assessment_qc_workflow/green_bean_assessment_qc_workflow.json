@@ -1,0 +1,54 @@
+{
+  "doctype": "Workflow",
+  "workflow_name": "Green Bean Assessment QC Workflow",
+  "name": "Green Bean Assessment QC Workflow",
+  "document_type": "Green Bean Assessment",
+  "is_active": 1,
+  "override_status": 0,
+  "workflow_state_field": "workflow_state",
+  "send_email_alert": 0,
+  "states": [
+    {
+      "state": "Draft",
+      "doc_status": 0,
+      "is_default": 1,
+      "allow_edit": "System Manager"
+    },
+    {
+      "state": "Submitted",
+      "doc_status": 1,
+      "allow_edit": "System Manager"
+    },
+    {
+      "state": "QC Completed",
+      "doc_status": 1,
+      "allow_edit": ""
+    }
+  ],
+  "transitions": [
+    {
+      "state": "Draft",
+      "action": "Submit Assessment",
+      "next_state": "Submitted",
+      "allowed": "System Manager",
+      "allow_self_approval": 1,
+      "condition": ""
+    },
+    {
+      "state": "Submitted",
+      "action": "Approve (Pass)",
+      "next_state": "QC Completed",
+      "allowed": "System Manager",
+      "allow_self_approval": 1,
+      "condition": "doc.qc_result == 'Pass' and doc.item_code and doc.batch_no and (doc.total_qty or 0) > 0"
+    },
+    {
+      "state": "Submitted",
+      "action": "Reject (Fail)",
+      "next_state": "QC Completed",
+      "allowed": "System Manager",
+      "allow_self_approval": 1,
+      "condition": "doc.qc_result == 'Fail' and doc.item_code and doc.batch_no and (doc.total_qty or 0) > 0"
+    }
+  ]
+}
