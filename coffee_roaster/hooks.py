@@ -36,43 +36,57 @@ doctype_js = {
 #Data to be exported with the app
 # Data to be exported with the app
 fixtures = [
-    {"doctype": "Custom Field", "filters": [["module", "=", "Roaster"]]},
-    {"doctype": "Property Setter", "filters": [["module", "=", "Roaster"]]},
-    {"doctype": "Client Script", "filters": [["module", "=", "Roaster"]]},
-    {"doctype": "Server Script", "filters": [["module", "=", "Roaster"]]},
-    {"doctype": "Workspace", "filters": [["module", "=", "Roaster"]]},
-    {"doctype": "Custom DocPerm", "filters": [["parent", "in", [
-        "Roast Batch",
-        "Batch Cost",
-        "Raw Bean Cost Item",
-        "Overhead Item",
-        "Packaging Cost Item",
-        "Roasting Overhead Template",
-        "Roasting Overhead Template Item",
-        "Roasting Overhead Item",
-        "Loyalty Profile",
-        "Customer Interaction",
-        "RTM Assignment",
-        "Roaster Settings",
-        "Roasting Machine",
-        "Roast Machine Telemetry",
-        "Green Bean",
-        "Physical Assessment",
-        "Descriptive Assessment",
-        "Extrinsic Assessment",
-        "Affective Assessment",
-        "Combined Assessment",
-    ]]]},
-    {"doctype": "Workflow", "filters": [["name", "in", [
-    "Roast Batch Workflow",
-    "Roasting Overhead Template Workflow",
-    "Roasting Overhead Template Item Workflow",
-    "Roasting Overhead Item Workflow",
-    "Raw Bean Cost Item Workflow",
-    "Batch Cost Workflow",
-    "Packaging Cost Item Workflow",
-    "Lead Workflow",
-    "Customer Interaction Workflow",
-    "Loyalty Profile Workflow"
-]]]},
+    {"doctype": "Custom Field", "filters": {"module": "Roaster"}},
+    {"doctype": "Property Setter", "filters": {"module": "Roaster"}},
+    {"doctype": "Client Script", "filters": {"module": "Roaster"}},
+    {"doctype": "Server Script", "filters": {"module": "Roaster"}},
+    {"doctype": "Workspace", "filters": {"module": "Roaster"}},
+
+    {"doctype": "Custom DocPerm", "filters": {
+        "parent": ["in", [
+            "Roast Batch",
+            "Batch Cost",
+            "Raw Bean Cost Item",
+            "Overhead Item",
+            "Packaging Cost Item",
+            "Roasting Overhead Template",
+            "Roasting Overhead Template Item",
+            "Roasting Overhead Item",
+            "Loyalty Profile",
+            "Customer Interaction",
+            "RTM Assignment",
+            "Roaster Settings",
+            "Roasting Machine",
+            "Roast Machine Telemetry",
+            "Green Bean",
+            "Physical Assessment",
+            "Descriptive Assessment",
+            "Extrinsic Assessment",
+            "Affective Assessment",
+            "Combined Assessment",
+        ]]
+    }},
+
+    {"doctype": "Workflow", "filters": {
+        "name": ["in", [
+            "Roast Batch Workflow",
+            "Roasting Overhead Template Workflow",
+            "Roasting Overhead Template Item Workflow",
+            "Roasting Overhead Item Workflow",
+            "Raw Bean Cost Item Workflow",
+            "Batch Cost Workflow",
+            "Packaging Cost Item Workflow",
+            "Lead Workflow",
+            "Customer Interaction Workflow",
+            "Loyalty Profile Workflow"
+        ]]
+    }},
+
+    {"doctype": "Server Script", "filters": {
+        "reference_doctype": ["in", ["Green Bean Assessment", "Roast Batch"]]
+    }},
+     {"doctype": "Report", "filters": {"module": "Roaster"}},
+
+    # 🚀 Explicitly include Combined Assessment Report
+    {"doctype": "Report", "filters": {"name": "Combined Assessment Report"}},
 ]
