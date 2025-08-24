@@ -1,0 +1,47 @@
+[
+ {
+  "add_total_row": 0,
+  "add_translate_data": 0,
+  "columns": [],
+  "disabled": 0,
+  "docstatus": 0,
+  "doctype": "Report",
+  "filters": [
+   {
+    "default": null,
+    "fieldname": "roast_batch",
+    "fieldtype": "Link",
+    "label": "Roast Batch",
+    "mandatory": 0,
+    "options": "Roast Batch",
+    "parent": "Combined Assessment Report",
+    "parentfield": "filters",
+    "parenttype": "Report",
+    "wildcard_filter": 0
+   }
+  ],
+  "is_standard": "No",
+  "javascript": null,
+  "json": "1",
+  "letter_head": null,
+  "modified": "2025-08-15 16:44:01.241068",
+  "module": "roaster",
+  "name": "Combined Assessment Report",
+  "prepared_report": 0,
+  "query": "SELECT\n    da.roast_batch,\n    da.sample_no,\n    da.roast_date,\n    da.roast_time,\n    da.roast_level,\n\n    -- Extrinsic Assessment fields\n    ea.assessor_name,\n    ea.assessment_date,\n    ea.purpose,\n    ea.country,\n    ea.region,\n    ea.farm_or_coop_name,\n    ea.producer_name,\n    ea.species,\n    ea.variety,\n    ea.harvest_date_year,\n    ea.other_farming_attribute,\n    ea.farming_notes,\n    ea.processor_name,\n    ea.process_type,\n    ea.processing_notes,\n    ea.trading_size_grade,\n    ea.trading_ico_number,\n    ea.trading_other_grade,\n    ea.trading_other_attribute,\n    ea.trading_notes,\n    ea.certifications,\n    ea.certification_notes,\n    ea.general_notes,\n\n    -- Physical Assessment (COLOR FIELDS)\n    pa.blue_green,\n    pa.bluish_green,\n    pa.green,\n    pa.greenish,\n    pa.yellow_green,\n    pa.pale_yellow,\n    pa.yellowish,\n    pa.brownish,\n\n    -- Physical Assessment (MOISTURE & SUMMARY)\n    pa.moisture,\n    pa.total_full_defects,\n    pa.max_screen_size,\n    pa.grade AS physical_grade,\n\n    -- Affective Assessment\n    aa.total_score AS affective_total_score,\n    aa.grade AS affective_grade\n\nFROM\n    (SELECT * FROM `tabDescriptive Assessment` WHERE docstatus < 2 GROUP BY roast_batch) da\nLEFT JOIN\n    (SELECT * FROM `tabExtrinsic Assessment` WHERE docstatus < 2 GROUP BY roast_batch) ea ON da.roast_batch = ea.roast_batch\nLEFT JOIN\n    (SELECT * FROM `tabPhysical Assessment` WHERE docstatus < 2 GROUP BY roast_batch) pa ON da.roast_batch = pa.roast_batch\nLEFT JOIN\n    (SELECT * FROM `tabAffective Assessment` WHERE docstatus < 2 GROUP BY roast_batch) aa ON da.roast_batch = aa.roast_batch\nORDER BY da.roast_batch DESC\nLIMIT 100\n",
+  "ref_doctype": "Descriptive Assessment",
+  "reference_report": "",
+  "report_name": "Combined Assessment Report",
+  "report_script": "",
+  "report_type": "Query Report",
+  "roles": [
+   {
+    "parent": "Combined Assessment Report",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Sales Manager"
+   }
+  ],
+  "timeout": 0
+ }
+]
