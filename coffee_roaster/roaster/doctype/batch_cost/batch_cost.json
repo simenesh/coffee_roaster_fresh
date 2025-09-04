@@ -4,6 +4,7 @@
   "module": "Roaster",
   "custom": 0,
   "istable": 0,
+  "is_submittable": 1,
   "editable_grid": 1,
   "track_seen": 0,
   "track_changes": 1,
@@ -16,17 +17,30 @@
     { "fieldname": "raw_bean_costs",     "label": "Raw Bean Costs",      "fieldtype": "Table",     "options": "Raw Bean Cost Item" },
     { "fieldname": "overheads",          "label": "Overheads",           "fieldtype": "Table",     "options": "Overhead Item" },
     { "fieldname": "packaging_costs",    "label": "Packaging Costs",     "fieldtype": "Table",     "options": "Packaging Cost Item" },
+
     { "fieldname": "total_raw_beans_cost","label":"Total Raw Beans Cost","fieldtype": "Currency",  "read_only": 1 },
     { "fieldname": "total_roasting_overhead","label":"Total Roasting Overhead","fieldtype": "Currency","read_only": 1 },
     { "fieldname": "total_packaging_cost","label":"Total Packaging Cost","fieldtype": "Currency",  "read_only": 1 },
     { "fieldname": "total_batch_cost",   "label": "Total Batch Cost",    "fieldtype": "Currency",  "read_only": 1 },
+
     { "fieldname": "output_weight",      "label": "Output Weight (Kg)",  "fieldtype": "Float",     "read_only": 1, "description": "Pulled from Roast Batch" },
     { "fieldname": "cost_per_kg",        "label": "Cost per Kg",         "fieldtype": "Currency",  "read_only": 1, "in_list_view": 1 },
+
+    { "fieldname": "selling_rate",       "label": "Selling Rate (ETB/kg)","fieldtype": "Currency", "options": "ETB", "reqd": 0 },
+    { "fieldname": "revenue",            "label": "Revenue (ETB)",       "fieldtype": "Currency",  "options": "ETB", "read_only": 1 },
+    { "fieldname": "profit",             "label": "Profit (ETB)",        "fieldtype": "Currency",  "options": "ETB", "read_only": 1 },
+    { "fieldname": "profit_margin",      "label": "Profit Margin (%)",   "fieldtype": "Percent",   "read_only": 1 },
+
+    { "fieldname": "raw_bean_expense_account", "label": "Raw Bean Expense Account", "fieldtype": "Link", "options": "Account", "reqd": 1 },
+    { "fieldname": "overhead_expense_account", "label": "Overhead Expense Account", "fieldtype": "Link", "options": "Account", "reqd": 1 },
+    { "fieldname": "packaging_expense_account","label": "Packaging Expense Account","fieldtype": "Link", "options": "Account", "reqd": 1 },
+    { "fieldname": "inventory_account",  "label": "Inventory Account",   "fieldtype": "Link",      "options": "Account", "reqd": 1 },
+
     { "fieldname": "status",             "label": "Status",              "fieldtype": "Select",    "options": "Draft\nSubmitted", "default": "Draft" }
   ],
   "permissions": [
-    { "role": "System Manager", "read": 1, "write": 1, "create": 1, "delete": 1 },
-    { "role": "Accounts Manager", "read": 1, "write": 1, "create": 1 },
-    { "role": "Roast Operator", "read": 1, "create": 1 }
+    { "role": "System Manager",    "read": 1, "write": 1, "create": 1, "delete": 1 },
+    { "role": "Accounts Manager",  "read": 1, "write": 1, "create": 1 },
+    { "role": "Roast Operator",    "read": 1, "create": 1 }
   ]
 }

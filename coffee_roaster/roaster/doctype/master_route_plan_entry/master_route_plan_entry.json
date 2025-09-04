@@ -1,0 +1,17 @@
+{
+"doctype": "DocType",
+"name": "Master Route Plan Entry",
+"module": "Roaster",
+"custom": 0,
+"istable": 1,
+"editable_grid": 1,
+"engine": "InnoDB",
+"permissions": [],
+"fields": [
+{"fieldname": "route_plan", "fieldtype": "Link", "options": "Route Plan", "label": "Route Plan", "reqd": 1},
+{"fieldname": "route_date", "fieldtype": "Date", "label": "Route Date"},
+{"fieldname": "sub_city", "fieldtype": "Data", "label": "Sub-City"},
+{"fieldname": "marketer", "fieldtype": "Link", "options": "Employee", "label": "Marketer"},
+{"fieldname": "total_customers", "fieldtype": "Int", "label": "Customers"}
+]
+}

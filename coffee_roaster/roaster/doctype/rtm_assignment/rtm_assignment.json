@@ -1,44 +1,61 @@
 {
-  "doctype": "DocType",
-  "name": "RTM Assignment",
-  "module": "Roaster",
-  "custom": 1,
-  "autoname": "format:RTM-{YY}{MM}-{#####}",
-  "search_fields": "customer rtm_channel",
-  "title_field": "customer",
-  "track_changes": 1,
-  "has_js": 1,
-  "track_views": 1,
-  "fields": [
-    {
-      "fieldname": "customer",
-      "label": "Customer",
-      "fieldtype": "Link",
-      "options": "Customer",
-      "reqd": 1,
-      "in_list_view": 1
-    },
-    {
-      "fieldname": "rtm_channel",
-      "label": "RTM Channel",
-      "fieldtype": "Select",
-      "options": "Direct Sales\nDistribution\nE-commerce\nRetail & HoReCa",
-      "reqd": 1,
-      "in_list_view": 1
-    },
-    {
-      "fieldname": "notes",
-      "label": "Description / Notes",
-      "fieldtype": "Small Text"
-    }
-  ],
-  "permissions": [
-    {
-      "role": "System Manager",
-      "read": 1,
-      "write": 1,
-      "create": 1,
-      "delete": 1
-    }
-  ]
+"doctype": "DocType",
+"name": "RTM Assignment",
+"module": "Roaster",
+"custom": 0,
+"istable": 0,
+"is_submittable": 0,
+"track_changes": 1,
+"autoname": "naming_series:",
+"naming_rule": "Set by user",
+"editable_grid": 0,
+"allow_copy": 0,
+"engine": "InnoDB",
+"sort_field": "modified",
+"sort_order": "DESC",
+"fields": [
+{"fieldname": "naming_series", "label": "Series", "fieldtype": "Select", "options": "RTM-.YYYY.-.####", "reqd": 1},
+
+
+{"fieldname": "company", "label": "Company", "fieldtype": "Link", "options": "Company", "reqd": 1, "in_list_view": 1},
+
+
+{"fieldname": "customer", "label": "Customer", "fieldtype": "Link", "options": "Customer", "reqd": 1, "in_list_view": 1},
+{"fieldname": "customer_name", "label": "Customer Name", "fieldtype": "Data", "read_only": 1, "in_list_view": 1},
+
+
+{"fieldname": "rtm_channel", "label": "RTM Channel", "fieldtype": "Select", "options": "Retail\nDistributor\nHotel\nCafé\nCorporate\nNGO\nGovernment\nExporter\nSupermarket\nExhibition", "in_list_view": 1},
+{"fieldname": "outlet_type", "label": "Outlet Type", "fieldtype": "Select", "options": "GOV\nNGO\nEMB\nCORP\nEDU\nSMKT\nEXPO\nRETAIL\nDIST\nCAF\nHOTEL\nREST", "in_list_view": 1},
+
+
+{"fieldname": "sub_city", "label": "Sub-City", "fieldtype": "Data", "in_list_view": 1},
+{"fieldname": "area", "label": "Area / Kebele", "fieldtype": "Data"},
+{"fieldname": "territory", "label": "Territory", "fieldtype": "Link", "options": "Territory"},
+
+
+{"fieldname": "marketer", "label": "Assigned Marketer (User)", "fieldtype": "Link", "options": "User", "in_list_view": 1},
+{"fieldname": "visit_frequency", "label": "Visit Frequency", "fieldtype": "Select", "options": "Daily\nWeekly\nMonthly"},
+{"fieldname": "visit_day", "label": "Visit Day (if Weekly)", "fieldtype": "Select", "options": "Monday\nTuesday\nWednesday\nThursday\nFriday\nSaturday\nSunday"},
+{"fieldname": "priority", "label": "Priority (1=High)", "fieldtype": "Int", "default": "3"},
+
+
+{"fieldname": "contact", "label": "Primary Contact", "fieldtype": "Link", "options": "Contact"},
+{"fieldname": "phone", "label": "Phone", "fieldtype": "Data"},
+{"fieldname": "email", "label": "Email", "fieldtype": "Data"},
+
+
+{"fieldname": "default_address", "label": "Default Address", "fieldtype": "Link", "options": "Address"},
+{"fieldname": "address_display", "label": "Address", "fieldtype": "Small Text", "read_only": 1},
+{"fieldname": "latitude", "label": "Latitude", "fieldtype": "Float", "precision": "6"},
+{"fieldname": "longitude", "label": "Longitude", "fieldtype": "Float", "precision": "6"},
+
+
+{"fieldname": "active", "label": "Active", "fieldtype": "Check", "default": "1", "in_list_view": 1},
+{"fieldname": "notes", "label": "Notes", "fieldtype": "Small Text"}
+],
+"permissions": [
+{"role": "Sales User", "read": 1, "write": 1, "create": 1},
+{"role": "Sales Manager", "read": 1, "write": 1, "create": 1, "delete": 1},
+{"role": "System Manager", "read": 1, "write": 1, "create": 1, "delete": 1}
+]
 }

@@ -1,0 +1,14 @@
+{
+  "doctype": "Print Format",
+  "name": "Return to Vendor",
+  "doc_type": "Purchase Receipt",
+  "module": "Roaster",
+  "print_format_type": "Jinja",
+  "disabled": 0,
+  "custom_format": 1,
+  "raw_printing": 0,
+  "default": 0,
+  "css": "",
+  "html": "{% if not doc.is_return %}<div style=\"color:#a00\"><b>Note:</b> This print is designed for Return documents (is_return=1).</div>{% endif %}\n<div class=\"print-format\">\n  <h2 style=\"text-align:center;margin:0 0 8px\">RETURN TO VENDOR (RTV)</h2>\n  <p style=\"text-align:center;margin:0 0 12px\"><small>Against Purchase Receipt: {{ doc.return_against or '-' }}</small></p>\n  <table style=\"width:100%;font-size:12px\">\n    <tr>\n      <td><b>Date:</b> {{ doc.posting_date }}</td>\n      <td><b>Company:</b> {{ doc.company }}</td>\n      <td><b>Supplier:</b> {{ doc.supplier_name or doc.supplier }}</td>\n    </tr>\n    <tr>\n      <td><b>Return Reason:</b> {{ doc.remarks or doc.title or '-' }}</td>\n      <td><b>Warehouse:</b> {{ (doc.items and doc.items[0].warehouse) or '' }}</td>\n      <td><b>Status:</b> {{ doc.status }}</td>\n    </tr>\n  </table>\n  <hr/>\n  <table style=\"width:100%;border-collapse:collapse;font-size:12px\" border=1 cellspacing=0 cellpadding=4>\n    <thead>\n      <tr>\n        <th style=\"width:32px\">#</th>\n        <th>Item</th>\n        <th>Batch</th>\n        <th>Qty (Return)</th>\n        <th>UOM</th>\n        <th>Rate</th>\n        <th>Amount</th>\n        <th>Reason/Notes</th>\n      </tr>\n    </thead>\n    <tbody>\n      {% for i in doc.items %}\n      <tr>\n        <td>{{ loop.index }}</td>\n        <td>{{ i.item_code }} — {{ i.item_name }}</td>\n        <td>{{ i.batch_no or '' }}</td>\n        <td style=\"text-align:right\">{{ i.qty }}</td>\n        <td>{{ i.uom }}</td>\n        <td style=\"text-align:right\">{{ i.rate }}</td>\n        <td style=\"text-align:right\">{{ i.amount }}</td>\n        <td>{{ i.user_remark or doc.remarks or '' }}</td>\n      </tr>\n      {% endfor %}\n    </tbody>\n  </table>\n  <div style=\"margin-top:12px;text-align:right\"><b>Net Total:</b> {{ doc.net_total }} | <b>Taxes:</b> {{ doc.total_taxes_and_charges }} | <b>Grand Total:</b> {{ doc.grand_total }}</div>\n  <div style=\"display:flex;gap:24px;margin-top:24px\">\n    <div style=\"flex:1\"><b>Prepared By</b><br/><br/>_______________________<br/><small>Name & Signature</small></div>\n    <div style=\"flex:1\"><b>Storekeeper</b><br/><br/>_______________________<br/><small>Name & Signature</small></div>\n    <div style=\"flex:1\"><b>Supplier Acknowledgement</b><br/><br/>_______________________<br/><small>Stamp & Signature</small></div>\n  </div>\n</div>",
+  "standard": "No"
+}

@@ -1,0 +1,9 @@
+{
+  "doctype": "Print Format",
+  "name": "Master Route Plan — Grouped",
+  "module": "Roaster",
+  "doc_type": "Master Route Plan",
+  "print_format_type": "Jinja",
+  "disabled": 0,
+  "html": "<style>.table{width:100%;border-collapse:collapse;font-size:12px}.table th,.table td{border:1px solid #222;padding:6px}.hdr{margin-bottom:10px}.small{font-size:11px}.group{background:#f4f4f4;font-weight:bold}</style><div class=hdr><h3>Master Route Plan ({{ doc.period_start }} → {{ doc.period_end }})</h3><div class=small><b>Default Marketer:</b> {{ doc.marketer or '-' }}</div></div><table class=\"table\"><thead><tr><th>Sub-City</th><th>Route Plan</th><th>Date</th><th>Marketer</th><th>Customers</th></tr></thead><tbody>{% for row in doc.items %}<tr><td>{{ row.sub_city or '' }}</td><td>{{ row.route_plan }}</td><td>{{ row.route_date or '' }}</td><td>{{ row.marketer or '' }}</td><td>{{ row.total_customers or '' }}</td></tr>{% endfor %}</tbody></table>"
+}

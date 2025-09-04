@@ -1,417 +1,318 @@
+# -*- coding: utf-8 -*-
+import os, re, io, zipfile
+from datetime import date, timedelta
 import frappe
-import csv
-from frappe.utils import get_files_path
+from frappe.utils import get_site_path
 
-# === 1. CHART OF ACCOUNTS EXPORT (COMPLETE AND UPDATED) ===
+# ---------------- Top-level helpers (column 0) ----------------
 
-# Numeric Sage Account Type Mapping (for reference)
-SAGE_ACCOUNT_TYPES = {
-    "Cash": 0, "Accounts Receivable": 1, "Inventory": 2, "Other Current Assets": 3,
-    "Fixed Assets": 4, "Accumulated Depreciation": 5, "Accounts Payable": 6,
-    "Credit Card": 7, "Other Current Liabilities": 8, "Long Term Liabilities": 9,
-    "Equity-does not close": 10, "Income": 11, "Cost of Sales": 12, "Expenses": 13
-}
+def _yyyymm(y, m):
+    return f"{int(y):04d}{int(m):02d}"
 
+def _month_bounds(year, month):
+    start = date(int(year), int(month), 1)
+    nxt = date(start.year + (1 if start.month == 12 else 0),
+               1 if start.month == 12 else start.month + 1, 1)
+    return start, (nxt - timedelta(days=1))
 
-@frappe.whitelist()
-def map_to_sage_type_numeric(name, root_type, is_group=False):
+def _slug(s):
+    return re.sub(r"[^A-Za-z0-9]+", "_", (s or "")).strip("_")
+
+def _sanitize(v):
+    if v is None:
+        return ""
+    return str(v).replace("\t", " ").replace("\r", " ").replace("\n", " ").strip()
+
+def _tab_text(header, rows):
+    lines = ["\t".join(header)]
+    for r in rows:
+        lines.append("\t".join(_sanitize(x) for x in r))
+    return "\n".join(lines) + "\n"
+
+def _tab_text_no_header(rows):
+    # Peachtree/Sage 50 prefers CRLF and NO header for General Journal
+    return "\r\n".join("\t".join(_sanitize(x) for x in r) for r in rows) + "\r\n"
+
+def _fmt_us_date(d):
+    """Return MM/DD/YYYY for date/datetime; fallback to str."""
+    try:
+        return d.strftime("%m/%d/%Y")
+    except Exception:
+        return str(d)
+
+def _files_dir():
+    return get_site_path("public", "files")
+
+def _account_number_or_name(acc_name):
+    if not acc_name:
+        return ""
+    num = frappe.db.get_value("Account", acc_name, "account_number")
+    return num or acc_name
+
+def _map_sage_account_type(acc_doc: dict) -> str:
     """
-    Corrected and improved function to map Frappe account types to Sage numeric types.
-    Handles specific keywords for more accurate classification.
+    Map ERPNext Account to Sage 'Type'.
+    Only label 'Cash' for *Asset* accounts that are clearly bank/cash.
+    Otherwise map by root_type.
     """
-    # Sanitize inputs to prevent errors with empty names or types
-    name_lower = (name or '').lower()
-    root_lower = (root_type or '').lower()
+    rt = (acc_doc.get("root_type") or "").title()          # Asset/Liability/Equity/Income/Expense
+    at = (acc_doc.get("account_type") or "").strip().lower()
+    nm = (acc_doc.get("account_name") or acc_doc.get("name") or "").lower()
 
-    if is_group:
-        # Group accounts are not postable. Default to 'Expenses' as they are often filtered out by Sage.
-        return 13
+    if rt == "Asset" and at in {"bank", "cash"}:
+        return "Cash"
+    if rt == "Asset" and re.search(r"\b(cash|bank|checking)\b", nm):
+        return "Cash"
+    if rt in {"Asset","Liability","Equity","Income","Expense"}:
+        return rt
+    return "Asset"
 
-    # --- Classification based on ROOT TYPE first for accuracy ---
+def _first_address(party_doctype: str, party_name: str) -> dict:
+    """Fetch latest Address; fallback to latest Contact for phone/email."""
+    out = {"line1":"", "line2":"", "city":"", "state":"", "pincode":"", "country":"", "phone":"", "email":""}
 
-    if root_lower == 'expense':
-        # Check for specific Cost of Sales keywords. Added 'cost of ' based on your data.
-        if any(cogs in name_lower for cogs in ['cost of sales', 'cogs', 'cost of goods sold', 'cost of ']):
-            return 12
-        # All other accounts with a root_type of 'Expense' map to Sage's 'Expenses'.
-        return 13
-
-    if root_lower == 'asset':
-        if 'receivable' in name_lower:
-            return 1
-        # Added 'grind' and 'intransit' from your data for better inventory matching
-        if any(word in name_lower for word in ['inventory', 'stock', 'grind', 'intransit']):
-            return 2
-        if any(word in name_lower for word in ['fixed asset', 'machin', 'furnitur', 'property', 'building']):
-            return 4
-        if 'depreciation' in name_lower or 'accum' in name_lower:
-            return 5
-        # Added more specific bank names from your data
-        if any(bank_term in name_lower for bank_term in ['bank', 'cash', 'checking', 'checke', 'tele birr', 'dashen', 'cbe', 'enat']):
-            return 0
-        # If it's an asset but doesn't fit the above, it's 'Other Current Assets'.
-        return 3
-
-    if root_lower == 'liability':
-        if 'payable' in name_lower and 'tax' not in name_lower:
-            return 6
-        if 'credit card' in name_lower:
-            return 7
-        if 'long term' in name_lower:
-            return 9
-        # All other liabilities, including various taxes, go to 'Other Current Liabilities'.
-        return 8
-
-    if root_lower == 'equity':
-        return 10
-
-    if root_lower == 'income':
-        return 11
-
-    # Default to 'Expenses' if no other category fits. This is the safest fallback.
-    return 13
-
-
-@frappe.whitelist()
-def export_chart_of_accounts_for_sage():
-    """
-    Exports the Chart of Accounts from ERPNext to a Sage 50 compatible CSV file.
-    """
-    accounts = frappe.get_all(
-        "Account",
-        fields=["account_number", "account_name", "root_type", "disabled", "is_group"],
-        filters={"company": "Coffee Rosters"} # IMPORTANT: Add your company name here
-    )
-
-    fieldnames = [
-        "Account ID", "Account Description", "Account Type", "Inactive",
-        "Tax Code", "Next Check Number", "Current Balance", "1099 Settings"
-    ]
-
-    records = []
-    for acc in accounts:
-        # Call the helper function to get the Sage account type code
-        acc_type_code = map_to_sage_type_numeric(acc.account_name, acc.root_type, acc.is_group)
-
-        records.append({
-            "Account ID": acc.account_number or acc.account_name, # Use name as fallback if number is missing
-            "Account Description": acc.account_name or "",
-            "Account Type": acc_type_code,
-            "Inactive": "TRUE" if acc.disabled else "FALSE",
-            "Tax Code": "",
-            "Next Check Number": "",
-            "Current Balance": "0.00", # Sage expects a value, 0.00 is safe
-            "1099 Settings": ""
+    rows = frappe.db.sql("""
+        SELECT a.address_line1, a.address_line2, a.city, a.state, a.pincode, a.country,
+               a.phone AS phone, a.email_id AS email
+        FROM `tabAddress` a
+        JOIN `tabDynamic Link` dl ON dl.parent = a.name
+        WHERE dl.link_doctype = %s AND dl.link_name = %s
+        ORDER BY a.modified DESC
+        LIMIT 1
+    """, (party_doctype, party_name), as_dict=True)
+    if rows:
+        r = rows[0]
+        out.update({
+            "line1": r.address_line1 or "", "line2": r.address_line2 or "",
+            "city": r.city or "", "state": r.state or "", "pincode": r.pincode or "",
+            "country": r.country or "", "phone": r.phone or "", "email": r.email or "",
         })
 
-    # Define the file path for the export
-    file_path = get_files_path("chart_of_accounts_for_sage.csv")
+    if not out["phone"] or not out["email"]:
+        crows = frappe.db.sql("""
+            SELECT c.mobile_no, c.phone, c.email_id
+            FROM `tabContact` c
+            JOIN `tabDynamic Link` dl ON dl.parent = c.name
+            WHERE dl.link_doctype = %s AND dl.link_name = %s
+            ORDER BY c.modified DESC
+            LIMIT 1
+        """, (party_doctype, party_name), as_dict=True)
+        if crows:
+            cr = crows[0]
+            out["phone"] = out["phone"] or cr.get("mobile_no") or cr.get("phone") or ""
+            out["email"] = out["email"] or cr.get("email_id") or ""
 
-    # Write the data to a tab-delimited file
-    with open(file_path, "w", newline="", encoding="utf-8") as csvfile:
-        writer = csv.DictWriter(csvfile, fieldnames=fieldnames, delimiter="\t")
-        writer.writeheader()
-        writer.writerows(records)
+    return out
 
-    # Return the public URL to download the file
-    return "/files/chart_of_accounts_for_sage.csv"
+def _inventory_account(company):
+    acc = frappe.db.get_value("Account",
+        {"company": company, "account_name": ["like", "Stock In Hand%"], "is_group": 0},
+        "name")
+    if acc:
+        return _account_number_or_name(acc)
+    acc = frappe.db.get_value("Account",
+        {"company": company, "root_type": "Asset", "is_group": 0},
+        "name")
+    return _account_number_or_name(acc) if acc else "Inventory"
 
-# === 2. JOURNAL ENTRIES (GL) EXPORT ===
+def _item_defaults(item_code, company):
+    d = frappe.db.sql("""
+        SELECT income_account, expense_account, default_warehouse
+        FROM `tabItem Default`
+        WHERE parent = %s AND company = %s
+        ORDER BY modified DESC
+        LIMIT 1
+    """, (item_code, company), as_dict=True)
+    return d[0] if d else {}
+
+def _item_price(item_code):
+    r = frappe.get_all("Item Price",
+        filters={"item_code": item_code, "price_list": "Standard Selling"},
+        fields=["price_list_rate"], order_by="modified desc", limit=1)
+    if r: return float(r[0].price_list_rate or 0)
+    r = frappe.get_all("Item Price",
+        filters={"item_code": item_code, "selling": 1},
+        fields=["price_list_rate"], order_by="modified desc", limit=1)
+    return float(r[0].price_list_rate or 0) if r else 0.0
+
+def _default_income_account_for_item(item_code: str, company: str) -> str:
+    r = frappe.db.sql("""
+        SELECT income_account
+        FROM `tabItem Default`
+        WHERE parent = %s AND company = %s
+        ORDER BY modified DESC
+        LIMIT 1
+    """, (item_code, company), as_dict=True)
+    if r and r[0].get("income_account"):
+        return _account_number_or_name(r[0]["income_account"])
+    ig = frappe.db.get_value("Item", item_code, "item_group")
+    if ig:
+        acc = frappe.db.get_value("Item Group", ig, "default_income_account")
+        if acc:
+            return _account_number_or_name(acc)
+    acc = frappe.db.get_value("Company", company, "default_income_account")
+    return _account_number_or_name(acc) if acc else ""
+
+# ---------------- Main exports ----------------
+
 @frappe.whitelist()
-def export_journal_entries_for_sage():
-    """
-    Export Journal Entries in Sage 50 (Peachtree) compatible format (tab-delimited).
-    This version is corrected to handle transaction grouping.
-    """
-    entry_line_counts = frappe.db.sql("""
-        SELECT parent, count(*) as line_count
-        FROM `tabJournal Entry Account`
-        WHERE docstatus = 1
-        GROUP BY parent
-    """, as_dict=1)
-    counts = {d.parent: d.line_count for d in entry_line_counts}
+def export_sage_monthly_pack(company, year, month, email_to=None):
+    """Create one ZIP under /files with COA/Customers/Suppliers/Items/Sales/GeneralJournal for YYYY-MM."""
+    year, month = int(year), int(month)
+    yyyymm = _yyyymm(year, month)
+    dfrom, dto = _month_bounds(year, month)
 
-    data = frappe.db.sql("""
-        SELECT
-            je.name, je.posting_date,
-            jea.reference_name, jea.account, jea.user_remark, (jea.debit - jea.credit) AS amount
-        FROM `tabJournal Entry Account` AS jea
-        JOIN `tabJournal Entry` AS je ON jea.parent = je.name
-        WHERE je.docstatus = 1
-        ORDER BY je.name, jea.idx
-    """, as_dict=True)
+    # 1) COA
+    accounts = frappe.get_all("Account",
+        filters={"company": company, "is_group": 0},
+        fields=["name","account_name","account_number","root_type","account_type","disabled"],
+        order_by="IFNULL(account_number, name), name")
+    coa_rows = []
+    for a in accounts:
+        acc_id = (a["account_number"] or a["name"]).strip()
+        desc   = (a["account_name"] or a["name"]).strip()
+        typ    = _map_sage_account_type(a)
+        inactive = "Y" if int(a.get("disabled") or 0) else "N"
+        coa_rows.append([acc_id, desc, typ, inactive])
 
-    fieldnames = [
-        "Date", "Reference", "Date Clear in Bank Rec", "Number of Distributions",
-        "G/L Account", "Description", "Amount", "Job ID",
-        "Used for Reimbursable Expenses", "Transaction Period", "Transaction Number",
-        "Consolidated Transaction", "Recur Number", "Recur Frequency"
-    ]
-    
-    sage_formatted_rows = []
-    current_entry_id = None
-    for row in data:
-        is_first_line = row.name != current_entry_id
-        
-        sage_row = {field: "" for field in fieldnames}
-
-        if is_first_line:
-            sage_row["Date"] = row.posting_date
-            sage_row["Reference"] = row.reference_name or row.name
-            sage_row["Transaction Number"] = row.name
-            sage_row["Number of Distributions"] = counts.get(row.name, 1)
-            current_entry_id = row.name
-
-        sage_row["G/L Account"] = row.account
-        sage_row["Description"] = row.user_remark
-        sage_row["Amount"] = row.amount
-
-        sage_formatted_rows.append(sage_row)
-
-    file_path = get_files_path("GENERAL.TXT")
-    with open(file_path, "w", newline="", encoding="utf-8") as csvfile:
-        writer = csv.DictWriter(csvfile, fieldnames=fieldnames, delimiter="\t")
-        writer.writeheader()
-        writer.writerows(sage_formatted_rows)
-        
-    return "/files/GENERAL.TXT"
-
-
-# === 3. CUSTOMERS EXPORT ===
-@frappe.whitelist()
-def export_customers_for_sage():
-    """
-    Export Customers in Sage 50 (Peachtree) compatible format (tab-delimited).
-    This version includes primary billing and shipping address details.
-    """
-    customers = frappe.get_all(
-        "Customer",
-        fields=["name", "customer_name", "disabled", "customer_group", "phone", "email_id", "tax_id"]
-    )
-
-    fieldnames = [
-        "Customer ID", "Customer Name", "Prospect", "Inactive",
-        "Bill to Contact First Name", "Bill to Contact Last Name",
-        "Bill to Address-Line One", "Bill to Address-Line Two", "Bill to City", "Bill to State", "Bill to Zip", "Bill to Country",
-        "Bill to Sales Tax ID", "Ship to Address 1-Line One", "Ship to Address 1-Line Two", "Ship to City 1", "Ship to State 1", "Ship to Zipcode 1", "Ship to Country 1", "Ship to Sales Tax ID 1",
-        "Customer Type", "Telephone 1", "Telephone 2", "Fax Number", "Customer E-mail",
-        "Sales Representative ID", "Account #", "G/L Sales Account", "Open Purchase Order Number", "Ship Via", "Resale Number",
-        "Pricing Level", "Use Standard Terms", "C.O.D. Terms", "Prepaid Terms", "Terms Type", "Due Days", "Discount Days", "Discount Percent", "Credit Limit", "Credit Status", "Charge Finance Charges", "Due Month End Terms",
-        "Cardholder's Name", "Credit Card Address Line 1", "Credit Card Address Line 2", "Credit Card City", "Credit Card State", "Credit Card Zip Code", "Credit Card Country", "Credit Card Number", "Credit Card Expiration Date",
-        "Use Receipt Settings", "Customer Payment Method", "Customer Cash Account", "Second Contact", "Reference", "Mailing List?", "Multiple Sites?", "Customer Since Date", "Last Statement Date", "Customer Web Site", "ID Replacement"
-    ]
-
-    sage_formatted_rows = []
+    # 2) Customers
+    customers = frappe.get_all("Customer",
+        filters={}, fields=["name","customer_name","tax_id","default_currency","disabled"])
+    cust_rows = []
     for c in customers:
-        sage_row = {field: "" for field in fieldnames}
+        addr = _first_address("Customer", c["name"])
+        cust_rows.append([
+            c["name"], c.get("customer_name") or c["name"],
+            addr["line1"], addr["line2"], addr["city"], addr["state"], addr["pincode"], addr["country"],
+            addr["phone"], addr["email"],
+            c.get("tax_id") or "", c.get("default_currency") or "ETB",
+        ])
 
-        sage_row["Customer ID"] = c.name
-        sage_row["Customer Name"] = c.customer_name
-        sage_row["Inactive"] = "TRUE" if c.disabled else "FALSE"
-        sage_row["Customer Type"] = c.customer_group
-        sage_row["Telephone 1"] = c.phone
-        sage_row["Customer E-mail"] = c.email_id
-        sage_row["Bill to Sales Tax ID"] = c.tax_id
+    # 3) Suppliers
+    suppliers = frappe.get_all("Supplier",
+        filters={}, fields=["name","supplier_name","tax_id","default_currency","disabled"])
+    supp_rows = []
+    for s in suppliers:
+        addr = _first_address("Supplier", s["name"])
+        supp_rows.append([
+            s["name"], s.get("supplier_name") or s["name"],
+            addr["line1"], addr["line2"], addr["city"], addr["state"], addr["pincode"], addr["country"],
+            addr["phone"], addr["email"],
+            s.get("tax_id") or "", s.get("default_currency") or "ETB",
+        ])
 
-        billing_address = frappe.db.get_value("Address", {"link_doctype": "Customer", "link_name": c.name, "is_primary_billing": 1},
-            ["address_line1", "address_line2", "city", "state", "pincode", "country"], as_dict=True)
-        if billing_address:
-            sage_row["Bill to Address-Line One"] = billing_address.address_line1
-            sage_row["Bill to Address-Line Two"] = billing_address.address_line2
-            sage_row["Bill to City"] = billing_address.city
-            sage_row["Bill to State"] = billing_address.state
-            sage_row["Bill to Zip"] = billing_address.pincode
-            sage_row["Bill to Country"] = billing_address.country
+    # 4) Items
+    inv_acc_default = _inventory_account(company)
+    items = frappe.get_all("Item",
+        filters={"disabled": 0}, fields=["name","item_name","is_stock_item","stock_uom"])
+    item_rows = []
+    for it in items:
+        d = _item_defaults(it["name"], company)
+        sales_acc = _account_number_or_name(d.get("income_account")) if d.get("income_account") else ""
+        cogs_acc  = _account_number_or_name(d.get("expense_account")) if d.get("expense_account") else ""
+        inv_acc   = inv_acc_default
+        price     = _item_price(it["name"])
+        cost      = 0.0
+        item_rows.append([
+            it["name"], it.get("item_name") or it["name"], it.get("stock_uom") or "",
+            "Y" if int(it.get("is_stock_item") or 0) else "N",
+            sales_acc, cogs_acc, inv_acc, f"{price:.2f}", f"{cost:.2f}",
+        ])
 
-        shipping_address = frappe.db.get_value("Address", {"link_doctype": "Customer", "link_name": c.name, "is_primary_shipping": 1},
-            ["address_line1", "address_line2", "city", "state", "pincode", "country"], as_dict=True)
-        if shipping_address:
-            sage_row["Ship to Address 1-Line One"] = shipping_address.address_line1
-            sage_row["Ship to Address 1-Line Two"] = shipping_address.address_line2
-            sage_row["Ship to City 1"] = shipping_address.city
-            sage_row["Ship to State 1"] = shipping_address.state
-            sage_row["Ship to Zipcode 1"] = shipping_address.pincode
-            sage_row["Ship to Country 1"] = shipping_address.country
-            
-        sage_formatted_rows.append(sage_row)
+    # 5) Sales
+    si = frappe.db.sql("""
+        SELECT si.name AS inv, si.posting_date, si.customer,
+               sii.item_code, sii.qty, sii.rate, sii.amount, sii.income_account
+        FROM `tabSales Invoice` si
+        JOIN `tabSales Invoice Item` sii ON sii.parent = si.name
+        WHERE si.company = %s AND si.docstatus = 1
+          AND si.posting_date BETWEEN %s AND %s
+        ORDER BY si.posting_date, si.name, sii.idx
+    """, (company, str(dfrom), str(dto)), as_dict=True)
+    sales_rows = []
+    for r in si:
+        sales_acc = (_account_number_or_name(r["income_account"])
+                     if r.get("income_account") else _default_income_account_for_item(r["item_code"], company))
+        sales_rows.append([
+            r["customer"], r["inv"], _fmt_us_date(r["posting_date"]),
+            r["item_code"], f"{float(r.get('qty') or 0):.4f}", f"{float(r.get('rate') or 0):.4f}",
+            f"{float(r.get('amount') or 0):.2f}", sales_acc
+        ])
 
-    file_path = get_files_path("CUSTOMER.TXT")
-    with open(file_path, "w", newline="", encoding="utf-8") as csvfile:
-        writer = csv.DictWriter(csvfile, fieldnames=fieldnames, delimiter="\t")
-        writer.writeheader()
-        writer.writerows(sage_formatted_rows)
-        
-    return "/files/CUSTOMER.TXT"
+    # 6) General Journal (Peachtree-friendly: US dates, NO header)
+    acc_map = {}
+    for a in frappe.get_all("Account", filters={"company": company}, fields=["name","account_number"]):
+        acc_map[a["name"]] = a.get("account_number") or a["name"]
+    gj = frappe.db.sql("""
+        SELECT posting_date, voucher_no, account, remarks, debit, credit
+        FROM `tabGL Entry`
+        WHERE company = %s AND is_cancelled = 0
+          AND posting_date BETWEEN %s AND %s
+        ORDER BY posting_date, voucher_no, name
+    """, (company, str(dfrom), str(dto)), as_dict=True)
+    gj_rows = []
+    for g in gj:
+        acc_id = acc_map.get(g["account"], g["account"])
+        gj_rows.append([
+            _fmt_us_date(g["posting_date"]),
+            g["voucher_no"],
+            acc_id,
+            g.get("remarks") or "",
+            f"{float(g.get('debit') or 0):.2f}",
+            f"{float(g.get('credit') or 0):.2f}",
+        ])
 
+    # ---- Write ZIP in one context ----
+    mem = io.BytesIO()
+    with zipfile.ZipFile(mem, "w", compression=zipfile.ZIP_DEFLATED) as z:
+        z.writestr(f"COA_{yyyymm}.txt",
+                   _tab_text(["Account ID","Description","Type","Inactive"], coa_rows))
+        z.writestr(f"Customers_{yyyymm}.txt",
+                   _tab_text(["Customer ID","Customer Name","Address1","Address2","City","State","Zip","Country","Phone","Email","Tax ID","Currency"], cust_rows))
+        z.writestr(f"Suppliers_{yyyymm}.txt",
+                   _tab_text(["Supplier ID","Supplier Name","Address1","Address2","City","State","Zip","Country","Phone","Email","Tax ID","Currency"], supp_rows))
+        z.writestr(f"Items_{yyyymm}.txt",
+                   _tab_text(["Item ID","Description","UOM","Is Stock Item","Sales GL","COGS GL","Inventory GL","Price","Cost"], item_rows))
+        z.writestr(f"Sales_{yyyymm}.txt",
+                   _tab_text(["Customer ID","Invoice No","Date","Item ID","Qty","Unit Price","Line Total","Sales GL"], sales_rows))
+        # General Journal WITHOUT header and with CRLF:
+        z.writestr(f"GeneralJournal_{yyyymm}.txt", _tab_text_no_header(gj_rows))
 
-# === 4. SUPPLIERS EXPORT ===
-@frappe.whitelist()
-def export_suppliers_for_sage():
-    suppliers = frappe.get_all(
-        "Supplier",
-        fields=[
-            "name", "supplier_name", "supplier_type", "tax_id",
-            "supplier_group", "country"
-        ]
-    )
-    fieldnames = [
-        "SupplierID", "SupplierName", "Type", "TaxID", "Group", "Country"
-    ]
-    file_path = get_files_path("erpnext_suppliers_for_sage.csv")
-    with open(file_path, "w", newline="", encoding="utf-8") as csvfile:
-        writer = csv.DictWriter(csvfile, fieldnames=fieldnames, delimiter="\t")
-        writer.writeheader()
-        for s in suppliers:
-            writer.writerow({
-                "SupplierID": s.name,
-                "SupplierName": s.supplier_name,
-                "Type": s.supplier_type or "",
-                "TaxID": s.tax_id or "",
-                "Group": s.supplier_group or "",
-                "Country": s.country or ""
-            })
-    return "/files/erpnext_suppliers_for_sage.csv"
+    # ---- Save ZIP + optional email ----
+    os.makedirs(_files_dir(), exist_ok=True)
+    zip_name = f"SAGE_{_slug(company)}_{yyyymm}.zip"
+    with open(os.path.join(_files_dir(), zip_name), "wb") as f:
+        f.write(mem.getvalue())
 
+    if email_to:
+        try:
+            frappe.sendmail(
+                recipients=[email_to],
+                subject=f"Sage Monthly Export - {company} {yyyymm}",
+                message=f"Attached is the Sage monthly export for {company} ({yyyymm}).",
+                attachments=[{"fname": zip_name, "fcontent": mem.getvalue()}],
+            )
+        except Exception:
+            frappe.log_error(frappe.get_traceback(), "Sage Monthly Pack Email Failed")
 
-# === 5. SALES INVOICES EXPORT ===
-@frappe.whitelist()
-def export_sales_invoices_for_sage():
-    """
-    Export Sales Invoices in Sage 50 Sales Journal format (tab-delimited, no header).
-    """
-    invoice_item_counts = frappe.db.sql("""
-        SELECT parent, count(*) as item_count
-        FROM `tabSales Invoice Item`
-        WHERE docstatus = 1
-        GROUP BY parent
-    """, as_dict=1)
-    counts = {d.parent: d.item_count for d in invoice_item_counts}
-
-    invoices_data = frappe.db.sql("""
-        SELECT
-            si.name, si.posting_date, si.due_date, si.po_no, si.debit_to, si.payment_terms, si.tax_id, si.remarks,
-            si.customer, sii.item_code, sii.description, sii.qty, sii.rate, sii.amount, sii.income_account
-        FROM `tabSales Invoice Item` AS sii
-        JOIN `tabSales Invoice` AS si ON si.name = sii.parent
-        WHERE si.docstatus = 1
-        ORDER BY si.name, sii.idx
-    """, as_dict=True)
-
-    fieldnames = [
-        "Customer ID", "Invoice/CM #", "Apply to Invoice Number", "Credit Memo", "Progress Billing Invoice", "Date",
-        "Ship By", "Quote", "Quote #", "Quote Good Thru Date", "Drop Ship", "Ship to Name", "Ship to Address-Line One",
-        "Ship to Address-Line Two", "Ship to City", "Ship to State", "Ship to Zipcode", "Ship to Country", "Customer PO",
-        "Ship Via", "Ship Date", "Date Due", "Discount Amount", "Discount Date", "Displayed Terms", "Sales Representative ID",
-        "Accounts Receivable Account", "Sales Tax ID", "Invoice Note", "Note Prints After Line Items", "Statement Note",
-        "Stmt Note Prints Before Ref", "Internal Note", "Beginning Balance Transaction", "Number of Distributions",
-        "Invoice/CM Distribution", "Apply to Invoice Distribution", "Apply To Sales Order", "Apply to Proposal", "Quantity",
-        "SO/Proposal Number", "Item ID", "Serial Number", "SO/Proposal Distribution", "Description", "G/L Account",
-        "Unit Price", "Tax Type", "UPC / SKU", "Weight", "Amount", "Job ID", "Sales Tax Agency ID", "Transaction Period",
-        "Transaction Number", "Return Authorization", "Voided by Transaction", "Recur Number", "Recur Frequency"
-    ]
-
-    sage_formatted_rows = []
-    current_invoice_id = None
-    for row in invoices_data:
-        is_first_line = row.name != current_invoice_id
-
-        sage_row = {field: "" for field in fieldnames}
-
-        if is_first_line:
-            sage_row["Customer ID"] = row.customer
-            sage_row["Invoice/CM #"] = row.name
-            sage_row["Date"] = row.posting_date
-            sage_row["Date Due"] = row.due_date
-            sage_row["Customer PO"] = row.po_no
-            sage_row["Displayed Terms"] = row.payment_terms
-            sage_row["Accounts Receivable Account"] = row.debit_to
-            sage_row["Sales Tax ID"] = row.tax_id
-            sage_row["Invoice Note"] = row.remarks
-            sage_row["Transaction Number"] = row.name
-            sage_row["Credit Memo"] = "FALSE"
-            sage_row["Number of Distributions"] = counts.get(row.name, 1)
-            current_invoice_id = row.name
-
-        sage_row["Quantity"] = row.qty
-        sage_row["Item ID"] = row.item_code
-        sage_row["Description"] = row.description
-        sage_row["G/L Account"] = row.income_account
-        sage_row["Unit Price"] = row.rate
-        sage_row["Amount"] = row.amount
-
-        sage_formatted_rows.append(sage_row)
-
-    file_path = get_files_path("SALES.TXT")
-    with open(file_path, "w", newline="", encoding="utf-8") as f:
-        for row in sage_formatted_rows:
-            values = [str(row.get(field, "")) for field in fieldnames]
-            f.write("\t".join(values) + "\n")
-
-    return "/files/SALES.TXT"
-
-
-# === 6. INVENTORY ITEMS EXPORT ===
-def get_stock_balance(item_code):
-    """Get stock balance for an item from Bin table."""
-    result = frappe.db.get_value("Bin", {"item_code": item_code}, "actual_qty")
-    return result or 0
+    return f"/files/{zip_name}"
 
 @frappe.whitelist()
-def export_inventory_for_sage():
-    """
-    Export Inventory Items in Sage 50 (Peachtree) compatible format (tab-delimited).
-    """
-    items = frappe.get_all(
-        "Item",
-        fields=["name", "item_name", "item_group", "disabled", "is_stock_item", "standard_selling_rate", "standard_rate", "description"]
-    )
+def export_sage_previous_month_pack(company, email_to=None):
+    today = date.today()
+    last_prev = date(today.year, today.month, 1) - timedelta(days=1)
+    return export_sage_monthly_pack(company=company, year=last_prev.year, month=last_prev.month, email_to=email_to)
 
-    fieldnames = [
-        "Item ID", "Item Description", "Inactive", "Item Class", "Subject to Commission",
-        "Description for Sales", "Description for Purchases",
-        "Price Level 1", "Price Level 2", "Price Level 3", "Price Level 4", "Price Level 5",
-        "Price Level 6", "Price Level 7", "Price Level 8", "Price Level 9", "Price Level 10",
-        "G/L Sales Account", "G/L Inventory Account", "G/L Cost of Sales Account",
-        "Item Tax Type", "Number of Stocking Units", "Unit of Measure", "Weight", "UPC/SKU",
-        "Location", "Stocking Unit of Measure", "Last Unit Cost", "Item Type", "Quantity on Hand", "Cost Method",
-        "Reorder Quantity", "Minimum Stock Level", "Buyer ID", "Preferred Supplier ID", "Substitute Item ID"
-    ]
+# ---- Back-compat aliases for older scripts ----
+@frappe.whitelist()
+def export_previous_month_for_sage(company, email_to=None):
+    return export_sage_previous_month_pack(company=company, email_to=email_to)
 
-    sage_formatted_rows = []
-    for item in items:
-        sage_row = {field: "" for field in fieldnames}
+@frappe.whitelist()
+def export_month_for_sage(company, year=None, month=None, email_to=None):
+    if not year or not month:
+        today = date.today()
+        last_prev = date(today.year, today.month, 1) - timedelta(days=1)
+        year, month = last_prev.year, last_prev.month
+    return export_sage_monthly_pack(company=company, year=int(year), month=int(month), email_to=email_to)
 
-        sage_row["Item ID"] = item.name
-        sage_row["Item Description"] = item.item_name
-        sage_row["Inactive"] = "TRUE" if item.disabled else "FALSE"
-        sage_row["Description for Sales"] = item.description
-        sage_row["Item Type"] = item.item_group
-        
-        if item.is_stock_item:
-            sage_row["Item Class"] = "Stock Item"
-        else:
-            sage_row["Item Class"] = "Service"
-
-        sage_row["Price Level 1"] = item.standard_selling_rate
-        sage_row["Last Unit Cost"] = item.standard_rate
-        sage_row["Cost Method"] = "FIFO"
-
-        item_defaults = frappe.db.get_value("Item Default", {"parent": item.name}, ["income_account", "expense_account", "buying_cost_center"], as_dict=True)
-        if item_defaults:
-            sage_row["G/L Sales Account"] = item_defaults.income_account
-            sage_row["G/L Cost of Sales Account"] = item_defaults.expense_account
-            sage_row["G/L Inventory Account"] = item_defaults.buying_cost_center
-
-        if item.is_stock_item:
-            qty_on_hand = get_stock_balance(item.name)
-            sage_row["Quantity on Hand"] = qty_on_hand if qty_on_hand is not None else 0
-
-        sage_formatted_rows.append(sage_row)
-
-    file_path = get_files_path("INVENTRY.TXT")
-    with open(file_path, "w", newline="", encoding="utf-8") as csvfile:
-        writer = csv.DictWriter(csvfile, fieldnames=fieldnames, delimiter="\t")
-        writer.writeheader()
-        writer.writerows(sage_formatted_rows)
-        
-    return "/files/INVENTRY.TXT"

@@ -1,49 +1,35 @@
 {
- "actions": [],
- "allow_rename": 1,
- "creation": "2025-07-05 13:14:00.894203",
- "doctype": "DocType",
- "engine": "InnoDB",
- "field_order": [
-  "machine_nmae",
-  "model"
- ],
- "fields": [
-  {
-   "fieldname": "machine_nmae",
-   "fieldtype": "Data",
-   "label": "Machine Nmae"
-  },
-  {
-   "fieldname": "model",
-   "fieldtype": "Data",
-   "label": "Model Model"
-  }
- ],
- "grid_page_length": 50,
- "index_web_pages_for_search": 1,
- "links": [],
- "modified": "2025-07-05 13:15:55.304423",
- "modified_by": "Administrator",
- "module": "roaster",
- "name": "Roasting Machine",
- "owner": "Administrator",
- "permissions": [
-  {
-   "create": 1,
-   "delete": 1,
-   "email": 1,
-   "export": 1,
-   "print": 1,
-   "read": 1,
-   "report": 1,
-   "role": "System Manager",
-   "share": 1,
-   "write": 1
-  }
- ],
- "row_format": "Dynamic",
- "sort_field": "modified",
- "sort_order": "DESC",
- "states": []
+  "doctype": "DocType",
+  "name": "Roasting Machine",
+  "module": "Roaster",
+  "istable": 0,
+  "track_changes": 1,
+  "allow_rename": 1,
+  "autoname": "field:machine_name",
+  "title_field": "machine_name",
+  "sort_field": "modified",
+  "sort_order": "DESC",
+  "fields": [
+    {
+      "fieldname": "machine_name",
+      "fieldtype": "Data",
+      "label": "Machine Name",
+      "reqd": 1,
+      "unique": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "model",
+      "fieldtype": "Data",
+      "label": "Model",
+      "in_list_view": 1
+    }
+  ],
+  "permissions": [
+    {
+      "role": "System Manager",
+      "read": 1, "write": 1, "create": 1, "delete": 1,
+      "print": 1, "email": 1, "export": 1, "report": 1, "share": 1
+    }
+  ]
 }

@@ -1,0 +1,226 @@
+{
+  "doctype": "DocType",
+  "name": "Coffee Roasting Log",
+  "module": "Roaster",
+  "custom": 0,
+  "istable": 0,
+  "editable_grid": 0,
+  "track_changes": 1,
+  "track_seen": 1,
+  "allow_import": 1,
+  "autoname": "naming_series:",
+  "naming_rule": "By field",
+  "title_field": "roast_batch",
+  "engine": "InnoDB",
+  "has_web_view": 0,
+  "is_submittable": 1,
+  "show_name_in_global_search": 1,
+  "navigation": "",
+  "quick_entry": 0,
+  "sort_field": "modified",
+  "sort_order": "DESC",
+  "permissions": [
+    {"role": "System Manager", "read": 1, "write": 1, "create": 1, "delete": 1, "submit": 1, "cancel": 1, "amend": 1, "print": 1, "email": 1, "export": 1},
+    {"role": "Manufacturing User", "read": 1, "write": 1, "create": 1, "submit": 1, "print": 1, "email": 1},
+    {"role": "Stock User", "read": 1, "write": 1, "create": 1, "print": 1, "email": 1},
+    {"role": "Quality Manager", "read": 1, "write": 1, "create": 1, "submit": 1, "print": 1, "email": 1},
+    {"role": "Accounts User", "read": 1}
+  ],
+  "fields": [
+    {
+      "fieldname": "section_batch",
+      "label": "Batch & Links",
+      "fieldtype": "Section Break",
+      "collapsible": 0
+    },
+    {
+      "fieldname": "naming_series",
+      "label": "Series",
+      "fieldtype": "Select",
+      "options": "CRL-.YYYY.-.#####",
+      "default": "CRL-.YYYY.-.#####",
+      "reqd": 1
+    },
+    {
+      "fieldname": "roast_batch",
+      "label": "Roast Batch",
+      "fieldtype": "Link",
+      "options": "Roast Batch",
+      "in_list_view": 1,
+      "reqd": 1,
+      "set_only_once": 1
+    },
+    {
+      "fieldname": "roast_date",
+      "label": "Roast Date",
+      "fieldtype": "Date",
+      "in_list_view": 1,
+      "reqd": 1
+    },
+    {
+      "fieldname": "company",
+      "label": "Company",
+      "fieldtype": "Link",
+      "options": "Company",
+      "reqd": 1,
+      "in_standard_filter": 1
+    },
+    {
+      "fieldname": "col1",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "roasted_item",
+      "label": "Roasted Item",
+      "fieldtype": "Link",
+      "options": "Item",
+      "in_standard_filter": 1
+    },
+    {
+      "fieldname": "roaster_used",
+      "label": "Roaster Used",
+      "fieldtype": "Link",
+      "options": "Roasting Machine"
+    },
+    {
+      "fieldname": "roast_profile",
+      "label": "Roast Profile",
+      "fieldtype": "Select",
+      "options": "Light\nMedium\nMedium-Dark\nDark\nEspresso",
+      "in_standard_filter": 1
+    },
+    {
+      "fieldname": "green_origin",
+      "label": "Green Coffee Origin",
+      "fieldtype": "Data",
+      "description": "e.g., Sidamo, Yirgacheffe, Guji"
+    },
+    {
+      "fieldname": "green_grade",
+      "label": "Green Bean Grade",
+      "fieldtype": "Select",
+      "options": "G1\nG2\nG3\nG4\nG5",
+      "in_standard_filter": 1
+    },
+
+    {
+      "fieldname": "section_inputs",
+      "label": "Inputs & Weights",
+      "fieldtype": "Section Break"
+    },
+    {
+      "fieldname": "batch_weight_kg",
+      "label": "Batch Weight (kg)",
+      "fieldtype": "Float",
+      "precision": "2",
+      "reqd": 1
+    },
+    {
+      "fieldname": "charge_temp_c",
+      "label": "Charge Temp (°C)",
+      "fieldtype": "Float",
+      "precision": "1"
+    },
+    {
+      "fieldname": "col2",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "final_temp_c",
+      "label": "Final Temp (°C)",
+      "fieldtype": "Float",
+      "precision": "1"
+    },
+    {
+      "fieldname": "yield_kg",
+      "label": "Yield (kg)",
+      "fieldtype": "Float",
+      "precision": "2",
+      "read_only": 0,
+      "description": "Final roasted weight"
+    },
+    {
+      "fieldname": "weight_loss_pct",
+      "label": "Weight Loss (%)",
+      "fieldtype": "Percent",
+      "read_only": 0,
+      "precision": "2",
+      "description": "Auto: (1 - yield/batch_weight)*100 if scripted"
+    },
+
+    {
+      "fieldname": "section_timing",
+      "label": "Timing & Phases",
+      "fieldtype": "Section Break"
+    },
+    {
+      "fieldname": "roast_time",
+      "label": "Total Roast Time",
+      "fieldtype": "Duration",
+      "description": "mm:ss"
+    },
+    {
+      "fieldname": "first_crack_start",
+      "label": "First Crack — Start",
+      "fieldtype": "Time"
+    },
+    {
+      "fieldname": "first_crack_end",
+      "label": "First Crack — End",
+      "fieldtype": "Time"
+    },
+    {
+      "fieldname": "col3",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "development_time",
+      "label": "Development Time",
+      "fieldtype": "Duration",
+      "description": "Time from first crack start to drop"
+    },
+    {
+      "fieldname": "color_agtron",
+      "label": "Color (Agtron)",
+      "fieldtype": "Int"
+    },
+    {
+      "fieldname": "qc_status",
+      "label": "QC Status",
+      "fieldtype": "Select",
+      "options": "Pending\nPass\nFail",
+      "in_standard_filter": 1
+    },
+
+    {
+      "fieldname": "roast_phases",
+      "label": "Roast Phases",
+      "fieldtype": "Table",
+      "options": "Roast Phase Log",
+      "reqd": 0
+    },
+
+    {
+      "fieldname": "section_qc",
+      "label": "QC & Notes",
+      "fieldtype": "Section Break"
+    },
+    {
+      "fieldname": "quality_inspection",
+      "label": "Quality Inspection",
+      "fieldtype": "Link",
+      "options": "Quality Inspection"
+    },
+    {
+      "fieldname": "cupping_notes",
+      "label": "Cupping Notes",
+      "fieldtype": "Small Text"
+    },
+    {
+      "fieldname": "attachments",
+      "label": "Attachments",
+      "fieldtype": "Attach",
+      "description": "CSV/JSON curve from Artisan/Cropster, images, etc."
+    }
+  ]
+}

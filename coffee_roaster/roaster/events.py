@@ -2,6 +2,35 @@ import re
 import frappe
 from frappe.utils import now_datetime, flt
 
+def on_machine_event(rb_name: str, round_no: int, state: str, ts: str):
+    """Map machine events to Roast Batch timestamps without schema changes.
+    state: 'start' or 'finish' (others ignored)
+    """
+    if not (rb_name and state and ts):
+        return
+    try:
+        rb = frappe.get_doc("Roast Batch", rb_name)
+    except frappe.DoesNotExistError:
+        return
+
+    changed = False
+    n = len(rb.get("rounds") or [])
+
+    if state == "start":
+        if not rb.charge_start:
+            rb.charge_start = get_datetime(ts)
+            changed = True
+
+    elif state == "finish":
+        # set Development End when the final round finishes
+        if n and round_no == n and not rb.development_end:
+            rb.development_end = get_datetime(ts)
+            changed = True
+
+    if changed:
+        rb.save(ignore_permissions=True)
+        frappe.db.commit()
+
 def _snake(s: str) -> str:
     return re.sub(r"\W+", "_", s).strip("_").lower()
 
@@ -218,6 +247,7 @@ def create_roasting_stock_entry(docname=None, *args, **kwargs):
                 it.batch_no = bn
             except Exception:
                 pass
+
 
     # FG item
     it_fg = se.append("items", {})

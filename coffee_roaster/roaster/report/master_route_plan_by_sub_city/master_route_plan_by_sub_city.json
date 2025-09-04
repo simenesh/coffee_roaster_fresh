@@ -1,0 +1,10 @@
+{
+  "doctype": "Report",
+  "name": "Master Route Plan by Sub City",
+  "module": "Roaster",
+  "ref_doctype": "Route Plan",
+  "is_standard": "Yes",
+  "report_type": "Script Report",
+  "prepared_report": 0,
+  "disabled": 0
+}

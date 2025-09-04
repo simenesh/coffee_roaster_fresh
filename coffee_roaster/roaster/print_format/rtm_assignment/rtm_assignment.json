@@ -1,0 +1,11 @@
+{
+"doctype": "Print Format",
+"name": "RTM Assignment — Detail",
+"module": "Roaster",
+"doc_type": "RTM Assignment",
+"print_format_type": "Jinja",
+"disabled": 0,
+"custom_format": 1,
+"html": "<div><h3>RTM Assignment {{ doc.name }}</h3><p><b>Company:</b> {{ doc.company }}<br><b>Customer:</b> {{ doc.customer }} — {{ doc.customer_name }}<br><b>RTM Channel:</b> {{ doc.rtm_channel }}<br><b>Outlet Type:</b> {{ doc.outlet_type }}<br><b>Location:</b> {{ doc.sub_city }} {{ doc.area or '' }}<br><b>Marketer:</b> {{ doc.marketer or '-' }}<br><b>Visit:</b> {{ doc.visit_frequency }} {% if doc.visit_day %} — {{ doc.visit_day }}{% endif %}<br><b>Contact:</b> {{ doc.contact or '' }} | {{ doc.phone or '' }} | {{ doc.email or '' }}<br><b>Address:</b><br><pre style=\"white-space:pre-wrap\">{{ doc.address_display or '' }}</pre></p></div>",
+"standard": "No"
+}

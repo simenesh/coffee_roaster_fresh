@@ -1,20 +1,38 @@
 {
-  "doctype": "DocType",
-  "name": "Route Plan",
-  "module": "Roaster",
-  "custom": 1,
-  "fields": [
-    {"fieldname": "customer", "label": "Customer", "fieldtype": "Link", "options": "Customer", "reqd": 1},
-    {"fieldname": "outlet_type", "label": "Outlet Type", "fieldtype": "Select", "options": "\nGOV\nNGO\nEMB\nCORP\nEDU\nSMKT\nEXPO\nRETAIL\nDIST\nCAF\nHOTEL\nREST", "reqd": 1},
-    {"fieldname": "sub_city", "label": "Sub-City", "fieldtype": "Data"},
-    {"fieldname": "address", "label": "Address", "fieldtype": "Data"},
-    {"fieldname": "marketer", "label": "Marketer", "fieldtype": "Link", "options": "User"}
-  ],
-  "permissions": [{"role": "System Manager", "read": 1, "write": 1, "create": 1, "delete": 1}],
-  "is_submittable": 0,
-  "istable": 0,
-  "editable_grid": 1,
-  "track_changes": 1,
-  "track_seen": 1,
-  "engine": "InnoDB"
+"doctype": "DocType",
+"name": "Route Plan",
+"module": "Roaster",
+"autoname": "format:RP-{YYYY}-{#####}",
+"custom": 0,
+"istable": 0,
+"is_submittable": 1,
+"track_changes": 1,
+"editable_grid": 0,
+"engine": "InnoDB",
+"permissions": [
+{"role": "System Manager", "read": 1, "write": 1, "create": 1, "submit": 1, "cancel": 1},
+{"role": "Sales User", "read": 1, "write": 1, "create": 1},
+{"role": "Sales Manager", "read": 1, "write": 1, "create": 1, "submit": 1, "cancel": 1}
+],
+"fields": [
+{"fieldname": "route_name", "fieldtype": "Data", "label": "Route Name", "reqd": 1},
+{"fieldname": "period", "fieldtype": "Select", "label": "Period", "options": "\nDaily\nWeekly\nMonthly", "default": "Weekly"},
+{"fieldname": "date", "fieldtype": "Date", "label": "Route Date", "reqd": 1},
+{"fieldname": "marketer", "fieldtype": "Link", "options": "Employee", "label": "Marketer", "reqd": 1},
+{"fieldname": "status", "fieldtype": "Select", "label": "Status", "options": "\nDraft\nScheduled\nIn Progress\nCompleted\nCancelled", "default": "Draft"},
+
+
+{"fieldname": "section_metrics", "fieldtype": "Section Break", "label": "Metrics"},
+{"fieldname": "total_customers", "fieldtype": "Int", "label": "Total Customers", "read_only": 1},
+{"fieldname": "total_distance", "fieldtype": "Float", "label": "Total Distance (km)", "read_only": 0},
+
+
+{"fieldname": "section_details", "fieldtype": "Section Break", "label": "Stops"},
+{"fieldname": "details", "fieldtype": "Table", "label": "Route Details", "options": "Route Plan Detail", "reqd": 0},
+
+
+{"fieldname": "section_misc", "fieldtype": "Section Break"},
+{"fieldname": "map_url", "fieldtype": "Data", "label": "Map URL"},
+{"fieldname": "remarks", "fieldtype": "Small Text", "label": "Remarks"}
+]
 }

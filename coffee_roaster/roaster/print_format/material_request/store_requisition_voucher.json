@@ -1,0 +1,14 @@
+{
+  "doctype": "Print Format",
+  "name": "Store Requisition Voucher",
+  "doc_type": "Material Request",
+  "module": "Roaster",
+  "print_format_type": "Jinja",
+  "disabled": 0,
+  "custom_format": 1,
+  "raw_printing": 0,
+  "default": 0,
+  "css": "",
+  "html": "{% set is_issue = (doc.material_request_type == 'Material Issue') %}\n<div class=\"print-format\">\n  <h2 style=\"text-align:center;margin:0 0 8px\">STORE REQUISITION VOUCHER (SRV)</h2>\n  <p style=\"text-align:center;margin:0 0 12px\"><small>Generated from Material Request {{ doc.name }}</small></p>\n  <table style=\"width:100%;font-size:12px\">\n    <tr>\n      <td><b>Date:</b> {{ doc.transaction_date or doc.creation[:10] }}</td>\n      <td><b>Department:</b> {{ doc.set_warehouse or '-' }}</td>\n      <td><b>Requested By:</b> {{ doc.owner }}</td>\n    </tr>\n    <tr>\n      <td><b>Purpose:</b> {{ doc.material_request_type }}</td>\n      <td><b>Company:</b> {{ doc.company }}</td>\n      <td><b>Status:</b> {{ doc.status }}</td>\n    </tr>\n  </table>\n  {% if not is_issue %}\n    <div style=\"margin:8px 0;color:#a00\"><b>Note:</b> This SRV is valid when Material Request Type is <i>Material Issue</i>. Current: <b>{{ doc.material_request_type }}</b></div>\n  {% endif %}\n  <hr/>\n  <table style=\"width:100%;border-collapse:collapse;font-size:12px\" border=1 cellspacing=0 cellpadding=4>\n    <thead>\n      <tr>\n        <th style=\"width:32px\">#</th>\n        <th>Item</th>\n        <th>Qty</th>\n        <th>UOM</th>\n        <th>Required By</th>\n        <th>From Warehouse</th>\n        <th>Purpose/Notes</th>\n      </tr>\n    </thead>\n    <tbody>\n      {% for i in doc.items %}\n      <tr>\n        <td>{{ loop.index }}</td>\n        <td>{{ i.item_code }} — {{ i.item_name }}</td>\n        <td style=\"text-align:right\">{{ i.qty }}</td>\n        <td>{{ i.uom }}</td>\n        <td>{{ i.schedule_date or '' }}</td>\n        <td>{{ i.from_warehouse or doc.set_warehouse or '' }}</td>\n        <td>{{ i.description or doc.title or '' }}</td>\n      </tr>\n      {% endfor %}\n    </tbody>\n  </table>\n  <div style=\"display:flex;gap:24px;margin-top:24px\">\n    <div style=\"flex:1\"><b>Requested By</b><br/><br/>_______________________<br/><small>Name & Signature</small></div>\n    <div style=\"flex:1\"><b>Storekeeper Approval</b><br/><br/>_______________________<br/><small>Name & Signature</small></div>\n    <div style=\"flex:1\"><b>Department Head Approval</b><br/><br/>_______________________<br/><small>Name & Signature</small></div>\n  </div>\n</div>",
+  "standard": "No"
+}

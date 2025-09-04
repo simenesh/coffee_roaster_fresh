@@ -1,0 +1,27 @@
+{
+"doctype": "DocType",
+"name": "Route Plan Detail",
+"module": "Roaster",
+"custom": 0,
+"istable": 1,
+"editable_grid": 1,
+"engine": "InnoDB",
+"permissions": [],
+"fields": [
+{"fieldname": "customer", "fieldtype": "Link", "options": "Customer", "label": "Customer", "reqd": 1},
+{"fieldname": "outlet_type", "fieldtype": "Select", "label": "Outlet Type", "options": "\nGOV\nNGO\nEMB\nCORP\nEDU\nSMKT\nEXPO\nRETAIL\nDIST\nCAF\nHOTEL\nREST", "fetch_from": "customer.outlet_type"},
+{"fieldname": "sub_city", "fieldtype": "Data", "label": "Sub-City", "fetch_from": "customer.sub_city"},
+{"fieldname": "latitude", "fieldtype": "Float", "label": "Latitude", "fetch_from": "customer.latitude"},
+{"fieldname": "longitude", "fieldtype": "Float", "label": "Longitude", "fetch_from": "customer.longitude"},
+{"fieldname": "order_priority", "fieldtype": "Int", "label": "Visit Order"},
+{"fieldname": "planned_interaction", "fieldtype": "Select", "label": "Planned Interaction", "options": "\nDelivery\nMeeting\nSampling\nPromotion\nOther"},
+{"fieldname": "contact_name", "fieldtype": "Data", "label": "Contact Person"},
+{"fieldname": "contact_phone", "fieldtype": "Data", "label": "Contact Phone"},
+{"fieldname": "visited", "fieldtype": "Check", "label": "Visited?"},
+{"fieldname": "visit_time", "fieldtype": "Datetime", "label": "Visit Time"},
+{"fieldname": "result_status", "fieldtype": "Select", "label": "Result", "options": "\nDone\nPending\nCancelled"},
+{"fieldname": "sales_order", "fieldtype": "Link", "options": "Sales Order", "label": "Sales Order"},
+{"fieldname": "delivery_note", "fieldtype": "Link", "options": "Delivery Note", "label": "Delivery Note"},
+{"fieldname": "notes", "fieldtype": "Small Text", "label": "Notes"}
+]
+}

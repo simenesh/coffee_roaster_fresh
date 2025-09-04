@@ -1,55 +1,31 @@
 {
-  "doctype": "DocType",
-  "name": "Master Route Plan",
-  "module": "Roaster",
-  "custom": 1,
-  "fields": [
-    {
-      "fieldname": "customer",
-      "fieldtype": "Link",
-      "options": "Customer",
-      "label": "Customer",
-      "reqd": 1
-    },
-    { "fieldname": "day", "label": "Day", "fieldtype": "Select",
-  "options": "Monday\nTuesday\nWednesday\nThursday\nFriday\nSaturday\nSunday",
-  "in_list_view": 1 },
-      {
-      "fieldname": "sub_city",
-      "fieldtype": "Data",
-      "label": "Sub-City"
-    },
-    {
-      "fieldname": "address",
-      "fieldtype": "Data",
-      "label": "Address"
-    },
-    {
-      "fieldname": "outlet_type",
-      "fieldtype": "Select",
-      "label": "Outlet Type",
-      "options": "GOV\nNGO\nEMB\nCORP\nEDU\nSMKT\nEXPO\nRETAIL\nDIST\nCAF\nHOTEL\nREST"
-    },
-    {
-      "fieldname": "route_order",
-      "fieldtype": "Int",
-      "label": "Route Order"
-    },
-    {
-      "fieldname": "marketer",
-      "fieldtype": "Link",
-      "options": "User",
-      "label": "Assigned Marketer"
-    }
-  ],
-  "permissions": [
-    {
-      "role": "System Manager",
-      "read": 1,
-      "write": 1,
-      "create": 1
-    }
-  ],
-  "is_submittable": 0,
-  "istable": 0
+"doctype": "DocType",
+"name": "Master Route Plan",
+"module": "Roaster",
+"autoname": "format:MRP-{YYYY}-{#####}",
+"custom": 0,
+"istable": 0,
+"is_submittable": 0,
+"track_changes": 1,
+"engine": "InnoDB",
+"permissions": [
+{"role": "System Manager", "read": 1, "write": 1, "create": 1},
+{"role": "Sales Manager", "read": 1, "write": 1, "create": 1},
+{"role": "Sales User", "read": 1}
+],
+"fields": [
+{"fieldname": "period_start", "fieldtype": "Date", "label": "Period Start", "reqd": 1},
+{"fieldname": "period_end", "fieldtype": "Date", "label": "Period End", "reqd": 1},
+{"fieldname": "marketer", "fieldtype": "Link", "options": "Employee", "label": "Default Marketer"},
+
+
+{"fieldname": "filters", "fieldtype": "Section Break", "label": "Filters"},
+{"fieldname": "filters_outlet_types", "fieldtype": "MultiSelect", "label": "Outlet Types"},
+{"fieldname": "filters_sub_cities", "fieldtype": "MultiSelect", "label": "Sub-Cities"},
+
+{"fieldname":"route_no", "fieldtype":"Int", "label":"Route No." ,"In list view": 1},
+{"fieldname":"route_description", "fieldtype":"Small Text", "label":"Route Description"},
+{"fieldname": "generated", "fieldtype": "Section Break", "label": "Generated Plans"},
+{"fieldname": "items", "fieldtype": "Table", "label": "Route Plans", "options": "Master Route Plan Entry"}
+]
 }

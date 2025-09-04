@@ -1,7 +1,7 @@
 {
   "doctype": "DocType",
   "name": "Roast Batch",
-  "module": "roaster",
+  "module": "Roaster",
   "engine": "InnoDB",
   "custom": 0,
   "allow_rename": 1,

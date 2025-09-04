@@ -9,6 +9,14 @@ app_email = "your.email@example.com"
 app_license = "mit"
 # ... other details ...
 
+scheduler_events = {
+    "cron": {
+        "0 2 1 * *": [  # 02:00 on day 1 of every month
+            "coffee_roaster.peachtree_export.export_previous_month_for_sage"
+        ]
+    }
+}
+
 doc_events = {
     "Roast Batch": {
         # The ONLY event needed for the inventory transaction
@@ -19,7 +27,13 @@ doc_events = {
     },
       "Physical Assessment": {
         "on_submit": "coffee_roaster.roaster.doctype.physical_assessment.physical_assessment.PhysicalAssessment.on_submit"
-    }
+    },
+      "Batch Cost": {
+        "on_submit": "coffee_roaster.finance_integration.post_batch_cost_gl_entry"
+    },
+     "Coffee Roasting Log": {
+    "on_update_after_submit": "coffee_roaster.roaster.doctype.coffee_roasting_log.coffee_roasting_log_api.sync_phases_to_roast_batch"
+  }
 }
 
 doctype_js = {
@@ -66,6 +80,12 @@ fixtures = [
             "Combined Assessment",
         ]]
     }},
+    {"doctype": "Workflow State", "filters": [["workflow_state_name", "in", [
+        "Open", "Qualified", "Converted", "Lost"
+    ]]]},
+    {"doctype": "Print Format", "filters": [["name", "in", [
+"RTM Assignment — Detail"
+]]]},
 
     {"doctype": "Workflow", "filters": {
         "name": ["in", [

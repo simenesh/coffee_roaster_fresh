@@ -1,6 +1,6 @@
 {
   "doctype": "Report",
-  "name": "SKU P&L Profit",
+  "name": "SKU PnL Profit",
   "ref_doctype": "Batch Cost",
   "report_type": "Script Report",
   "is_standard": "Yes",

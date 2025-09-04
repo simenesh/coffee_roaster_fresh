@@ -1,0 +1,37 @@
+{
+"doctype": "DocType",
+"name": "Waste Defective Report",
+"module": "Roaster",
+"custom": 0,
+"istable": 0,
+"is_submittable": 1,
+"track_changes": 1,
+"autoname": "naming_series:",
+"naming_rule": "Set by user",
+"editable_grid": 1,
+"allow_copy": 0,
+"engine": "InnoDB",
+"sort_field": "modified",
+"sort_order": "DESC",
+"fields": [
+{"fieldname": "naming_series", "label": "Series", "fieldtype": "Select", "options": "WDR-.YYYY.-.####", "reqd": 1},
+{"fieldname": "company", "label": "Company", "fieldtype": "Link", "options": "Company", "reqd": 1, "in_list_view": 1},
+{"fieldname": "report_date", "label": "Report Date", "fieldtype": "Date", "reqd": 1, "in_list_view": 1},
+{"fieldname": "warehouse", "label": "Warehouse", "fieldtype": "Link", "options": "Warehouse", "reqd": 1, "in_list_view": 1},
+{"fieldname": "scrap_warehouse", "label": "Scrap Warehouse", "fieldtype": "Link", "options": "Warehouse", "depends_on": "eval:1", "description": "If set, system will create a Stock Entry (Material Issue → Scrap) on After Submit."},
+{"fieldname": "batch", "label": "Batch", "fieldtype": "Link", "options": "Batch"},
+{"fieldname": "items", "label": "Items", "fieldtype": "Table", "options": "Waste/Defective Item", "reqd": 1},
+{"fieldname": "total_qty", "label": "Total Qty", "fieldtype": "Float", "read_only": 1},
+{"fieldname": "reason", "label": "Primary Reason", "fieldtype": "Select", "options": "Damaged\nExpired\nContaminated\nMoisture Loss\nBreakage\nOther", "in_list_view": 1},
+{"fieldname": "notes", "label": "Notes", "fieldtype": "Small Text"},
+{"fieldname": "photos", "label": "Evidence (Photos)", "fieldtype": "Attach Image"},
+{"fieldname": "reported_by", "label": "Reported By", "fieldtype": "Link", "options": "User", "reqd": 1},
+{"fieldname": "approved_by", "label": "Approved By", "fieldtype": "Link", "options": "User"},
+{"fieldname": "status", "label": "Status", "fieldtype": "Select", "options": "Draft\nSubmitted\nCancelled", "read_only": 1}
+],
+"permissions": [
+{"role": "Stock User", "read": 1, "write": 1, "create": 1, "delete": 0, "submit": 0},
+{"role": "Stock Manager", "read": 1, "write": 1, "create": 1, "delete": 1, "submit": 1, "cancel": 1, "amend": 1},
+{"role": "Accounts Manager", "read": 1}
+]
+}

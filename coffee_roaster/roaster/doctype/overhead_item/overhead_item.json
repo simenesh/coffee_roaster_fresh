@@ -36,8 +36,7 @@
       "fieldname": "amount",
       "label": "Amount",
       "fieldtype": "Currency",
-      "read_only": 1,
-      "depends_on": "eval:doc.qty && doc.rate"
+      "read_only": 1
     }
   ],
   "permissions": [
