@@ -55,7 +55,8 @@ fixtures = [
     {"doctype": "Client Script", "filters": {"module": "Roaster"}},
     {"doctype": "Server Script", "filters": {"module": "Roaster"}},
     {"doctype": "Workspace", "filters": {"module": "Roaster"}},
-
+     {"doctype": "Custom Field", "filters": [["dt","in",["Sales Invoice"]],["fieldname","in",["net_total_excl_vat"]]]},
+  {"doctype": "Property Setter", "filters": [["doc_type","in",["Sales Invoice"]]]},
     {"doctype": "Custom DocPerm", "filters": {
         "parent": ["in", [
             "Roast Batch",
