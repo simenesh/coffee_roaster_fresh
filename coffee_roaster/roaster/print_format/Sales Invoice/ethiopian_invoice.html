@@ -8,11 +8,10 @@
 
 <div class="invoice-header">ደረሰኝ<br>SALES INVOICE</div>
 
-<!-- Company block: uses {{ company }} exactly as requested -->
+<!-- Company block (no headings before values) -->
 <div class="company-info">
   <strong>{{ frappe.db.get_value("Company", doc.company, "company_name") or doc.company }}</strong><br>
   {{ frappe.db.get_value("Company", doc.company, "tax_id") or "" }}<br>
-
   {% set comp_addr = doc.company_address %}
   {{ frappe.db.get_value("Address", comp_addr, "phone")
      or frappe.db.get_value("Address", comp_addr, "phone_no")
@@ -27,11 +26,16 @@
   <b>Date:</b> {{ doc.posting_date }}
 </div>
 
+<!-- Customer block (pulls missing fields safely) -->
 <div class="customer-info">
   <b>Customer:</b> {{ doc.customer_name }}<br>
-  <b>TIN:</b> {{ doc.tax_id or "N/A" }}<br>
-  <b>Phone:</b> {{ doc.contact_display or "N/A" }}<br>
-  <b>Address:</b> {{ doc.customer_address or "N/A" }}
+  {% set cust_tax = doc.tax_id or frappe.db.get_value("Customer", doc.customer, "tax_id") %}
+  <b>TIN:</b> {{ cust_tax or "" }}<br>
+  {% set cust_addr = doc.customer_address %}
+  <b>Phone:</b> {{ frappe.db.get_value("Address", cust_addr, "phone")
+                   or frappe.db.get_value("Address", cust_addr, "phone_no")
+                   or "" }}<br>
+  <b>Address:</b> {{ frappe.db.get_value("Address", cust_addr, "address_display") or "" }}
 </div>
 
 <hr>
@@ -61,7 +65,6 @@
 {% set vat_rate = None %}
 {% set tax_rows = [] %}
 
-{# Capture all tax rows (including VAT) for a clear, accurate summary #}
 {% for tax in doc.taxes or [] %}
   {% set _ = tax_rows.append(tax) %}
   {% if "VAT" in (tax.account_head or "") or "VAT" in (tax.description or "") %}
@@ -76,18 +79,16 @@
     <td>{{ doc.net_total }}</td>
   </tr>
 
-  {# Print each tax row (so VAT is never hidden). If no taxes, show nothing here. #}
   {% for tax in tax_rows %}
     <tr>
-      <td><b>{{ (tax.description or tax.account_head) | trim }}</b>{% if tax.rate %} ({{ tax.rate }}%){% endif %}:</td>
+      <td><b>{{ (tax.description or tax.account_head) | trim }}{% if tax.rate %} ({{ tax.rate }}%){% endif %}</b></td>
       <td>{{ tax.tax_amount }}</td>
     </tr>
   {% endfor %}
 
-  {# Fallback VAT line if you still want a dedicated VAT row even when description varies #}
   {% if vat_total %}
     <tr>
-      <td><b>VAT{% if vat_rate is not none %} ({{ vat_rate }}%){% endif %}:</b></td>
+      <td><b>VAT{% if vat_rate is not none %} ({{ vat_rate }}%){% endif %}</b></td>
       <td>{{ vat_total }}</td>
     </tr>
   {% endif %}
