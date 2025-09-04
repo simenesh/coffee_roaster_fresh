@@ -82,7 +82,42 @@ fixtures = [
         ]]
     }},
     
-    
+     {"dt": "Custom Field", "filters": [["dt", "in", ["Route Plan Detail", "Customer"]]]},
+  {"dt": "Property Setter"},
+  {"dt": "Custom DocPerm", "filters": {"parent": ["in", ["Route Plan", "Route Plan Detail"]]}},
+    {"doctype": "Role", "filters": {"name": ["in", ["Roaster User", "Roaster Manager"]]}},
+    {"doctype": "Role Profile", "filters": {"name": "Roaster Default"}},
+    {"doctype": "Module Def", "filters": {"name": "Roaster"}},
+    {"doctype": "Module Def", "filters": {"name": "RTM"}},
+    {"doctype": "Report", "filters": {"name": ["in", [
+        "SKU Profitability",
+        "Roast Batch Costing",
+        "Raw Bean Cost",
+        "Packaging Cost",
+        "Roasting Overhead Cost",
+        "Roasting Overhead Template Cost",
+        "Monthly Green Bean Purchases",
+        "Monthly Roasted Coffee Sales",
+        "Customer Interaction Report",
+        "Loyalty Points Summary",
+        "Loyalty Points Expiry",
+        "Route Plan",
+        "Master Route Plan by Sub City"
+    ]]}},
+    {"doctype": "Print Format", "filters": [["name", "in", [
+        "Roast Batch",
+        "Green Bean",
+        "Sales Invoice",
+        "Delivery Note"
+    ]]]},
+    {"doctype": "Workflow Action", "filters": [["name", "in", [
+        "Open to Qualified",
+        "Qualified to Converted",
+        "Qualified to Lost"
+    ]]]},
+    {"doctype": "Workflow", "filters": [["name", "in", [
+        "Lead Workflow"
+    ]]]},
     {"doctype": "Workflow State", "filters": [["workflow_state_name", "in", [
         "Open", "Qualified", "Converted", "Lost"
     ]]]},
