@@ -49,6 +49,61 @@ doctype_js = {
 
 #Data to be exported with the app
 # Data to be exported with the app
+# hooks.py
+
+fixtures = [
+    # Custom fields you added to these doctypes
+    {
+        "doctype": "Custom Field",
+        "filters": [
+            ["dt", "in", ["Sales Invoice", "Sales Invoice Item", "Customer", "Route Plan"]]
+        ],
+    },
+
+    # Property Setters (reqd/hidden/read-only/labels/order/etc.) for those doctypes
+    {
+        "doctype": "Property Setter",
+        "filters": [
+            ["doc_type", "in", ["Sales Invoice", "Sales Invoice Item", "Customer", "Route Plan"]]
+        ],
+    },
+
+    # Client Scripts you created (form logic)
+    {
+        "doctype": "Client Script",
+        "filters": [
+            ["dt", "in", ["Sales Invoice", "Customer", "Route Plan"]]
+        ],
+    },
+
+    # Server Scripts (if any) tied to these doctypes
+    {
+        "doctype": "Server Script",
+        "filters": [
+            ["reference_doctype", "in", ["Sales Invoice", "Customer", "Route Plan"]]
+        ],
+    },
+
+    # Print Formats you rely on (e.g., custom SI print)
+    {
+        "doctype": "Print Format",
+        "filters": [
+            ["doc_type", "in", ["Sales Invoice", "Customer"]]
+        ],
+    },
+
+    # Custom Reports you mentioned (names must match exactly)
+    {
+        "doctype": "Report",
+        "filters": [
+            ["name", "in", ["Master Route Plan by Sub City", "SAG Export"]]
+        ],
+    },
+
+    # Optional: Workspaces if you customized them
+    # {"doctype": "Workspace"},
+]
+
 fixtures = [
     {"doctype": "Custom Field", "filters": {"module": "Roaster"}},
     {"doctype": "Property Setter", "filters": {"module": "Roaster"}},
