@@ -80,6 +80,8 @@ fixtures = [
             "Combined Assessment",
         ]]
     }},
+    
+    
     {"doctype": "Workflow State", "filters": [["workflow_state_name", "in", [
         "Open", "Qualified", "Converted", "Lost"
     ]]]},
@@ -110,3 +112,11 @@ fixtures = [
     # 🚀 Explicitly include Combined Assessment Report
     {"doctype": "Report", "filters": {"name": "Combined Assessment Report"}},
 ]
+jenv = {
+    "methods": [
+        "get_company_tin:coffee_roaster.printing.get_company_tin",
+        "get_company_vat_reg:coffee_roaster.printing.get_company_vat_reg",
+        "get_company_phone:coffee_roaster.printing.get_company_phone",
+        "get_company_address_display:coffee_roaster.printing.get_company_address_display",
+    ]
+}

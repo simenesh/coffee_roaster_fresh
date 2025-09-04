@@ -1,87 +1,119 @@
 <style>
-    .invoice-header { text-align: center; font-weight: bold; font-size: 18px; margin-bottom: 10px; }
-    .company-info, .customer-info, .invoice-meta { font-size: 12px; }
-    .invoice-table th, .invoice-table td { font-size: 12px; border: 1px solid #000; padding: 4px; }
-    .invoice-summary td { font-size: 12px; }
-    .footer { margin-top: 40px; font-size: 12px; text-align: center; }
+  .invoice-header { text-align:center; font-weight:bold; font-size:18px; margin-bottom:10px; }
+  .company-info, .customer-info, .invoice-meta { font-size:12px; }
+  .invoice-table th, .invoice-table td { font-size:12px; border:1px solid #000; padding:4px; }
+  .invoice-summary td { font-size:12px; }
+  .footer { margin-top:40px; font-size:12px; text-align:center; }
 </style>
 
 <div class="invoice-header">ደረሰኝ<br>SALES INVOICE</div>
 
+<!-- Company block: uses {{ company }} exactly as requested -->
 <div class="company-info">
-    <strong>{{ company }}</strong><br>
-    TIN: {{ frappe.get_value("Company", doc.company, "tax_id") }}<br>
-    VAT Reg. No: {{ frappe.get_value("Company", doc.company, "vat_number") or "N/A" }}<br>
-    Phone: {{ frappe.get_value("Company", doc.company, "phone") or "N/A" }}<br>
-    Address: {{ frappe.get_value("Company", doc.company, "address") or "N/A" }}
+  <strong>{{ frappe.db.get_value("Company", doc.company, "company_name") or doc.company }}</strong><br>
+  {{ frappe.db.get_value("Company", doc.company, "tax_id") or "" }}<br>
+
+  {% set comp_addr = doc.company_address %}
+  {{ frappe.db.get_value("Address", comp_addr, "phone")
+     or frappe.db.get_value("Address", comp_addr, "phone_no")
+     or "" }}<br>
+  {{ frappe.db.get_value("Address", comp_addr, "address_display") or "" }}
 </div>
 
 <hr>
 
 <div class="invoice-meta">
-    <b>Invoice No:</b> {{ doc.name }}<br>
-    <b>Date:</b> {{ doc.posting_date }}<br>
+  <b>Invoice No:</b> {{ doc.name }}<br>
+  <b>Date:</b> {{ doc.posting_date }}
 </div>
 
 <div class="customer-info">
-    <b>Customer:</b> {{ doc.customer_name }}<br>
-    <b>TIN:</b> {{ doc.tax_id or "N/A" }}<br>
-    <b>Phone:</b> {{ doc.contact_display or "N/A" }}<br>
-    <b>Address:</b> {{ doc.customer_address or "N/A" }}
+  <b>Customer:</b> {{ doc.customer_name }}<br>
+  <b>TIN:</b> {{ doc.tax_id or "N/A" }}<br>
+  <b>Phone:</b> {{ doc.contact_display or "N/A" }}<br>
+  <b>Address:</b> {{ doc.customer_address or "N/A" }}
 </div>
 
 <hr>
 
 <table class="invoice-table" width="100%" cellspacing="0" cellpadding="2">
-    <thead>
-        <tr>
-            <th>#</th>
-            <th>Item</th>
-            <th>Unit</th>
-            <th>Qty</th>
-            <th>Rate</th>
-            <th>Amount</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for row in doc.items %}
-        <tr>
-            <td>{{ loop.index }}</td>
-            <td>{{ row.item_name }}</td>
-            <td>{{ row.uom or "Unit" }}</td>
-            <td>{{ row.qty }}</td>
-            <td>{{ row.rate }}</td>
-            <td>{{ row.amount }}</td>
-        </tr>
-        {% endfor %}
-    </tbody>
+  <thead>
+    <tr><th>#</th><th>Item</th><th>Unit</th><th>Qty</th><th>Rate</th><th>Amount</th></tr>
+  </thead>
+  <tbody>
+    {% for row in doc.items or [] %}
+    <tr>
+      <td>{{ loop.index }}</td>
+      <td>{{ row.item_name }}</td>
+      <td>{{ row.uom or "Unit" }}</td>
+      <td>{{ row.qty }}</td>
+      <td>{{ row.rate }}</td>
+      <td>{{ row.amount }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
 </table>
 
 <br>
 
-<table class="invoice-summary" width="40%" align="right" cellspacing="0" cellpadding="2">
+{# --- TAX SECTION: robust VAT display --- #}
+{% set vat_total = 0 %}
+{% set vat_rate = None %}
+{% set tax_rows = [] %}
+
+{# Capture all tax rows (including VAT) for a clear, accurate summary #}
+{% for tax in doc.taxes or [] %}
+  {% set _ = tax_rows.append(tax) %}
+  {% if "VAT" in (tax.account_head or "") or "VAT" in (tax.description or "") %}
+    {% set vat_total = vat_total + (tax.tax_amount or 0) %}
+    {% if vat_rate is none and tax.rate is not none %}{% set vat_rate = tax.rate %}{% endif %}
+  {% endif %}
+{% endfor %}
+
+<table class="invoice-summary" width="45%" align="right" cellspacing="0" cellpadding="2">
+  <tr>
+    <td><b>Subtotal:</b></td>
+    <td>{{ doc.net_total }}</td>
+  </tr>
+
+  {# Print each tax row (so VAT is never hidden). If no taxes, show nothing here. #}
+  {% for tax in tax_rows %}
     <tr>
-        <td><b>Subtotal:</b></td>
-        <td>{{ doc.net_total }}</td>
+      <td><b>{{ (tax.description or tax.account_head) | trim }}</b>{% if tax.rate %} ({{ tax.rate }}%){% endif %}:</td>
+      <td>{{ tax.tax_amount }}</td>
     </tr>
+  {% endfor %}
+
+  {# Fallback VAT line if you still want a dedicated VAT row even when description varies #}
+  {% if vat_total %}
     <tr>
-        <td><b>VAT (15%):</b></td>
-        <td>
-            {% for tax in doc.taxes %}
-                {% if "VAT" in tax.account_head %}
-                    {{ tax.tax_amount }}
-                {% endif %}
-            {% endfor %}
-        </td>
+      <td><b>VAT{% if vat_rate is not none %} ({{ vat_rate }}%){% endif %}:</b></td>
+      <td>{{ vat_total }}</td>
     </tr>
-    <tr>
-        <td><b>Total (Incl. VAT):</b></td>
-        <td>{{ doc.grand_total }}</td>
-    </tr>
+  {% endif %}
+
+  <tr>
+    <td><b>Total (Incl. Taxes):</b></td>
+    <td>{{ doc.grand_total }}</td>
+  </tr>
+
+  {% if doc.rounding_adjustment %}
+  <tr>
+    <td><b>Rounding:</b></td>
+    <td>{{ doc.rounding_adjustment }}</td>
+  </tr>
+  {% endif %}
+
+  {% if doc.rounded_total %}
+  <tr>
+    <td><b>Rounded Total:</b></td>
+    <td>{{ doc.rounded_total }}</td>
+  </tr>
+  {% endif %}
 </table>
 
 <div class="footer">
-    <br><br>
-    <strong>Signature: ___________________________</strong><br>
-    Thank you for your business!
+  <br><br>
+  <strong>Signature: ___________________________</strong><br>
+  Thank you for your business!
 </div>
