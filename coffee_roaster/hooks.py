@@ -136,6 +136,24 @@ fixtures = [
             "Combined Assessment",
         ]]
     }},
+    {
+        "doctype": "Report",
+        "filters": [
+            ["name", "in", ["Roast Batch Profitability", "SKU Profit"]]
+        ]
+    },
+    {
+        "doctype": "Server Script",
+        "filters": [
+            ["name", "in", ["Apply VAT on Sales Invoice", "Post Batch Cost GL Entry"]]
+        ]
+    },
+    {
+        "doctype": "Custom Field",
+        "filters": [
+            ["dt", "in", ["Sales Invoice", "Batch Cost", "Roast Batch"]]
+        ]
+    },
     
      {"dt": "Custom Field", "filters": [["dt", "in", ["Route Plan Detail", "Customer"]]]},
   {"dt": "Property Setter"},
