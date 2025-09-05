@@ -112,6 +112,9 @@ fixtures = [
     {"doctype": "Workspace", "filters": {"module": "Roaster"}},
      {"doctype": "Custom Field", "filters": [["dt","in",["Sales Invoice"]],["fieldname","in",["net_total_excl_vat"]]]},
   {"doctype": "Property Setter", "filters": [["doc_type","in",["Sales Invoice"]]]},
+  {"doctype": "Report", "filters": [["name","in",["Roast Batch Profitability"]]]},
+  {"doctype": "Report", "filters": [["name","in",["Roast Batch Profitability"]]]},
+    {"doctype": "Client Script", "filters": [["name","=","Company-Export Sage Button"]]},
     {"doctype": "Custom DocPerm", "filters": {
         "parent": ["in", [
             "Roast Batch",
